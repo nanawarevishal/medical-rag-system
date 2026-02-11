@@ -1,0 +1,259 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "multidata-rag"
+version = "0.1.0"
+description = "Multi-source RAG with Text-to-SQL capabilities"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.12"
+authors = [
+    { name = "Sourangshu Pal", email = "paulbindass@gmail.com" }
+]
+keywords = [
+    "rag",
+    "text-to-sql",
+    "llm",
+    "fastapi",
+    "pinecone",
+    "openai",
+    "vanna",
+    "document-processing",
+    "embeddings",
+    "vector-database"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Framework :: FastAPI",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Libraries :: Python Modules"
+]
+
+# Core production dependencies
+dependencies = [
+    # API Framework
+    "fastapi[standard]",      # Includes uvicorn[standard] with uvloop
+    "pydantic",
+    "pydantic-settings",
+    "python-multipart",
+
+    # Document Processing
+    "docling",              # Advanced PDF parsing with layout analysis
+    "docling-core",         # Chunking infrastructure
+    "semchunk",             # Semantic text splitting
+    "unstructured[all-docs]",  # Fallback for edge cases
+    "pdfminer.six==20231228",      # Pin compatible version for unstructured
+    "python-magic",        # File type detection
+    "pillow",              # Image processing
+
+    # Embeddings & Vector DB
+    "openai",
+    "pinecone[grpc]",
+    "tiktoken",
+
+    # Text-to-SQL
+    "vanna[fastapi,openai,postgres]",
+    "sqlalchemy",
+    "psycopg2-binary",
+
+    # Utilities
+    "python-dotenv",
+    "httpx",
+    "numpy"
+]
+
+[project.optional-dependencies]
+# AWS Lambda deployment
+aws = [
+    "boto3",
+    "mangum"  # ASGI adapter for AWS Lambda
+]
+
+# Evaluation and monitoring
+eval = [
+    "ragas",
+    "datasets",
+    "opik"
+]
+
+# Development tools
+dev = [
+    "pytest",
+    "pytest-asyncio",
+    "black",
+    "ruff",
+    "mypy",
+    "pre-commit"
+]
+
+# Testing dependencies
+test = [
+    "pytest",
+    "pytest-asyncio",
+    "pytest-cov",
+    "moto[s3]",
+    "faker",
+    "httpx"
+]
+
+# All optional dependencies
+all = [
+    "multidata-rag[aws,eval,dev,test]"
+]
+
+
+[project.scripts]
+evaluate-rag = "evaluate:main"
+generate-sample-data = "data.generate_sample_data:main"
+
+[tool.hatch.build]
+include = [
+    "app/**/*.py",
+    "data/**/*.py",
+    "tests/**/*.py",
+    "data/sql/*.sql",
+    "README.md",
+    "LICENSE"
+]
+exclude = [
+    ".venv/",
+    "venv/",
+    "__pycache__/",
+    "*.pyc",
+    "*.pyo",
+    "*.egg-info/",
+    ".pytest_cache/",
+    ".ruff_cache/",
+    ".mypy_cache/",
+    "dist/",
+    "build/",
+    "*.log",
+    "logs/",
+    "uploads/",
+    "*.ipynb",
+    ".git/",
+    ".github/",
+    "deployment_docs/",
+    ".env*",
+    "!.env.example"
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["app", "data"]
+
+[tool.black]
+line-length = 100
+target-version = ["py312"]
+exclude = '''
+/(
+    \.venv
+  | venv
+  | __pycache__
+  | \.pytest_cache
+  | \.ruff_cache
+  | \.mypy_cache
+  | dist
+  | build
+  | logs
+  | uploads
+  | \.ipynb_checkpoints
+  | deployment_docs
+)/
+'''
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "B",   # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "UP",  # pyupgrade
+]
+ignore = [
+    "E501",  # line too long (handled by black)
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["app", "data"]
+known-third-party = [
+    "fastapi",
+    "pydantic",
+    "openai",
+    "pinecone",
+    "vanna",
+    "docling",
+    "unstructured"
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+asyncio_mode = "auto"
+addopts = [
+    "--verbose",
+    "--cov=app",
+    "--cov-report=term-missing",
+    "--cov-report=html",
+]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+    "unit: marks tests as unit tests",
+    "aws: marks tests that require AWS services",
+]
+
+[tool.mypy]
+python_version = "3.12"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+check_untyped_defs = true
+strict_equality = true
+
+[[tool.mypy.overrides]]
+module = [
+    "pinecone.*",
+    "vanna.*",
+    "docling.*",
+    "unstructured.*",
+    "semchunk.*",
+    "ragas.*",
+    "opik.*",
+    "moto.*",
+    "faker.*"
+]
+ignore_missing_imports = true
+
+[tool.coverage.run]
+source = ["app"]
+omit = [
+    "*/tests/*",
+    "*/__pycache__/*",
+    "*/venv/*",
+    "*/.venv/*"
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if __name__ == .__main__.:",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if TYPE_CHECKING:",
+    "@abstractmethod"
+]

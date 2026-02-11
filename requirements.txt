@@ -1,0 +1,53 @@
+# API Framework
+numba==0.61.2
+llvmlite==0.44.0
+fastapi[standard]  # Includes uvicorn[standard] with uvloop
+pydantic
+pydantic-settings
+python-multipart
+mangum  # AWS Lambda adapter for FastAPI
+
+# Document Processing
+--extra-index-url https://download.pytorch.org/whl/cpu
+docling                # Advanced PDF parsing with layout analysis
+docling-core           # Chunking infrastructure
+semchunk               # Semantic text splitting (used by HybridChunker)
+unstructured[pdf]==0.18.31    # PDF support via poppler (NO PyTorch/ONNX - ARM64 compatible)
+python-magic  # For file type detection (uses system libmagic on macOS)
+pillow  # Image processing for document parsing
+#unstructured[all-docs]
+#pdfminer.six==20231228
+# Embeddings & Vector DB
+sentence-transformers
+openai
+pinecone[grpc]
+tiktoken
+
+# Text-to-SQL
+vanna[fastapi,openai,postgres]
+sqlalchemy
+psycopg2-binary
+faker
+
+# Evaluation & Monitoring
+ragas
+datasets
+opik
+
+# Utilities
+python-dotenv
+httpx
+
+# Caching
+numpy<2  # Torch/Docling stack not yet NumPy 2 compatible
+upstash-redis  # Redis cache for query results (serverless-friendly)
+
+# AWS Services (for S3 storage backend)
+boto3  # AWS SDK for S3 storage
+
+# Development
+pytest
+pytest-asyncio
+black
+ruff
+# moto[s3]  # Mock AWS S3 for testing
