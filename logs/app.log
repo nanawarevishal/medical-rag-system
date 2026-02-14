@@ -709,3 +709,554 @@ ValueError: Unknown storage backend: s3 # options: local, s3
 2026-02-11 22:31:38 - rag_app.bm25_service - WARNING - [bm25_service.py:95] - BM25: No cached documents found to index
 2026-02-11 22:31:38 - rag_app.bm25_service - WARNING - [bm25_service.py:95] - BM25: No cached documents found to index
 2026-02-11 22:31:46 - rag_app.vector_service - INFO - [vector_service.py:64] - Connected to Pinecone index: medical-documents
+2026-02-11 22:48:37 - rag_app - INFO - [main.py:1307] - Storage directories initialized: /tmp/uploads, /tmp/cached_chunks
+2026-02-11 22:48:37 - rag_app - INFO - [main.py:1309] - ============================================================
+2026-02-11 22:48:37 - rag_app - INFO - [main.py:1310] - Starting Multi-Source RAG + Text-to-SQL API...
+2026-02-11 22:48:37 - rag_app - INFO - [main.py:1311] - ============================================================
+2026-02-11 22:48:37 - rag_app - INFO - [main.py:1312] - Phase 0: Foundation Setup - COMPLETE
+2026-02-11 22:48:37 - rag_app - INFO - [main.py:1313] - Phase 1: Document RAG MVP - COMPLETE
+2026-02-11 22:48:37 - rag_app - INFO - [main.py:1314] - Phase 2: Text-to-SQL Foundation - COMPLETE
+2026-02-11 22:48:37 - rag_app - INFO - [main.py:1315] - Phase 3: Query Routing - COMPLETE
+2026-02-11 22:48:37 - rag_app - INFO - [main.py:1316] - Phase 4: Evaluation & Monitoring - COMPLETE
+2026-02-11 22:48:37 - rag_app - INFO - [main.py:1317] - Phase 5: Polish & Documentation - COMPLETE
+2026-02-11 22:48:37 - rag_app - INFO - [main.py:1318] - Phase 6: Docker Deployment - COMPLETE
+2026-02-11 22:48:37 - rag_app - INFO - [main.py:1319] - ============================================================
+2026-02-11 22:48:37 - rag_app - INFO - [main.py:1320] - ALL PHASES COMPLETE - PRODUCTION READY!
+2026-02-11 22:48:37 - rag_app - INFO - [main.py:1321] - ============================================================
+2026-02-11 22:48:37 - rag_app - INFO - [main.py:1327] - Initializing OPIK monitoring...
+2026-02-11 22:48:38 - rag_app - INFO - [main.py:1344] - ✓ OPIK monitoring initialized!
+2026-02-11 22:48:38 - rag_app - INFO - [main.py:1363] - Initializing query cache service (Redis)...
+2026-02-11 22:48:39 - rag_app - INFO - [main.py:1368] - ✓ Query cache service initialized and connected!
+2026-02-11 22:48:39 - rag_app - INFO - [main.py:1369] -   Cache TTL: RAG=3600s, Embeddings=604800s, SQL Gen=86400s, SQL Results=900s
+2026-02-11 22:48:39 - rag_app - INFO - [main.py:1387] - Initializing Document RAG services...
+2026-02-11 22:48:41 - rag_app.vector_service - INFO - [vector_service.py:64] - Connected to Pinecone index: medical-documents
+2026-02-11 22:48:49 - rag_app.cache_service - WARNING - [cache_service.py:50] - Failed to initialize S3 storage: S3 bucket 'my-rag-cache-bucket' does not exist. Falling back to local.
+2026-02-11 22:49:11 - rag_app.cross_encoder_reranking_service - INFO - [cross_encoder_reranking_service.py:43] - Cross-encoder model loaded: cross-encoder/ms-marco-MiniLM-L-6-v2
+2026-02-11 22:49:11 - rag_app - INFO - [main.py:1397] - ✓ Document RAG services initialized!
+2026-02-11 22:49:11 - rag_app - INFO - [main.py:1408] - Initializing Text-to-SQL service...
+2026-02-11 22:49:11 - rag_app.sql_service - INFO - [sql_service.py:68] - Configuring SQL LLM with deterministic settings: temperature=0.0, top_p=0.1, seed=42
+2026-02-11 22:49:12 - rag_app.sql_service - INFO - [sql_service.py:115] - Using Pinecone for SQL Agent memory (index: vanna-sql-training)
+2026-02-11 22:49:12 - rag_app.sql_service - INFO - [sql_service.py:135] - ✓ Vanna 2.0 Agent initialized successfully
+2026-02-11 22:49:12 - rag_app - INFO - [main.py:1412] - Training Vanna on database schema and examples...
+2026-02-11 22:49:12 - rag_app.sql_service - INFO - [sql_service.py:342] - Preparing schema context for Vanna 2.0...
+2026-02-11 22:49:12 - rag_app.sql_service - INFO - [sql_service.py:348] - ✓ Schema context prepared for Vanna 2.0 Agent!
+2026-02-11 22:49:12 - rag_app - INFO - [main.py:1414] - ✓ Text-to-SQL service initialized and trained!
+2026-02-11 22:49:12 - rag_app - INFO - [main.py:1425] - Initializing document cache service (S3/local)...
+2026-02-11 22:49:17 - rag_app.cache_service - WARNING - [cache_service.py:50] - Failed to initialize S3 storage: S3 bucket 'my-rag-cache-bucket' does not exist. Falling back to local.
+2026-02-11 22:49:17 - rag_app - INFO - [main.py:1427] - ✓ Document cache service initialized!
+2026-02-11 22:49:17 - rag_app - INFO - [main.py:1432] - ============================================================
+2026-02-11 22:49:17 - rag_app - INFO - [main.py:1433] - API is ready!
+2026-02-11 22:49:17 - rag_app - INFO - [main.py:1434] - ============================================================
+2026-02-11 22:50:01 - rag_app.bm25_service - WARNING - [bm25_service.py:97] - BM25: No cached documents found to index
+2026-02-11 22:50:01 - rag_app.bm25_service - WARNING - [bm25_service.py:97] - BM25: No cached documents found to index
+2026-02-11 22:50:01 - rag_app.bm25_service - WARNING - [bm25_service.py:97] - BM25: No cached documents found to index
+2026-02-11 22:50:01 - rag_app.bm25_service - WARNING - [bm25_service.py:97] - BM25: No cached documents found to index
+2026-02-11 22:50:01 - rag_app.bm25_service - WARNING - [bm25_service.py:97] - BM25: No cached documents found to index
+2026-02-11 22:50:01 - rag_app.bm25_service - WARNING - [bm25_service.py:97] - BM25: No cached documents found to index
+2026-02-11 22:50:01 - rag_app.bm25_service - WARNING - [bm25_service.py:97] - BM25: No cached documents found to index
+2026-02-11 22:50:01 - rag_app.bm25_service - WARNING - [bm25_service.py:97] - BM25: No cached documents found to index
+2026-02-11 22:50:01 - rag_app.bm25_service - WARNING - [bm25_service.py:97] - BM25: No cached documents found to index
+2026-02-11 22:50:01 - rag_app.bm25_service - WARNING - [bm25_service.py:97] - BM25: No cached documents found to index
+2026-02-11 22:50:10 - rag_app.vector_service - INFO - [vector_service.py:64] - Connected to Pinecone index: medical-documents
+2026-02-11 22:51:46 - rag_app - INFO - [main.py:1449] - Shutting down Multi-Source RAG + Text-to-SQL API...
+2026-02-11 22:52:56 - rag_app - INFO - [main.py:1307] - Storage directories initialized: /tmp/uploads, /tmp/cached_chunks
+2026-02-11 22:52:56 - rag_app - INFO - [main.py:1309] - ============================================================
+2026-02-11 22:52:56 - rag_app - INFO - [main.py:1310] - Starting Multi-Source RAG + Text-to-SQL API...
+2026-02-11 22:52:56 - rag_app - INFO - [main.py:1311] - ============================================================
+2026-02-11 22:52:56 - rag_app - INFO - [main.py:1312] - Phase 0: Foundation Setup - COMPLETE
+2026-02-11 22:52:56 - rag_app - INFO - [main.py:1313] - Phase 1: Document RAG MVP - COMPLETE
+2026-02-11 22:52:56 - rag_app - INFO - [main.py:1314] - Phase 2: Text-to-SQL Foundation - COMPLETE
+2026-02-11 22:52:56 - rag_app - INFO - [main.py:1315] - Phase 3: Query Routing - COMPLETE
+2026-02-11 22:52:56 - rag_app - INFO - [main.py:1316] - Phase 4: Evaluation & Monitoring - COMPLETE
+2026-02-11 22:52:56 - rag_app - INFO - [main.py:1317] - Phase 5: Polish & Documentation - COMPLETE
+2026-02-11 22:52:56 - rag_app - INFO - [main.py:1318] - Phase 6: Docker Deployment - COMPLETE
+2026-02-11 22:52:56 - rag_app - INFO - [main.py:1319] - ============================================================
+2026-02-11 22:52:56 - rag_app - INFO - [main.py:1320] - ALL PHASES COMPLETE - PRODUCTION READY!
+2026-02-11 22:52:56 - rag_app - INFO - [main.py:1321] - ============================================================
+2026-02-11 22:52:56 - rag_app - INFO - [main.py:1327] - Initializing OPIK monitoring...
+2026-02-11 22:52:57 - rag_app - INFO - [main.py:1344] - ✓ OPIK monitoring initialized!
+2026-02-11 22:52:57 - rag_app - INFO - [main.py:1363] - Initializing query cache service (Redis)...
+2026-02-11 22:52:57 - rag_app - INFO - [main.py:1368] - ✓ Query cache service initialized and connected!
+2026-02-11 22:52:57 - rag_app - INFO - [main.py:1369] -   Cache TTL: RAG=3600s, Embeddings=604800s, SQL Gen=86400s, SQL Results=900s
+2026-02-11 22:52:57 - rag_app - INFO - [main.py:1387] - Initializing Document RAG services...
+2026-02-11 22:53:00 - rag_app.vector_service - INFO - [vector_service.py:64] - Connected to Pinecone index: medical-documents
+2026-02-11 22:53:06 - rag_app.cache_service - WARNING - [cache_service.py:50] - Failed to initialize S3 storage: S3 bucket 'my-rag-cache-bucket' does not exist. Falling back to local.
+2026-02-11 22:53:27 - rag_app.cross_encoder_reranking_service - INFO - [cross_encoder_reranking_service.py:43] - Cross-encoder model loaded: cross-encoder/ms-marco-MiniLM-L-6-v2
+2026-02-11 22:53:27 - rag_app - INFO - [main.py:1397] - ✓ Document RAG services initialized!
+2026-02-11 22:53:27 - rag_app - INFO - [main.py:1408] - Initializing Text-to-SQL service...
+2026-02-11 22:53:27 - rag_app.sql_service - INFO - [sql_service.py:68] - Configuring SQL LLM with deterministic settings: temperature=0.0, top_p=0.1, seed=42
+2026-02-11 22:53:27 - rag_app.sql_service - INFO - [sql_service.py:115] - Using Pinecone for SQL Agent memory (index: vanna-sql-training)
+2026-02-11 22:53:27 - rag_app.sql_service - INFO - [sql_service.py:135] - ✓ Vanna 2.0 Agent initialized successfully
+2026-02-11 22:53:27 - rag_app - INFO - [main.py:1412] - Training Vanna on database schema and examples...
+2026-02-11 22:53:27 - rag_app.sql_service - INFO - [sql_service.py:342] - Preparing schema context for Vanna 2.0...
+2026-02-11 22:53:27 - rag_app.sql_service - INFO - [sql_service.py:348] - ✓ Schema context prepared for Vanna 2.0 Agent!
+2026-02-11 22:53:27 - rag_app - INFO - [main.py:1414] - ✓ Text-to-SQL service initialized and trained!
+2026-02-11 22:53:27 - rag_app - INFO - [main.py:1425] - Initializing document cache service (S3/local)...
+2026-02-11 22:53:32 - rag_app.cache_service - WARNING - [cache_service.py:50] - Failed to initialize S3 storage: S3 bucket 'my-rag-cache-bucket' does not exist. Falling back to local.
+2026-02-11 22:53:32 - rag_app - INFO - [main.py:1427] - ✓ Document cache service initialized!
+2026-02-11 22:53:32 - rag_app - INFO - [main.py:1432] - ============================================================
+2026-02-11 22:53:32 - rag_app - INFO - [main.py:1433] - API is ready!
+2026-02-11 22:53:32 - rag_app - INFO - [main.py:1434] - ============================================================
+2026-02-11 22:53:45 - rag_app.bm25_service - WARNING - [bm25_service.py:97] - BM25: No cached documents found to index
+2026-02-11 22:53:45 - rag_app.bm25_service - WARNING - [bm25_service.py:97] - BM25: No cached documents found to index
+2026-02-11 22:53:45 - rag_app.bm25_service - WARNING - [bm25_service.py:97] - BM25: No cached documents found to index
+2026-02-11 22:53:45 - rag_app.bm25_service - WARNING - [bm25_service.py:97] - BM25: No cached documents found to index
+2026-02-11 22:53:45 - rag_app.bm25_service - WARNING - [bm25_service.py:97] - BM25: No cached documents found to index
+2026-02-11 22:53:45 - rag_app.bm25_service - WARNING - [bm25_service.py:97] - BM25: No cached documents found to index
+2026-02-11 22:53:45 - rag_app.bm25_service - WARNING - [bm25_service.py:97] - BM25: No cached documents found to index
+2026-02-11 22:53:45 - rag_app.bm25_service - WARNING - [bm25_service.py:97] - BM25: No cached documents found to index
+2026-02-11 22:53:45 - rag_app.bm25_service - WARNING - [bm25_service.py:97] - BM25: No cached documents found to index
+2026-02-11 22:53:45 - rag_app.bm25_service - WARNING - [bm25_service.py:97] - BM25: No cached documents found to index
+2026-02-11 22:53:52 - rag_app.vector_service - INFO - [vector_service.py:64] - Connected to Pinecone index: medical-documents
+2026-02-11 22:55:34 - rag_app - INFO - [main.py:1449] - Shutting down Multi-Source RAG + Text-to-SQL API...
+2026-02-11 22:56:23 - rag_app - INFO - [main.py:1307] - Storage directories initialized: /tmp/uploads, /tmp/cached_chunks
+2026-02-11 22:56:23 - rag_app - INFO - [main.py:1309] - ============================================================
+2026-02-11 22:56:23 - rag_app - INFO - [main.py:1310] - Starting Multi-Source RAG + Text-to-SQL API...
+2026-02-11 22:56:23 - rag_app - INFO - [main.py:1311] - ============================================================
+2026-02-11 22:56:23 - rag_app - INFO - [main.py:1312] - Phase 0: Foundation Setup - COMPLETE
+2026-02-11 22:56:23 - rag_app - INFO - [main.py:1313] - Phase 1: Document RAG MVP - COMPLETE
+2026-02-11 22:56:23 - rag_app - INFO - [main.py:1314] - Phase 2: Text-to-SQL Foundation - COMPLETE
+2026-02-11 22:56:23 - rag_app - INFO - [main.py:1315] - Phase 3: Query Routing - COMPLETE
+2026-02-11 22:56:23 - rag_app - INFO - [main.py:1316] - Phase 4: Evaluation & Monitoring - COMPLETE
+2026-02-11 22:56:23 - rag_app - INFO - [main.py:1317] - Phase 5: Polish & Documentation - COMPLETE
+2026-02-11 22:56:23 - rag_app - INFO - [main.py:1318] - Phase 6: Docker Deployment - COMPLETE
+2026-02-11 22:56:23 - rag_app - INFO - [main.py:1319] - ============================================================
+2026-02-11 22:56:23 - rag_app - INFO - [main.py:1320] - ALL PHASES COMPLETE - PRODUCTION READY!
+2026-02-11 22:56:23 - rag_app - INFO - [main.py:1321] - ============================================================
+2026-02-11 22:56:23 - rag_app - INFO - [main.py:1327] - Initializing OPIK monitoring...
+2026-02-11 22:56:24 - rag_app - INFO - [main.py:1344] - ✓ OPIK monitoring initialized!
+2026-02-11 22:56:24 - rag_app - INFO - [main.py:1363] - Initializing query cache service (Redis)...
+2026-02-11 22:56:24 - rag_app - INFO - [main.py:1368] - ✓ Query cache service initialized and connected!
+2026-02-11 22:56:24 - rag_app - INFO - [main.py:1369] -   Cache TTL: RAG=3600s, Embeddings=604800s, SQL Gen=86400s, SQL Results=900s
+2026-02-11 22:56:24 - rag_app - INFO - [main.py:1387] - Initializing Document RAG services...
+2026-02-11 22:56:26 - rag_app.vector_service - INFO - [vector_service.py:64] - Connected to Pinecone index: medical-documents
+2026-02-11 22:56:31 - rag_app.cache_service - WARNING - [cache_service.py:50] - Failed to initialize S3 storage: S3 bucket 'my-rag-cache-bucket' does not exist. Falling back to local.
+2026-02-11 22:56:53 - rag_app.cross_encoder_reranking_service - INFO - [cross_encoder_reranking_service.py:43] - Cross-encoder model loaded: cross-encoder/ms-marco-MiniLM-L-6-v2
+2026-02-11 22:56:53 - rag_app - INFO - [main.py:1397] - ✓ Document RAG services initialized!
+2026-02-11 22:56:53 - rag_app - INFO - [main.py:1408] - Initializing Text-to-SQL service...
+2026-02-11 22:56:53 - rag_app.sql_service - INFO - [sql_service.py:68] - Configuring SQL LLM with deterministic settings: temperature=0.0, top_p=0.1, seed=42
+2026-02-11 22:56:53 - rag_app.sql_service - INFO - [sql_service.py:115] - Using Pinecone for SQL Agent memory (index: vanna-sql-training)
+2026-02-11 22:56:53 - rag_app.sql_service - INFO - [sql_service.py:135] - ✓ Vanna 2.0 Agent initialized successfully
+2026-02-11 22:56:53 - rag_app - INFO - [main.py:1412] - Training Vanna on database schema and examples...
+2026-02-11 22:56:53 - rag_app.sql_service - INFO - [sql_service.py:342] - Preparing schema context for Vanna 2.0...
+2026-02-11 22:56:53 - rag_app.sql_service - INFO - [sql_service.py:348] - ✓ Schema context prepared for Vanna 2.0 Agent!
+2026-02-11 22:56:53 - rag_app - INFO - [main.py:1414] - ✓ Text-to-SQL service initialized and trained!
+2026-02-11 22:56:53 - rag_app - INFO - [main.py:1425] - Initializing document cache service (S3/local)...
+2026-02-11 22:56:59 - rag_app.cache_service - WARNING - [cache_service.py:50] - Failed to initialize S3 storage: S3 bucket 'my-rag-cache-bucket' does not exist. Falling back to local.
+2026-02-11 22:56:59 - rag_app - INFO - [main.py:1427] - ✓ Document cache service initialized!
+2026-02-11 22:56:59 - rag_app - INFO - [main.py:1432] - ============================================================
+2026-02-11 22:56:59 - rag_app - INFO - [main.py:1433] - API is ready!
+2026-02-11 22:56:59 - rag_app - INFO - [main.py:1434] - ============================================================
+2026-02-11 22:57:46 - rag_app - INFO - [main.py:1307] - Storage directories initialized: /tmp/uploads, /tmp/cached_chunks
+2026-02-11 22:57:46 - rag_app - INFO - [main.py:1309] - ============================================================
+2026-02-11 22:57:46 - rag_app - INFO - [main.py:1310] - Starting Multi-Source RAG + Text-to-SQL API...
+2026-02-11 22:57:46 - rag_app - INFO - [main.py:1311] - ============================================================
+2026-02-11 22:57:46 - rag_app - INFO - [main.py:1312] - Phase 0: Foundation Setup - COMPLETE
+2026-02-11 22:57:46 - rag_app - INFO - [main.py:1313] - Phase 1: Document RAG MVP - COMPLETE
+2026-02-11 22:57:46 - rag_app - INFO - [main.py:1314] - Phase 2: Text-to-SQL Foundation - COMPLETE
+2026-02-11 22:57:46 - rag_app - INFO - [main.py:1315] - Phase 3: Query Routing - COMPLETE
+2026-02-11 22:57:46 - rag_app - INFO - [main.py:1316] - Phase 4: Evaluation & Monitoring - COMPLETE
+2026-02-11 22:57:46 - rag_app - INFO - [main.py:1317] - Phase 5: Polish & Documentation - COMPLETE
+2026-02-11 22:57:46 - rag_app - INFO - [main.py:1318] - Phase 6: Docker Deployment - COMPLETE
+2026-02-11 22:57:46 - rag_app - INFO - [main.py:1319] - ============================================================
+2026-02-11 22:57:46 - rag_app - INFO - [main.py:1320] - ALL PHASES COMPLETE - PRODUCTION READY!
+2026-02-11 22:57:46 - rag_app - INFO - [main.py:1321] - ============================================================
+2026-02-11 22:57:46 - rag_app - INFO - [main.py:1327] - Initializing OPIK monitoring...
+2026-02-11 22:57:47 - rag_app - INFO - [main.py:1344] - ✓ OPIK monitoring initialized!
+2026-02-11 22:57:47 - rag_app - INFO - [main.py:1363] - Initializing query cache service (Redis)...
+2026-02-11 22:57:48 - rag_app - INFO - [main.py:1368] - ✓ Query cache service initialized and connected!
+2026-02-11 22:57:48 - rag_app - INFO - [main.py:1369] -   Cache TTL: RAG=3600s, Embeddings=604800s, SQL Gen=86400s, SQL Results=900s
+2026-02-11 22:57:48 - rag_app - INFO - [main.py:1387] - Initializing Document RAG services...
+2026-02-11 22:57:50 - rag_app.vector_service - INFO - [vector_service.py:64] - Connected to Pinecone index: medical-documents
+2026-02-11 22:57:56 - rag_app.cache_service - WARNING - [cache_service.py:50] - Failed to initialize S3 storage: S3 bucket 'my-rag-cache-bucket' does not exist. Falling back to local.
+2026-02-11 22:58:15 - rag_app.cross_encoder_reranking_service - INFO - [cross_encoder_reranking_service.py:43] - Cross-encoder model loaded: cross-encoder/ms-marco-MiniLM-L-6-v2
+2026-02-11 22:58:15 - rag_app - INFO - [main.py:1397] - ✓ Document RAG services initialized!
+2026-02-11 22:58:15 - rag_app - INFO - [main.py:1408] - Initializing Text-to-SQL service...
+2026-02-11 22:58:15 - rag_app.sql_service - INFO - [sql_service.py:68] - Configuring SQL LLM with deterministic settings: temperature=0.0, top_p=0.1, seed=42
+2026-02-11 22:58:15 - rag_app.sql_service - INFO - [sql_service.py:115] - Using Pinecone for SQL Agent memory (index: vanna-sql-training)
+2026-02-11 22:58:15 - rag_app.sql_service - INFO - [sql_service.py:135] - ✓ Vanna 2.0 Agent initialized successfully
+2026-02-11 22:58:15 - rag_app - INFO - [main.py:1412] - Training Vanna on database schema and examples...
+2026-02-11 22:58:15 - rag_app.sql_service - INFO - [sql_service.py:342] - Preparing schema context for Vanna 2.0...
+2026-02-11 22:58:15 - rag_app.sql_service - INFO - [sql_service.py:348] - ✓ Schema context prepared for Vanna 2.0 Agent!
+2026-02-11 22:58:15 - rag_app - INFO - [main.py:1414] - ✓ Text-to-SQL service initialized and trained!
+2026-02-11 22:58:15 - rag_app - INFO - [main.py:1425] - Initializing document cache service (S3/local)...
+2026-02-11 22:58:20 - rag_app.cache_service - WARNING - [cache_service.py:50] - Failed to initialize S3 storage: S3 bucket 'my-rag-cache-bucket' does not exist. Falling back to local.
+2026-02-11 22:58:20 - rag_app - INFO - [main.py:1427] - ✓ Document cache service initialized!
+2026-02-11 22:58:20 - rag_app - INFO - [main.py:1432] - ============================================================
+2026-02-11 22:58:20 - rag_app - INFO - [main.py:1433] - API is ready!
+2026-02-11 22:58:20 - rag_app - INFO - [main.py:1434] - ============================================================
+2026-02-11 22:58:24 - rag_app.bm25_service - WARNING - [bm25_service.py:102] - BM25: No cached documents found to index
+2026-02-11 22:58:30 - rag_app.vector_service - INFO - [vector_service.py:64] - Connected to Pinecone index: medical-documents
+2026-02-11 23:00:09 - rag_app - INFO - [main.py:1449] - Shutting down Multi-Source RAG + Text-to-SQL API...
+2026-02-11 23:00:57 - rag_app - INFO - [main.py:1307] - Storage directories initialized: /tmp/uploads, /tmp/cached_chunks
+2026-02-11 23:00:57 - rag_app - INFO - [main.py:1309] - ============================================================
+2026-02-11 23:00:57 - rag_app - INFO - [main.py:1310] - Starting Multi-Source RAG + Text-to-SQL API...
+2026-02-11 23:00:57 - rag_app - INFO - [main.py:1311] - ============================================================
+2026-02-11 23:00:57 - rag_app - INFO - [main.py:1312] - Phase 0: Foundation Setup - COMPLETE
+2026-02-11 23:00:57 - rag_app - INFO - [main.py:1313] - Phase 1: Document RAG MVP - COMPLETE
+2026-02-11 23:00:57 - rag_app - INFO - [main.py:1314] - Phase 2: Text-to-SQL Foundation - COMPLETE
+2026-02-11 23:00:57 - rag_app - INFO - [main.py:1315] - Phase 3: Query Routing - COMPLETE
+2026-02-11 23:00:57 - rag_app - INFO - [main.py:1316] - Phase 4: Evaluation & Monitoring - COMPLETE
+2026-02-11 23:00:57 - rag_app - INFO - [main.py:1317] - Phase 5: Polish & Documentation - COMPLETE
+2026-02-11 23:00:57 - rag_app - INFO - [main.py:1318] - Phase 6: Docker Deployment - COMPLETE
+2026-02-11 23:00:57 - rag_app - INFO - [main.py:1319] - ============================================================
+2026-02-11 23:00:57 - rag_app - INFO - [main.py:1320] - ALL PHASES COMPLETE - PRODUCTION READY!
+2026-02-11 23:00:57 - rag_app - INFO - [main.py:1321] - ============================================================
+2026-02-11 23:00:57 - rag_app - INFO - [main.py:1327] - Initializing OPIK monitoring...
+2026-02-11 23:00:58 - rag_app - INFO - [main.py:1344] - ✓ OPIK monitoring initialized!
+2026-02-11 23:00:58 - rag_app - INFO - [main.py:1363] - Initializing query cache service (Redis)...
+2026-02-11 23:00:59 - rag_app - INFO - [main.py:1368] - ✓ Query cache service initialized and connected!
+2026-02-11 23:00:59 - rag_app - INFO - [main.py:1369] -   Cache TTL: RAG=3600s, Embeddings=604800s, SQL Gen=86400s, SQL Results=900s
+2026-02-11 23:00:59 - rag_app - INFO - [main.py:1387] - Initializing Document RAG services...
+2026-02-11 23:01:01 - rag_app.vector_service - INFO - [vector_service.py:64] - Connected to Pinecone index: medical-documents
+2026-02-11 23:01:06 - rag_app.cache_service - WARNING - [cache_service.py:50] - Failed to initialize S3 storage: S3 bucket 'my-rag-cache-bucket' does not exist. Falling back to local.
+2026-02-11 23:01:58 - rag_app - INFO - [main.py:1307] - Storage directories initialized: /tmp/uploads, /tmp/cached_chunks
+2026-02-11 23:01:58 - rag_app - INFO - [main.py:1309] - ============================================================
+2026-02-11 23:01:58 - rag_app - INFO - [main.py:1310] - Starting Multi-Source RAG + Text-to-SQL API...
+2026-02-11 23:01:58 - rag_app - INFO - [main.py:1311] - ============================================================
+2026-02-11 23:01:58 - rag_app - INFO - [main.py:1312] - Phase 0: Foundation Setup - COMPLETE
+2026-02-11 23:01:58 - rag_app - INFO - [main.py:1313] - Phase 1: Document RAG MVP - COMPLETE
+2026-02-11 23:01:58 - rag_app - INFO - [main.py:1314] - Phase 2: Text-to-SQL Foundation - COMPLETE
+2026-02-11 23:01:58 - rag_app - INFO - [main.py:1315] - Phase 3: Query Routing - COMPLETE
+2026-02-11 23:01:58 - rag_app - INFO - [main.py:1316] - Phase 4: Evaluation & Monitoring - COMPLETE
+2026-02-11 23:01:58 - rag_app - INFO - [main.py:1317] - Phase 5: Polish & Documentation - COMPLETE
+2026-02-11 23:01:58 - rag_app - INFO - [main.py:1318] - Phase 6: Docker Deployment - COMPLETE
+2026-02-11 23:01:58 - rag_app - INFO - [main.py:1319] - ============================================================
+2026-02-11 23:01:58 - rag_app - INFO - [main.py:1320] - ALL PHASES COMPLETE - PRODUCTION READY!
+2026-02-11 23:01:58 - rag_app - INFO - [main.py:1321] - ============================================================
+2026-02-11 23:01:58 - rag_app - INFO - [main.py:1327] - Initializing OPIK monitoring...
+2026-02-11 23:02:00 - rag_app - INFO - [main.py:1344] - ✓ OPIK monitoring initialized!
+2026-02-11 23:02:00 - rag_app - INFO - [main.py:1363] - Initializing query cache service (Redis)...
+2026-02-11 23:02:00 - rag_app - INFO - [main.py:1368] - ✓ Query cache service initialized and connected!
+2026-02-11 23:02:00 - rag_app - INFO - [main.py:1369] -   Cache TTL: RAG=3600s, Embeddings=604800s, SQL Gen=86400s, SQL Results=900s
+2026-02-11 23:02:00 - rag_app - INFO - [main.py:1387] - Initializing Document RAG services...
+2026-02-11 23:02:03 - rag_app.vector_service - INFO - [vector_service.py:64] - Connected to Pinecone index: medical-documents
+2026-02-11 23:02:08 - rag_app.cache_service - WARNING - [cache_service.py:50] - Failed to initialize S3 storage: S3 bucket 'my-rag-cache-bucket' does not exist. Falling back to local.
+2026-02-11 23:02:32 - rag_app.cross_encoder_reranking_service - INFO - [cross_encoder_reranking_service.py:43] - Cross-encoder model loaded: cross-encoder/ms-marco-MiniLM-L-6-v2
+2026-02-11 23:02:32 - rag_app - INFO - [main.py:1397] - ✓ Document RAG services initialized!
+2026-02-11 23:02:32 - rag_app - INFO - [main.py:1408] - Initializing Text-to-SQL service...
+2026-02-11 23:02:32 - rag_app.sql_service - INFO - [sql_service.py:68] - Configuring SQL LLM with deterministic settings: temperature=0.0, top_p=0.1, seed=42
+2026-02-11 23:02:32 - rag_app.sql_service - INFO - [sql_service.py:115] - Using Pinecone for SQL Agent memory (index: vanna-sql-training)
+2026-02-11 23:02:32 - rag_app.sql_service - INFO - [sql_service.py:135] - ✓ Vanna 2.0 Agent initialized successfully
+2026-02-11 23:02:32 - rag_app - INFO - [main.py:1412] - Training Vanna on database schema and examples...
+2026-02-11 23:02:32 - rag_app.sql_service - INFO - [sql_service.py:342] - Preparing schema context for Vanna 2.0...
+2026-02-11 23:02:32 - rag_app.sql_service - INFO - [sql_service.py:348] - ✓ Schema context prepared for Vanna 2.0 Agent!
+2026-02-11 23:02:32 - rag_app - INFO - [main.py:1414] - ✓ Text-to-SQL service initialized and trained!
+2026-02-11 23:02:32 - rag_app - INFO - [main.py:1425] - Initializing document cache service (S3/local)...
+2026-02-11 23:02:37 - rag_app.cache_service - WARNING - [cache_service.py:50] - Failed to initialize S3 storage: S3 bucket 'my-rag-cache-bucket' does not exist. Falling back to local.
+2026-02-11 23:02:37 - rag_app - INFO - [main.py:1427] - ✓ Document cache service initialized!
+2026-02-11 23:02:37 - rag_app - INFO - [main.py:1432] - ============================================================
+2026-02-11 23:02:37 - rag_app - INFO - [main.py:1433] - API is ready!
+2026-02-11 23:02:37 - rag_app - INFO - [main.py:1434] - ============================================================
+2026-02-11 23:03:22 - rag_app - INFO - [main.py:1307] - Storage directories initialized: /tmp/uploads, /tmp/cached_chunks
+2026-02-11 23:03:22 - rag_app - INFO - [main.py:1309] - ============================================================
+2026-02-11 23:03:22 - rag_app - INFO - [main.py:1310] - Starting Multi-Source RAG + Text-to-SQL API...
+2026-02-11 23:03:22 - rag_app - INFO - [main.py:1311] - ============================================================
+2026-02-11 23:03:22 - rag_app - INFO - [main.py:1312] - Phase 0: Foundation Setup - COMPLETE
+2026-02-11 23:03:22 - rag_app - INFO - [main.py:1313] - Phase 1: Document RAG MVP - COMPLETE
+2026-02-11 23:03:22 - rag_app - INFO - [main.py:1314] - Phase 2: Text-to-SQL Foundation - COMPLETE
+2026-02-11 23:03:22 - rag_app - INFO - [main.py:1315] - Phase 3: Query Routing - COMPLETE
+2026-02-11 23:03:22 - rag_app - INFO - [main.py:1316] - Phase 4: Evaluation & Monitoring - COMPLETE
+2026-02-11 23:03:22 - rag_app - INFO - [main.py:1317] - Phase 5: Polish & Documentation - COMPLETE
+2026-02-11 23:03:22 - rag_app - INFO - [main.py:1318] - Phase 6: Docker Deployment - COMPLETE
+2026-02-11 23:03:22 - rag_app - INFO - [main.py:1319] - ============================================================
+2026-02-11 23:03:22 - rag_app - INFO - [main.py:1320] - ALL PHASES COMPLETE - PRODUCTION READY!
+2026-02-11 23:03:22 - rag_app - INFO - [main.py:1321] - ============================================================
+2026-02-11 23:03:22 - rag_app - INFO - [main.py:1327] - Initializing OPIK monitoring...
+2026-02-11 23:03:23 - rag_app - INFO - [main.py:1344] - ✓ OPIK monitoring initialized!
+2026-02-11 23:03:23 - rag_app - INFO - [main.py:1363] - Initializing query cache service (Redis)...
+2026-02-11 23:03:24 - rag_app - INFO - [main.py:1368] - ✓ Query cache service initialized and connected!
+2026-02-11 23:03:24 - rag_app - INFO - [main.py:1369] -   Cache TTL: RAG=3600s, Embeddings=604800s, SQL Gen=86400s, SQL Results=900s
+2026-02-11 23:03:24 - rag_app - INFO - [main.py:1387] - Initializing Document RAG services...
+2026-02-11 23:03:26 - rag_app.vector_service - INFO - [vector_service.py:64] - Connected to Pinecone index: medical-documents
+2026-02-11 23:03:36 - rag_app.cache_service - WARNING - [cache_service.py:50] - Failed to initialize S3 storage: S3 bucket 'my-rag-cache-bucket' does not exist. Falling back to local.
+2026-02-11 23:03:59 - rag_app.cross_encoder_reranking_service - INFO - [cross_encoder_reranking_service.py:43] - Cross-encoder model loaded: cross-encoder/ms-marco-MiniLM-L-6-v2
+2026-02-11 23:03:59 - rag_app - INFO - [main.py:1397] - ✓ Document RAG services initialized!
+2026-02-11 23:03:59 - rag_app - INFO - [main.py:1408] - Initializing Text-to-SQL service...
+2026-02-11 23:03:59 - rag_app.sql_service - INFO - [sql_service.py:68] - Configuring SQL LLM with deterministic settings: temperature=0.0, top_p=0.1, seed=42
+2026-02-11 23:03:59 - rag_app.sql_service - INFO - [sql_service.py:115] - Using Pinecone for SQL Agent memory (index: vanna-sql-training)
+2026-02-11 23:03:59 - rag_app.sql_service - INFO - [sql_service.py:135] - ✓ Vanna 2.0 Agent initialized successfully
+2026-02-11 23:03:59 - rag_app - INFO - [main.py:1412] - Training Vanna on database schema and examples...
+2026-02-11 23:03:59 - rag_app.sql_service - INFO - [sql_service.py:342] - Preparing schema context for Vanna 2.0...
+2026-02-11 23:03:59 - rag_app.sql_service - INFO - [sql_service.py:348] - ✓ Schema context prepared for Vanna 2.0 Agent!
+2026-02-11 23:03:59 - rag_app - INFO - [main.py:1414] - ✓ Text-to-SQL service initialized and trained!
+2026-02-11 23:03:59 - rag_app - INFO - [main.py:1425] - Initializing document cache service (S3/local)...
+2026-02-11 23:04:05 - rag_app.cache_service - WARNING - [cache_service.py:50] - Failed to initialize S3 storage: S3 bucket 'my-rag-cache-bucket' does not exist. Falling back to local.
+2026-02-11 23:04:05 - rag_app - INFO - [main.py:1427] - ✓ Document cache service initialized!
+2026-02-11 23:04:05 - rag_app - INFO - [main.py:1432] - ============================================================
+2026-02-11 23:04:05 - rag_app - INFO - [main.py:1433] - API is ready!
+2026-02-11 23:04:05 - rag_app - INFO - [main.py:1434] - ============================================================
+2026-02-11 23:04:51 - rag_app - INFO - [main.py:1307] - Storage directories initialized: /tmp/uploads, /tmp/cached_chunks
+2026-02-11 23:04:51 - rag_app - INFO - [main.py:1309] - ============================================================
+2026-02-11 23:04:51 - rag_app - INFO - [main.py:1310] - Starting Multi-Source RAG + Text-to-SQL API...
+2026-02-11 23:04:51 - rag_app - INFO - [main.py:1311] - ============================================================
+2026-02-11 23:04:51 - rag_app - INFO - [main.py:1312] - Phase 0: Foundation Setup - COMPLETE
+2026-02-11 23:04:51 - rag_app - INFO - [main.py:1313] - Phase 1: Document RAG MVP - COMPLETE
+2026-02-11 23:04:51 - rag_app - INFO - [main.py:1314] - Phase 2: Text-to-SQL Foundation - COMPLETE
+2026-02-11 23:04:51 - rag_app - INFO - [main.py:1315] - Phase 3: Query Routing - COMPLETE
+2026-02-11 23:04:51 - rag_app - INFO - [main.py:1316] - Phase 4: Evaluation & Monitoring - COMPLETE
+2026-02-11 23:04:51 - rag_app - INFO - [main.py:1317] - Phase 5: Polish & Documentation - COMPLETE
+2026-02-11 23:04:51 - rag_app - INFO - [main.py:1318] - Phase 6: Docker Deployment - COMPLETE
+2026-02-11 23:04:51 - rag_app - INFO - [main.py:1319] - ============================================================
+2026-02-11 23:04:51 - rag_app - INFO - [main.py:1320] - ALL PHASES COMPLETE - PRODUCTION READY!
+2026-02-11 23:04:51 - rag_app - INFO - [main.py:1321] - ============================================================
+2026-02-11 23:04:51 - rag_app - INFO - [main.py:1327] - Initializing OPIK monitoring...
+2026-02-11 23:04:52 - rag_app - INFO - [main.py:1344] - ✓ OPIK monitoring initialized!
+2026-02-11 23:04:52 - rag_app - INFO - [main.py:1363] - Initializing query cache service (Redis)...
+2026-02-11 23:04:52 - rag_app - INFO - [main.py:1368] - ✓ Query cache service initialized and connected!
+2026-02-11 23:04:52 - rag_app - INFO - [main.py:1369] -   Cache TTL: RAG=3600s, Embeddings=604800s, SQL Gen=86400s, SQL Results=900s
+2026-02-11 23:04:52 - rag_app - INFO - [main.py:1387] - Initializing Document RAG services...
+2026-02-11 23:04:54 - rag_app.vector_service - INFO - [vector_service.py:64] - Connected to Pinecone index: medical-documents
+2026-02-11 23:04:55 - rag_app.cache_service - INFO - [cache_service.py:48] - Using S3 storage (bucket: my-rag-cache-bucket)
+2026-02-11 23:05:16 - rag_app.cross_encoder_reranking_service - INFO - [cross_encoder_reranking_service.py:43] - Cross-encoder model loaded: cross-encoder/ms-marco-MiniLM-L-6-v2
+2026-02-11 23:05:16 - rag_app - INFO - [main.py:1397] - ✓ Document RAG services initialized!
+2026-02-11 23:05:16 - rag_app - INFO - [main.py:1408] - Initializing Text-to-SQL service...
+2026-02-11 23:05:16 - rag_app.sql_service - INFO - [sql_service.py:68] - Configuring SQL LLM with deterministic settings: temperature=0.0, top_p=0.1, seed=42
+2026-02-11 23:05:16 - rag_app.sql_service - INFO - [sql_service.py:115] - Using Pinecone for SQL Agent memory (index: vanna-sql-training)
+2026-02-11 23:05:16 - rag_app.sql_service - INFO - [sql_service.py:135] - ✓ Vanna 2.0 Agent initialized successfully
+2026-02-11 23:05:16 - rag_app - INFO - [main.py:1412] - Training Vanna on database schema and examples...
+2026-02-11 23:05:16 - rag_app.sql_service - INFO - [sql_service.py:342] - Preparing schema context for Vanna 2.0...
+2026-02-11 23:05:16 - rag_app.sql_service - INFO - [sql_service.py:348] - ✓ Schema context prepared for Vanna 2.0 Agent!
+2026-02-11 23:05:16 - rag_app - INFO - [main.py:1414] - ✓ Text-to-SQL service initialized and trained!
+2026-02-11 23:05:16 - rag_app - INFO - [main.py:1425] - Initializing document cache service (S3/local)...
+2026-02-11 23:05:16 - rag_app.cache_service - INFO - [cache_service.py:48] - Using S3 storage (bucket: my-rag-cache-bucket)
+2026-02-11 23:05:16 - rag_app - INFO - [main.py:1427] - ✓ Document cache service initialized!
+2026-02-11 23:05:16 - rag_app - INFO - [main.py:1432] - ============================================================
+2026-02-11 23:05:16 - rag_app - INFO - [main.py:1433] - API is ready!
+2026-02-11 23:05:16 - rag_app - INFO - [main.py:1434] - ============================================================
+2026-02-11 23:12:31 - rag_app - INFO - [main.py:1307] - Storage directories initialized: /tmp/uploads, /tmp/cached_chunks
+2026-02-11 23:12:31 - rag_app - INFO - [main.py:1309] - ============================================================
+2026-02-11 23:12:31 - rag_app - INFO - [main.py:1310] - Starting Multi-Source RAG + Text-to-SQL API...
+2026-02-11 23:12:31 - rag_app - INFO - [main.py:1311] - ============================================================
+2026-02-11 23:12:31 - rag_app - INFO - [main.py:1312] - Phase 0: Foundation Setup - COMPLETE
+2026-02-11 23:12:31 - rag_app - INFO - [main.py:1313] - Phase 1: Document RAG MVP - COMPLETE
+2026-02-11 23:12:31 - rag_app - INFO - [main.py:1314] - Phase 2: Text-to-SQL Foundation - COMPLETE
+2026-02-11 23:12:31 - rag_app - INFO - [main.py:1315] - Phase 3: Query Routing - COMPLETE
+2026-02-11 23:12:31 - rag_app - INFO - [main.py:1316] - Phase 4: Evaluation & Monitoring - COMPLETE
+2026-02-11 23:12:31 - rag_app - INFO - [main.py:1317] - Phase 5: Polish & Documentation - COMPLETE
+2026-02-11 23:12:31 - rag_app - INFO - [main.py:1318] - Phase 6: Docker Deployment - COMPLETE
+2026-02-11 23:12:31 - rag_app - INFO - [main.py:1319] - ============================================================
+2026-02-11 23:12:31 - rag_app - INFO - [main.py:1320] - ALL PHASES COMPLETE - PRODUCTION READY!
+2026-02-11 23:12:31 - rag_app - INFO - [main.py:1321] - ============================================================
+2026-02-11 23:12:31 - rag_app - INFO - [main.py:1327] - Initializing OPIK monitoring...
+2026-02-11 23:12:32 - rag_app - INFO - [main.py:1344] - ✓ OPIK monitoring initialized!
+2026-02-11 23:12:32 - rag_app - INFO - [main.py:1363] - Initializing query cache service (Redis)...
+2026-02-11 23:12:33 - rag_app - INFO - [main.py:1368] - ✓ Query cache service initialized and connected!
+2026-02-11 23:12:33 - rag_app - INFO - [main.py:1369] -   Cache TTL: RAG=3600s, Embeddings=604800s, SQL Gen=86400s, SQL Results=900s
+2026-02-11 23:12:33 - rag_app - INFO - [main.py:1387] - Initializing Document RAG services...
+2026-02-11 23:12:34 - rag_app.vector_service - INFO - [vector_service.py:65] - Connected to Pinecone index: medical-documents
+2026-02-11 23:12:35 - rag_app.cache_service - INFO - [cache_service.py:48] - Using S3 storage (bucket: my-rag-cache-bucket)
+2026-02-11 23:12:59 - rag_app.cross_encoder_reranking_service - INFO - [cross_encoder_reranking_service.py:43] - Cross-encoder model loaded: cross-encoder/ms-marco-MiniLM-L-6-v2
+2026-02-11 23:12:59 - rag_app - INFO - [main.py:1397] - ✓ Document RAG services initialized!
+2026-02-11 23:12:59 - rag_app - INFO - [main.py:1408] - Initializing Text-to-SQL service...
+2026-02-11 23:12:59 - rag_app.sql_service - INFO - [sql_service.py:68] - Configuring SQL LLM with deterministic settings: temperature=0.0, top_p=0.1, seed=42
+2026-02-11 23:12:59 - rag_app.sql_service - INFO - [sql_service.py:115] - Using Pinecone for SQL Agent memory (index: vanna-sql-training)
+2026-02-11 23:12:59 - rag_app.sql_service - INFO - [sql_service.py:135] - ✓ Vanna 2.0 Agent initialized successfully
+2026-02-11 23:12:59 - rag_app - INFO - [main.py:1412] - Training Vanna on database schema and examples...
+2026-02-11 23:12:59 - rag_app.sql_service - INFO - [sql_service.py:342] - Preparing schema context for Vanna 2.0...
+2026-02-11 23:12:59 - rag_app.sql_service - INFO - [sql_service.py:348] - ✓ Schema context prepared for Vanna 2.0 Agent!
+2026-02-11 23:12:59 - rag_app - INFO - [main.py:1414] - ✓ Text-to-SQL service initialized and trained!
+2026-02-11 23:12:59 - rag_app - INFO - [main.py:1425] - Initializing document cache service (S3/local)...
+2026-02-11 23:12:59 - rag_app.cache_service - INFO - [cache_service.py:48] - Using S3 storage (bucket: my-rag-cache-bucket)
+2026-02-11 23:12:59 - rag_app - INFO - [main.py:1427] - ✓ Document cache service initialized!
+2026-02-11 23:12:59 - rag_app - INFO - [main.py:1432] - ============================================================
+2026-02-11 23:12:59 - rag_app - INFO - [main.py:1433] - API is ready!
+2026-02-11 23:12:59 - rag_app - INFO - [main.py:1434] - ============================================================
+2026-02-11 23:13:52 - rag_app.bm25_service - WARNING - [bm25_service.py:102] - BM25: No cached documents found to index
+2026-02-11 23:13:58 - rag_app.vector_service - INFO - [vector_service.py:65] - Connected to Pinecone index: medical-documents
+2026-02-11 23:14:01 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:156] - BM25 fallback enabled: generated 7 sparse candidates from dense results
+2026-02-15 00:20:37 - rag_app - INFO - [main.py:818] - Storage directories initialized: /tmp/uploads, /tmp/cached_chunks
+2026-02-15 00:20:37 - rag_app - INFO - [main.py:820] - ============================================================
+2026-02-15 00:20:37 - rag_app - INFO - [main.py:821] - Starting Multi-Source RAG + Text-to-SQL API...
+2026-02-15 00:20:37 - rag_app - INFO - [main.py:822] - ============================================================
+2026-02-15 00:20:37 - rag_app - INFO - [main.py:823] - Phase 0: Foundation Setup - COMPLETE
+2026-02-15 00:20:37 - rag_app - INFO - [main.py:824] - Phase 1: Document RAG MVP - COMPLETE
+2026-02-15 00:20:37 - rag_app - INFO - [main.py:825] - Phase 2: Text-to-SQL Foundation - COMPLETE
+2026-02-15 00:20:37 - rag_app - INFO - [main.py:826] - Phase 3: Query Routing - COMPLETE
+2026-02-15 00:20:37 - rag_app - INFO - [main.py:827] - Phase 4: Evaluation & Monitoring - COMPLETE
+2026-02-15 00:20:37 - rag_app - INFO - [main.py:828] - Phase 5: Polish & Documentation - COMPLETE
+2026-02-15 00:20:37 - rag_app - INFO - [main.py:829] - Phase 6: Docker Deployment - COMPLETE
+2026-02-15 00:20:37 - rag_app - INFO - [main.py:830] - ============================================================
+2026-02-15 00:20:37 - rag_app - INFO - [main.py:831] - ALL PHASES COMPLETE - PRODUCTION READY!
+2026-02-15 00:20:37 - rag_app - INFO - [main.py:832] - ============================================================
+2026-02-15 00:20:37 - rag_app - INFO - [main.py:838] - Initializing OPIK monitoring...
+2026-02-15 00:20:38 - rag_app - INFO - [main.py:855] - ✓ OPIK monitoring initialized!
+2026-02-15 00:20:38 - rag_app - INFO - [main.py:875] - Initializing Document RAG services...
+2026-02-15 00:20:38 - rag_app - ERROR - [main.py:890] - Failed to initialize RAG services: name 'query_cache_service' is not defined
+Traceback (most recent call last):
+  File "/Users/admin/Desktop/Personal/Rag-System-design/app/main.py", line 877, in initialize_services
+    query_cache_service=query_cache_service
+                        ^^^^^^^^^^^^^^^^^^^
+NameError: name 'query_cache_service' is not defined
+2026-02-15 00:20:38 - rag_app - WARNING - [main.py:891] - Document RAG features will be unavailable.
+2026-02-15 00:20:38 - rag_app - INFO - [main.py:893] - ============================================================
+2026-02-15 00:20:38 - rag_app - INFO - [main.py:894] - API is ready!
+2026-02-15 00:20:38 - rag_app - INFO - [main.py:895] - ============================================================
+2026-02-15 00:21:25 - rag_app - INFO - [main.py:910] - Shutting down Multi-Source RAG + Text-to-SQL API...
+2026-02-15 00:21:59 - rag_app - INFO - [main.py:818] - Storage directories initialized: /tmp/uploads, /tmp/cached_chunks
+2026-02-15 00:21:59 - rag_app - INFO - [main.py:820] - ============================================================
+2026-02-15 00:21:59 - rag_app - INFO - [main.py:821] - Starting Multi-Source RAG + Text-to-SQL API...
+2026-02-15 00:21:59 - rag_app - INFO - [main.py:822] - ============================================================
+2026-02-15 00:21:59 - rag_app - INFO - [main.py:823] - Phase 0: Foundation Setup - COMPLETE
+2026-02-15 00:21:59 - rag_app - INFO - [main.py:824] - Phase 1: Document RAG MVP - COMPLETE
+2026-02-15 00:21:59 - rag_app - INFO - [main.py:825] - Phase 2: Text-to-SQL Foundation - COMPLETE
+2026-02-15 00:21:59 - rag_app - INFO - [main.py:826] - Phase 3: Query Routing - COMPLETE
+2026-02-15 00:21:59 - rag_app - INFO - [main.py:827] - Phase 4: Evaluation & Monitoring - COMPLETE
+2026-02-15 00:21:59 - rag_app - INFO - [main.py:828] - Phase 5: Polish & Documentation - COMPLETE
+2026-02-15 00:21:59 - rag_app - INFO - [main.py:829] - Phase 6: Docker Deployment - COMPLETE
+2026-02-15 00:21:59 - rag_app - INFO - [main.py:830] - ============================================================
+2026-02-15 00:21:59 - rag_app - INFO - [main.py:831] - ALL PHASES COMPLETE - PRODUCTION READY!
+2026-02-15 00:21:59 - rag_app - INFO - [main.py:832] - ============================================================
+2026-02-15 00:21:59 - rag_app - INFO - [main.py:838] - Initializing OPIK monitoring...
+2026-02-15 00:22:01 - rag_app - INFO - [main.py:855] - ✓ OPIK monitoring initialized!
+2026-02-15 00:22:01 - rag_app - INFO - [main.py:875] - Initializing Document RAG services...
+2026-02-15 00:22:01 - rag_app - ERROR - [main.py:890] - Failed to initialize RAG services: name 'query_cache_service' is not defined
+Traceback (most recent call last):
+  File "/Users/admin/Desktop/Personal/Rag-System-design/app/main.py", line 877, in initialize_services
+    query_cache_service=query_cache_service
+                        ^^^^^^^^^^^^^^^^^^^
+NameError: name 'query_cache_service' is not defined
+2026-02-15 00:22:01 - rag_app - WARNING - [main.py:891] - Document RAG features will be unavailable.
+2026-02-15 00:22:01 - rag_app - INFO - [main.py:893] - ============================================================
+2026-02-15 00:22:01 - rag_app - INFO - [main.py:894] - API is ready!
+2026-02-15 00:22:01 - rag_app - INFO - [main.py:895] - ============================================================
+2026-02-15 00:22:34 - rag_app - INFO - [main.py:818] - Storage directories initialized: /tmp/uploads, /tmp/cached_chunks
+2026-02-15 00:22:34 - rag_app - INFO - [main.py:820] - ============================================================
+2026-02-15 00:22:34 - rag_app - INFO - [main.py:821] - Starting Multi-Source RAG + Text-to-SQL API...
+2026-02-15 00:22:34 - rag_app - INFO - [main.py:822] - ============================================================
+2026-02-15 00:22:34 - rag_app - INFO - [main.py:823] - Phase 0: Foundation Setup - COMPLETE
+2026-02-15 00:22:34 - rag_app - INFO - [main.py:824] - Phase 1: Document RAG MVP - COMPLETE
+2026-02-15 00:22:34 - rag_app - INFO - [main.py:825] - Phase 2: Text-to-SQL Foundation - COMPLETE
+2026-02-15 00:22:34 - rag_app - INFO - [main.py:826] - Phase 3: Query Routing - COMPLETE
+2026-02-15 00:22:34 - rag_app - INFO - [main.py:827] - Phase 4: Evaluation & Monitoring - COMPLETE
+2026-02-15 00:22:34 - rag_app - INFO - [main.py:828] - Phase 5: Polish & Documentation - COMPLETE
+2026-02-15 00:22:34 - rag_app - INFO - [main.py:829] - Phase 6: Docker Deployment - COMPLETE
+2026-02-15 00:22:35 - rag_app - INFO - [main.py:830] - ============================================================
+2026-02-15 00:22:35 - rag_app - INFO - [main.py:831] - ALL PHASES COMPLETE - PRODUCTION READY!
+2026-02-15 00:22:35 - rag_app - INFO - [main.py:832] - ============================================================
+2026-02-15 00:22:35 - rag_app - INFO - [main.py:838] - Initializing OPIK monitoring...
+2026-02-15 00:22:35 - rag_app - INFO - [main.py:855] - ✓ OPIK monitoring initialized!
+2026-02-15 00:22:35 - rag_app - INFO - [main.py:875] - Initializing Document RAG services...
+2026-02-15 00:22:35 - rag_app - ERROR - [main.py:890] - Failed to initialize RAG services: name 'query_cache_service' is not defined
+Traceback (most recent call last):
+  File "/Users/admin/Desktop/Personal/Rag-System-design/app/main.py", line 877, in initialize_services
+NameError: name 'query_cache_service' is not defined
+2026-02-15 00:22:35 - rag_app - WARNING - [main.py:891] - Document RAG features will be unavailable.
+2026-02-15 00:22:35 - rag_app - INFO - [main.py:893] - ============================================================
+2026-02-15 00:22:35 - rag_app - INFO - [main.py:894] - API is ready!
+2026-02-15 00:22:35 - rag_app - INFO - [main.py:895] - ============================================================
+2026-02-15 00:23:13 - rag_app - INFO - [main.py:696] - Storage directories initialized: /tmp/uploads, /tmp/cached_chunks
+2026-02-15 00:23:13 - rag_app - INFO - [main.py:698] - ============================================================
+2026-02-15 00:23:13 - rag_app - INFO - [main.py:699] - Starting Multi-Source RAG + Text-to-SQL API...
+2026-02-15 00:23:13 - rag_app - INFO - [main.py:700] - ============================================================
+2026-02-15 00:23:13 - rag_app - INFO - [main.py:701] - Phase 0: Foundation Setup - COMPLETE
+2026-02-15 00:23:13 - rag_app - INFO - [main.py:702] - Phase 1: Document RAG MVP - COMPLETE
+2026-02-15 00:23:13 - rag_app - INFO - [main.py:703] - Phase 2: Text-to-SQL Foundation - COMPLETE
+2026-02-15 00:23:13 - rag_app - INFO - [main.py:704] - Phase 3: Query Routing - COMPLETE
+2026-02-15 00:23:13 - rag_app - INFO - [main.py:705] - Phase 4: Evaluation & Monitoring - COMPLETE
+2026-02-15 00:23:13 - rag_app - INFO - [main.py:706] - Phase 5: Polish & Documentation - COMPLETE
+2026-02-15 00:23:13 - rag_app - INFO - [main.py:707] - Phase 6: Docker Deployment - COMPLETE
+2026-02-15 00:23:13 - rag_app - INFO - [main.py:708] - ============================================================
+2026-02-15 00:23:13 - rag_app - INFO - [main.py:709] - ALL PHASES COMPLETE - PRODUCTION READY!
+2026-02-15 00:23:13 - rag_app - INFO - [main.py:710] - ============================================================
+2026-02-15 00:23:13 - rag_app - INFO - [main.py:716] - Initializing OPIK monitoring...
+2026-02-15 00:23:14 - rag_app - INFO - [main.py:733] - ✓ OPIK monitoring initialized!
+2026-02-15 00:23:14 - rag_app - INFO - [main.py:752] - ============================================================
+2026-02-15 00:23:14 - rag_app - INFO - [main.py:753] - API is ready!
+2026-02-15 00:23:14 - rag_app - INFO - [main.py:754] - ============================================================
+2026-02-15 00:23:36 - rag_app - INFO - [main.py:769] - Shutting down Multi-Source RAG + Text-to-SQL API...
+2026-02-15 00:24:24 - rag_app - INFO - [main.py:696] - Storage directories initialized: /tmp/uploads, /tmp/cached_chunks
+2026-02-15 00:24:24 - rag_app - INFO - [main.py:698] - ============================================================
+2026-02-15 00:24:24 - rag_app - INFO - [main.py:699] - Starting Multi-Source RAG + Text-to-SQL API...
+2026-02-15 00:24:24 - rag_app - INFO - [main.py:700] - ============================================================
+2026-02-15 00:24:24 - rag_app - INFO - [main.py:701] - Phase 0: Foundation Setup - COMPLETE
+2026-02-15 00:24:24 - rag_app - INFO - [main.py:702] - Phase 1: Document RAG MVP - COMPLETE
+2026-02-15 00:24:24 - rag_app - INFO - [main.py:703] - Phase 2: Text-to-SQL Foundation - COMPLETE
+2026-02-15 00:24:24 - rag_app - INFO - [main.py:704] - Phase 3: Query Routing - COMPLETE
+2026-02-15 00:24:24 - rag_app - INFO - [main.py:705] - Phase 4: Evaluation & Monitoring - COMPLETE
+2026-02-15 00:24:24 - rag_app - INFO - [main.py:706] - Phase 5: Polish & Documentation - COMPLETE
+2026-02-15 00:24:24 - rag_app - INFO - [main.py:707] - Phase 6: Docker Deployment - COMPLETE
+2026-02-15 00:24:24 - rag_app - INFO - [main.py:708] - ============================================================
+2026-02-15 00:24:24 - rag_app - INFO - [main.py:709] - ALL PHASES COMPLETE - PRODUCTION READY!
+2026-02-15 00:24:24 - rag_app - INFO - [main.py:710] - ============================================================
+2026-02-15 00:24:24 - rag_app - INFO - [main.py:716] - Initializing OPIK monitoring...
+2026-02-15 00:24:25 - rag_app - INFO - [main.py:733] - ✓ OPIK monitoring initialized!
+2026-02-15 00:24:25 - rag_app - INFO - [main.py:752] - ============================================================
+2026-02-15 00:24:25 - rag_app - INFO - [main.py:753] - API is ready!
+2026-02-15 00:24:25 - rag_app - INFO - [main.py:754] - ============================================================
+2026-02-15 00:27:19 - rag_app - INFO - [main.py:769] - Shutting down Multi-Source RAG + Text-to-SQL API...
+2026-02-15 00:28:14 - rag_app - INFO - [main.py:696] - Storage directories initialized: /tmp/uploads, /tmp/cached_chunks
+2026-02-15 00:28:14 - rag_app - INFO - [main.py:698] - ============================================================
+2026-02-15 00:28:14 - rag_app - INFO - [main.py:699] - Starting Multi-Source RAG + Text-to-SQL API...
+2026-02-15 00:28:14 - rag_app - INFO - [main.py:700] - ============================================================
+2026-02-15 00:28:14 - rag_app - INFO - [main.py:701] - Phase 0: Foundation Setup - COMPLETE
+2026-02-15 00:28:14 - rag_app - INFO - [main.py:702] - Phase 1: Document RAG MVP - COMPLETE
+2026-02-15 00:28:14 - rag_app - INFO - [main.py:703] - Phase 2: Text-to-SQL Foundation - COMPLETE
+2026-02-15 00:28:14 - rag_app - INFO - [main.py:704] - Phase 3: Query Routing - COMPLETE
+2026-02-15 00:28:14 - rag_app - INFO - [main.py:705] - Phase 4: Evaluation & Monitoring - COMPLETE
+2026-02-15 00:28:14 - rag_app - INFO - [main.py:706] - Phase 5: Polish & Documentation - COMPLETE
+2026-02-15 00:28:14 - rag_app - INFO - [main.py:707] - Phase 6: Docker Deployment - COMPLETE
+2026-02-15 00:28:14 - rag_app - INFO - [main.py:708] - ============================================================
+2026-02-15 00:28:14 - rag_app - INFO - [main.py:709] - ALL PHASES COMPLETE - PRODUCTION READY!
+2026-02-15 00:28:14 - rag_app - INFO - [main.py:710] - ============================================================
+2026-02-15 00:28:14 - rag_app - INFO - [main.py:716] - Initializing OPIK monitoring...
+2026-02-15 00:28:14 - rag_app - INFO - [main.py:733] - ✓ OPIK monitoring initialized!
+2026-02-15 00:28:14 - rag_app - INFO - [main.py:752] - ============================================================
+2026-02-15 00:28:14 - rag_app - INFO - [main.py:753] - API is ready!
+2026-02-15 00:28:14 - rag_app - INFO - [main.py:754] - ============================================================
+2026-02-15 00:32:44 - rag_app - INFO - [main.py:769] - Shutting down Multi-Source RAG + Text-to-SQL API...
+2026-02-15 00:34:08 - rag_app - INFO - [main.py:406] - Upload directory initialized: /tmp/uploads
+2026-02-15 00:34:08 - rag_app - INFO - [main.py:408] - ============================================================
+2026-02-15 00:34:08 - rag_app - INFO - [main.py:409] - Starting Multi-Source RAG + Text-to-SQL API...
+2026-02-15 00:34:08 - rag_app - INFO - [main.py:410] - ============================================================
+2026-02-15 00:34:08 - rag_app - INFO - [main.py:415] - Initializing Embedding Service...
+2026-02-15 00:34:08 - rag_app - INFO - [main.py:417] - ✓ Embedding Service initialized
+2026-02-15 00:34:08 - rag_app - INFO - [main.py:423] - Initializing Vector Service...
+2026-02-15 00:34:08 - rag_app - INFO - [main.py:425] - ✓ Vector Service initialized
+2026-02-15 00:34:08 - rag_app - INFO - [main.py:431] - Initializing Basic RAG Service...
+2026-02-15 00:34:19 - rag_app - ERROR - [main.py:457] - Service initialization error: RAGService.__init__() got an unexpected keyword argument 'embedding_service'
+2026-02-15 00:34:19 - rag_app - INFO - [main.py:459] - ============================================================
+2026-02-15 00:34:19 - rag_app - INFO - [main.py:460] - Service Status:
+2026-02-15 00:34:19 - rag_app - INFO - [main.py:461] -   - Embedding: ✓
+2026-02-15 00:34:19 - rag_app - INFO - [main.py:462] -   - Vector DB: ✓
+2026-02-15 00:34:19 - rag_app - INFO - [main.py:463] -   - Basic RAG: ✗
+2026-02-15 00:34:19 - rag_app - INFO - [main.py:464] -   - Advanced RAG (Hybrid): ✗
+2026-02-15 00:34:19 - rag_app - INFO - [main.py:465] - ============================================================
+2026-02-15 00:36:10 - rag_app - INFO - [main.py:406] - Upload directory initialized: /tmp/uploads
+2026-02-15 00:36:10 - rag_app - INFO - [main.py:408] - ============================================================
+2026-02-15 00:36:10 - rag_app - INFO - [main.py:409] - Starting Multi-Source RAG + Text-to-SQL API...
+2026-02-15 00:36:10 - rag_app - INFO - [main.py:410] - ============================================================
+2026-02-15 00:36:10 - rag_app - INFO - [main.py:415] - Initializing Embedding Service...
+2026-02-15 00:36:10 - rag_app - INFO - [main.py:417] - ✓ Embedding Service initialized
+2026-02-15 00:36:10 - rag_app - INFO - [main.py:423] - Initializing Vector Service...
+2026-02-15 00:36:10 - rag_app - INFO - [main.py:425] - ✓ Vector Service initialized
+2026-02-15 00:36:10 - rag_app - INFO - [main.py:431] - Initializing Basic RAG Service...
+2026-02-15 00:36:10 - rag_app - INFO - [main.py:433] - ✓ Basic RAG Service initialized
+2026-02-15 00:36:10 - rag_app - INFO - [main.py:437] - Initializing Advanced RAG Pipeline Service with Hybrid Search...
+2026-02-15 00:37:09 - rag_app - ERROR - [main.py:454] - Service initialization error: HybridSearchService.__init__() got an unexpected keyword argument 'settings'
+2026-02-15 00:37:09 - rag_app - INFO - [main.py:456] - ============================================================
+2026-02-15 00:37:09 - rag_app - INFO - [main.py:457] - Service Status:
+2026-02-15 00:37:09 - rag_app - INFO - [main.py:458] -   - Embedding: ✓
+2026-02-15 00:37:09 - rag_app - INFO - [main.py:459] -   - Vector DB: ✓
+2026-02-15 00:37:09 - rag_app - INFO - [main.py:460] -   - Basic RAG: ✓
+2026-02-15 00:37:09 - rag_app - INFO - [main.py:461] -   - Advanced RAG (Hybrid): ✗
+2026-02-15 00:37:09 - rag_app - INFO - [main.py:462] - ============================================================
+2026-02-15 00:37:54 - rag_app - INFO - [main.py:406] - Upload directory initialized: /tmp/uploads
+2026-02-15 00:37:54 - rag_app - INFO - [main.py:408] - ============================================================
+2026-02-15 00:37:54 - rag_app - INFO - [main.py:409] - Starting Multi-Source RAG + Text-to-SQL API...
+2026-02-15 00:37:54 - rag_app - INFO - [main.py:410] - ============================================================
+2026-02-15 00:37:54 - rag_app - INFO - [main.py:415] - Initializing Embedding Service...
+2026-02-15 00:37:54 - rag_app - INFO - [main.py:417] - ✓ Embedding Service initialized
+2026-02-15 00:37:54 - rag_app - INFO - [main.py:423] - Initializing Vector Service...
+2026-02-15 00:37:54 - rag_app - INFO - [main.py:425] - ✓ Vector Service initialized
+2026-02-15 00:37:54 - rag_app - INFO - [main.py:431] - Initializing Basic RAG Service...
+2026-02-15 00:37:54 - rag_app - INFO - [main.py:433] - ✓ Basic RAG Service initialized
+2026-02-15 00:37:54 - rag_app - INFO - [main.py:437] - Initializing Advanced RAG Pipeline Service with Hybrid Search...
+2026-02-15 00:38:03 - rag_app - INFO - [main.py:446] - ✓ Advanced RAG Pipeline initialized (BM25 + Dense + RRF)
+2026-02-15 00:38:03 - rag_app - INFO - [main.py:451] - ============================================================
+2026-02-15 00:38:03 - rag_app - INFO - [main.py:452] - Service Status:
+2026-02-15 00:38:03 - rag_app - INFO - [main.py:453] -   - Embedding: ✓
+2026-02-15 00:38:03 - rag_app - INFO - [main.py:454] -   - Vector DB: ✓
+2026-02-15 00:38:03 - rag_app - INFO - [main.py:455] -   - Basic RAG: ✓
+2026-02-15 00:38:03 - rag_app - INFO - [main.py:456] -   - Advanced RAG (Hybrid): ✓
+2026-02-15 00:38:03 - rag_app - INFO - [main.py:457] - ============================================================

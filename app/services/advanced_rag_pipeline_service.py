@@ -1,72 +1,82 @@
 """
 Advanced RAG Pipeline Service
-User Query -> Rewrite/Expand -> BM25 (Sparse) -> Vector (Dense) -> Merge -> Cross-Encoder -> Top-K -> LLM
+User Query -> Rewrite/Expand -> Hybrid Search Service (RRF) -> Top-K -> LLM
 """
 
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Protocol
 import logging
 import asyncio
+import re
+import numpy as np
 from openai import AsyncOpenAI
 from app.config import settings
 from app.services.query_rewriting_service import QueryRewritingService
 from app.services.embedding_service import EmbeddingService
-from app.services.vector_service import VectorService
-from app.services.bm25_service import BM25Service
-from app.services.cross_encoder_reranking_service import CrossEncoderRerankingService
+from app.services.hybdrid_retrieval_service import HybridSearchService
+
 
 logger = logging.getLogger("rag_app.advanced_rag_pipeline_service")
 
 
 class AdvancedRAGPipelineService:
-    """End-to-end pipeline implementing the requested architecture."""
+    """
+    End-to-end pipeline: Query -> Rewrite/Expand -> Hybrid Search -> LLM
+    """
 
-    def __init__(self, api_key: str | None = None, query_cache_service=None):
+    def __init__(
+        self,
+        api_key: str | None = None,
+        hybrid_search_service: HybridSearchService | None = None,
+    ):
         """
         Initialize the pipeline service.
 
         Args:
             api_key: OpenAI API key (optional, uses settings if not provided)
             query_cache_service: Optional QueryCacheService for embedding caching
+            hybrid_search_service: Optional pre-configured HybridSearchService
         """
         self.api_key = api_key or settings.OPENAI_API_KEY
         if not self.api_key:
             raise ValueError("OpenAI API key is required. Set OPENAI_API_KEY in .env file.")
 
         self.query_rewriting_service = QueryRewritingService(api_key=self.api_key)
-        self.embedding_service = EmbeddingService(
-            api_key=self.api_key, query_cache_service=query_cache_service
-        )
-        self.vector_service = VectorService()
-        self.bm25_service = BM25Service()
-        self.reranker = CrossEncoderRerankingService()
+        self.embedding_service = EmbeddingService(api_key=self.api_key)
         self.llm_client = AsyncOpenAI(api_key=self.api_key)
+
+        # Use provided hybrid search service or create default
+        if hybrid_search_service:
+            self.hybrid_search = hybrid_search_service
+        else:
+            self.hybrid_search = HybridSearchService(
+                embedding_service=self.embedding_service,
+                settings=settings,
+                dense_backend="local",
+                sparse_backend="bm25",
+                fusion_strategy="rrf",
+            )
 
         self.model = "gpt-4o-mini"
         self.temperature = 0.1
         self.max_tokens = 1000
 
+    async def index_documents(self, chunks: list[dict]) -> None:
+        """Index documents for hybrid search"""
+        await self.hybrid_search.index(chunks)
+
     async def answer_query(
         self,
         query: str,
-        top_k: int = 3,
-        namespace: str = "default",
-        filter_dict: Dict[str, Any] | None = None,
-        use_bm25: bool = True,
-        use_vector: bool = True,
-        use_rerank: bool = True,
-        use_llm: bool = True,
+        top_k: int = 5,
         use_rewrites: bool = True,
         use_expansions: bool = True,
         max_rewrites: int = 3,
         max_expansions: int = 5,
-        sparse_top_k: int = 10,
-        dense_top_k: int = 10,
-        merge_top_k: int = 20,
-        sparse_weight: float = 0.4,
-        dense_weight: float = 0.6,
+        sparse_weight: float | None = None,
+        dense_weight: float | None = None,
     ) -> Dict[str, Any]:
         """
-        Full pipeline with sparse + dense retrieval and cross-encoder reranking.
+        Full pipeline with hybrid search (RRF fusion, no reranking).
 
         Returns:
             Dictionary with answer, sources, and usage data.
@@ -82,82 +92,37 @@ class AdvancedRAGPipelineService:
             }
 
         # Step 1: Rewrite + Expand
-        rewrites, expansions, expanded_query = [], [], query
-        usage = {"rewrite": None, "expansion": None, "embedding": None}
+        query_variants = await self._generate_query_variants(
+            query, use_rewrites, use_expansions, max_rewrites, max_expansions
+        )
 
-        if use_rewrites and use_expansions:
-            rewrite_data = await self.query_rewriting_service.rewrite_and_expand(
-                query, max_rewrites=max_rewrites, max_expansions=max_expansions
+        # Step 2: Hybrid Search for each variant, then merge
+        all_results = []
+        for variant in query_variants:
+            results = await self.hybrid_search.search(
+                query=variant, top_k=top_k, dense_weight=dense_weight, sparse_weight=sparse_weight
             )
-            rewrites = rewrite_data.get("rewrites", [])
-            expansions = rewrite_data.get("expansions", [])
-            expanded_query = rewrite_data.get("expanded_query", query)
-            usage["rewrite"] = rewrite_data.get("usage", {}).get("rewrite")
-            usage["expansion"] = rewrite_data.get("usage", {}).get("expansion")
-        elif use_rewrites:
-            rewrite_data = await self.query_rewriting_service.rewrite_query(
-                query, max_rewrites=max_rewrites
-            )
-            rewrites = rewrite_data.get("rewrites", [])
-            usage["rewrite"] = rewrite_data.get("usage")
-        elif use_expansions:
-            expansion_data = await self.query_rewriting_service.expand_query(
-                query, max_expansions=max_expansions
-            )
-            expansions = expansion_data.get("expansions", [])
-            expanded_query = expansion_data.get("expanded_query", query)
-            usage["expansion"] = expansion_data.get("usage")
+            # Tag results with which query found them
+            for r in results:
+                r["matched_query"] = variant
+            all_results.extend(results)
 
-        query_variants = [query]
-        query_variants.extend(rewrites)
-        if use_expansions and expanded_query and expanded_query.strip() != query.strip():
-            query_variants.append(expanded_query)
-        query_variants = self._dedupe_variants(query_variants)
+        # Deduplicate by ID and keep highest hybrid_score
+        seen: dict[str, dict] = {}
+        for result in all_results:
+            cid = result.get("id")
+            if not cid:
+                continue
+            if cid not in seen or result.get("hybrid_score", 0) > seen[cid].get("hybrid_score", 0):
+                seen[cid] = result
 
-        # Step 2: Sparse retrieval (BM25) using expanded variants (async-safe)
-        if use_bm25:
-            sparse_results = await asyncio.to_thread(
-                self._bm25_multi_search, query_variants, sparse_top_k
-            )
-        else:
-            sparse_results = []
-
-        # Step 3: Dense retrieval (Vector search) for all variants
-        dense_results = []
-        if use_vector:
-            embeddings, embedding_usage = await self.embedding_service.generate_embeddings(
-                query_variants
-            )
-            usage["embedding"] = embedding_usage
-
-            for variant, embedding in zip(query_variants, embeddings):
-                results = await self.vector_service.search(
-                    query_embedding=embedding,
-                    top_k=dense_top_k,
-                    namespace=namespace,
-                    filter_dict=filter_dict,
-                )
-                for chunk in results.get("chunks", []):
-                    dense_results.append({**chunk, "matched_query": variant})
-        else:
-            usage["embedding"] = None
-
-        # Step 4: Merge sparse + dense
-        merged = self._merge_results(sparse_results, dense_results, sparse_weight, dense_weight)
-        merged = sorted(merged.values(), key=lambda x: x.get("hybrid_score", 0.0), reverse=True)[
-            :merge_top_k
+        # Sort by hybrid_score and take top_k
+        final_results = sorted(seen.values(), key=lambda x: x.get("hybrid_score", 0), reverse=True)[
+            :top_k
         ]
 
-        # Step 5: Cross-encoder re-ranking
-        if use_rerank:
-            reranked = (await self.reranker.rerank(query, merged, top_k=top_k)).get(
-                "reranked_chunks", []
-            )
-        else:
-            reranked = self._finalize_scores(merged)[:top_k]
-
-        # Step 6: Build context
-        context = self._build_context(reranked)
+        # Step 3: Build context
+        context = self._build_context(final_results)
 
         if not context.strip():
             return {
@@ -166,164 +131,125 @@ class AdvancedRAGPipelineService:
                 "sources": [],
                 "chunks_used": 0,
                 "model": self.model,
-                "usage": usage,
+                "retrieval_stats": {
+                    "query_variants": len(query_variants),
+                    "unique_results": len(seen),
+                    "final_results": len(final_results),
+                },
+                "usage": None,
             }
 
-        llm_usage = None
-        answer = None
-
-        # Step 7: LLM answer (optional)
-        if use_llm:
-            prompt = self._create_prompt(query, context)
-            response = await self.llm_client.chat.completions.create(
-                model=self.model,
-                messages=[
-                    {
-                        "role": "system",
-                        "content": "You are a helpful assistant that answers questions based on provided context. "
-                        "If the context doesn't contain enough information, say so explicitly.",
-                    },
-                    {"role": "user", "content": prompt},
-                ],
-                temperature=self.temperature,
-                max_tokens=self.max_tokens,
-            )
-
-            answer = response.choices[0].message.content
-            llm_usage = (
+        # Step 4: LLM answer
+        prompt = self._create_prompt(query, context)
+        response = await self.llm_client.chat.completions.create(
+            model=self.model,
+            messages=[
                 {
-                    "prompt_tokens": response.usage.prompt_tokens,
-                    "completion_tokens": response.usage.completion_tokens,
-                    "total_tokens": response.usage.total_tokens,
-                }
-                if hasattr(response, "usage") and response.usage
-                else None
-            )
+                    "role": "system",
+                    "content": "You are a helpful assistant that answers questions based on provided context. "
+                    "Use only the supplied context. If the exact answer is missing, provide the closest "
+                    "supported partial answer and clearly state what is missing.",
+                },
+                {"role": "user", "content": prompt},
+            ],
+            temperature=self.temperature,
+            max_tokens=self.max_tokens,
+        )
+
+        answer = response.choices[0].message.content
+        llm_usage = (
+            {
+                "prompt_tokens": response.usage.prompt_tokens,
+                "completion_tokens": response.usage.completion_tokens,
+                "total_tokens": response.usage.total_tokens,
+            }
+            if hasattr(response, "usage") and response.usage
+            else None
+        )
 
         return {
             "question": query,
             "answer": answer,
-            "sources": self._format_sources(reranked),
-            "chunks_used": len(reranked),
+            "sources": self._format_sources(final_results),
+            "chunks_used": len(final_results),
             "model": self.model,
-            "context": context if not use_llm else None,
+            "retrieval_stats": {
+                "query_variants": len(query_variants),
+                "unique_results": len(seen),
+                "final_results": len(final_results),
+            },
             "usage": {
-                "rewrite": usage.get("rewrite"),
-                "expansion": usage.get("expansion"),
-                "embedding": usage.get("embedding"),
                 "llm": llm_usage,
             },
         }
 
-    # ==================== Internal Helpers ====================
+    async def _generate_query_variants(
+        self,
+        query: str,
+        use_rewrites: bool,
+        use_expansions: bool,
+        max_rewrites: int,
+        max_expansions: int,
+    ) -> list[str]:
+        """Generate query variants through rewriting and expansion"""
+        variants = [query]
 
-    def _dedupe_variants(self, variants: List[str]) -> List[str]:
+        if use_rewrites and use_expansions:
+            rewrite_data = await self.query_rewriting_service.rewrite_and_expand(
+                query, max_rewrites=max_rewrites, max_expansions=max_expansions
+            )
+            variants.extend(rewrite_data.get("rewrites", []))
+            variants.extend(rewrite_data.get("expansions", []))
+            expanded = rewrite_data.get("expanded_query")
+            if expanded and expanded != query:
+                variants.append(expanded)
+        elif use_rewrites:
+            rewrite_data = await self.query_rewriting_service.rewrite_query(
+                query, max_rewrites=max_rewrites
+            )
+            variants.extend(rewrite_data.get("rewrites", []))
+        elif use_expansions:
+            expansion_data = await self.query_rewriting_service.expand_query(
+                query, max_expansions=max_expansions
+            )
+            variants.extend(expansion_data.get("expansions", []))
+            expanded = expansion_data.get("expanded_query")
+            if expanded and expanded != query:
+                variants.append(expanded)
+
+        # Deduplicate
         seen = set()
         result = []
         for v in variants:
-            normalized = v.strip()
-            if not normalized:
-                continue
-            lowered = normalized.lower()
-            if lowered in seen:
-                continue
-            seen.add(lowered)
-            result.append(normalized)
+            normalized = v.strip().lower()
+            if normalized and normalized not in seen:
+                seen.add(normalized)
+                result.append(v.strip())
+
         return result
 
-    def _merge_results(
-        self,
-        sparse_results: List[Dict[str, Any]],
-        dense_results: List[Dict[str, Any]],
-        sparse_weight: float,
-        dense_weight: float,
-    ) -> Dict[str, Dict[str, Any]]:
-        merged: Dict[str, Dict[str, Any]] = {}
-
-        # Normalize scores (raw -> normalized once)
-        max_sparse = max((c.get("sparse_score", 0.0) for c in sparse_results), default=1.0) or 1.0
-        max_dense = max((c.get("score", 0.0) for c in dense_results), default=1.0) or 1.0
-
-        for chunk in sparse_results:
-            chunk_id = chunk.get("id")
-            if not chunk_id:
-                continue
-            sparse_score_raw = chunk.get("sparse_score", 0.0)
-            sparse_score_norm = sparse_score_raw / max_sparse
-            merged[chunk_id] = {
-                **chunk,
-                "sparse_score": sparse_score_raw,
-                "dense_score": 0.0,
-                "hybrid_score": sparse_weight * sparse_score_norm,
-                "matched_queries": [],
-            }
-
-        for chunk in dense_results:
-            chunk_id = chunk.get("id")
-            if not chunk_id:
-                continue
-            dense_score_raw = chunk.get("score", 0.0)
-            dense_score_norm = dense_score_raw / max_dense
-
-            if chunk_id not in merged:
-                merged[chunk_id] = {
-                    **chunk,
-                    "sparse_score": 0.0,
-                    "dense_score": dense_score_raw,
-                    "hybrid_score": dense_weight * dense_score_norm,
-                    "matched_queries": [chunk.get("matched_query")],
-                }
-            else:
-                existing = merged[chunk_id]
-                # Keep best dense score
-                if dense_score_raw > existing.get("dense_score", 0.0):
-                    existing.update(chunk)
-                    existing["dense_score"] = dense_score_raw
-                existing["hybrid_score"] = (
-                    sparse_weight * (existing.get("sparse_score", 0.0) / max_sparse)
-                    + dense_weight * dense_score_norm
-                )
-                mq = chunk.get("matched_query")
-                if mq and mq not in existing.get("matched_queries", []):
-                    existing["matched_queries"].append(mq)
-
-        return merged
-
-    def _bm25_multi_search(self, queries: List[str], top_k: int) -> List[Dict[str, Any]]:
-        """
-        Run BM25 for multiple query variants and merge by best sparse score.
-        """
-        merged: Dict[str, Dict[str, Any]] = {}
-        for q in queries:
-            results = self.bm25_service.search(q, top_k=top_k)
-            for chunk in results:
-                chunk_id = chunk.get("id")
-                if not chunk_id:
-                    continue
-                existing = merged.get(chunk_id)
-                if not existing or chunk.get("sparse_score", 0.0) > existing.get(
-                    "sparse_score", 0.0
-                ):
-                    merged[chunk_id] = chunk
-        return list(merged.values())
-
-    def _build_context(self, chunks: List[Dict[str, Any]]) -> str:
+    def _build_context(self, chunks: list[dict]) -> str:
+        """Build context string from chunks"""
         context_parts = []
         for i, chunk in enumerate(chunks, 1):
             filename = chunk.get("metadata", {}).get("filename", "Unknown")
-            text = chunk.get("text", "")
-            score = chunk.get("final_score", chunk.get("rerank_score", chunk.get("score", 0.0)))
-            context_parts.append(f"[{i}] {filename} (score: {score:.4f})\n{text}")
+            text = chunk.get("text", chunk.get("content", ""))
+            score = chunk.get("hybrid_score", 0.0)
+            source = chunk.get("source", "unknown")
+            context_parts.append(f"[{i}] {filename} (score: {score:.4f}, source: {source})\n{text}")
         return "\n\n".join(context_parts)
 
     def _create_prompt(self, question: str, context: str) -> str:
+        """Create LLM prompt"""
         return (
             f"Context:\n{context}\n\n"
             f"Question: {question}\n"
-            "Answer based only on the context above."
+            "Answer based only on the context above. If the exact detail is not present, provide the "
+            "closest supported partial answer and clearly state what is missing."
         )
 
-    def _format_sources(self, chunks: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    def _format_sources(self, chunks: list[dict]) -> list[dict]:
+        """Format chunks as sources"""
         sources = []
         for chunk in chunks:
             sources.append(
@@ -331,26 +257,13 @@ class AdvancedRAGPipelineService:
                     "id": chunk.get("id"),
                     "filename": chunk.get("metadata", {}).get("filename", ""),
                     "chunk_index": chunk.get("metadata", {}).get("chunk_index", 0),
-                    "score": chunk.get(
-                        "final_score", chunk.get("rerank_score", chunk.get("score", 0.0))
+                    "score": chunk.get("hybrid_score", 0.0),
+                    "source_type": chunk.get("source", "unknown"),
+                    "text": (
+                        chunk.get("text", chunk.get("content", ""))[:200] + "..."
+                        if len(chunk.get("text", chunk.get("content", ""))) > 200
+                        else chunk.get("text", chunk.get("content", ""))
                     ),
-                    "text": chunk.get("text", ""),
                 }
             )
         return sources
-
-    def _finalize_scores(self, chunks: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-        finalized = []
-        for chunk in chunks:
-            score = chunk.get("hybrid_score", chunk.get("score", chunk.get("sparse_score", 0.0)))
-            finalized.append(
-                {
-                    **chunk,
-                    "vector_score": chunk.get(
-                        "vector_score", chunk.get("score", chunk.get("dense_score", 0.0))
-                    ),
-                    "rerank_score": None,
-                    "final_score": score,
-                }
-            )
-        return finalized

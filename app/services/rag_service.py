@@ -29,9 +29,7 @@ class RAGService:
             raise ValueError("OpenAI API key is required. Set OPENAI_API_KEY in .env file.")
 
         # Initialize services
-        self.embedding_service = EmbeddingService(
-            api_key=self.api_key, query_cache_service=query_cache_service
-        )
+        self.embedding_service = EmbeddingService(api_key=self.api_key)
         self.vector_service = VectorService()
         self.llm_client = AsyncOpenAI(api_key=self.api_key)
         self.query_cache_service = query_cache_service  # Optional cache service

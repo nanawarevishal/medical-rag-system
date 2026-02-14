@@ -112,3 +112,21 @@ Traceback (most recent call last):
     raise ValueError(f"Unknown storage backend: {backend_type}")
 ValueError: Unknown storage backend: s3 # options: local, s3
 2026-02-11 00:28:35 - rag_app - ERROR - [main.py:1429] - ✗ Failed to initialize document cache service: Unknown storage backend: s3 # options: local, s3
+2026-02-15 00:20:38 - rag_app - ERROR - [main.py:890] - Failed to initialize RAG services: name 'query_cache_service' is not defined
+Traceback (most recent call last):
+  File "/Users/admin/Desktop/Personal/Rag-System-design/app/main.py", line 877, in initialize_services
+    query_cache_service=query_cache_service
+                        ^^^^^^^^^^^^^^^^^^^
+NameError: name 'query_cache_service' is not defined
+2026-02-15 00:22:01 - rag_app - ERROR - [main.py:890] - Failed to initialize RAG services: name 'query_cache_service' is not defined
+Traceback (most recent call last):
+  File "/Users/admin/Desktop/Personal/Rag-System-design/app/main.py", line 877, in initialize_services
+    query_cache_service=query_cache_service
+                        ^^^^^^^^^^^^^^^^^^^
+NameError: name 'query_cache_service' is not defined
+2026-02-15 00:22:35 - rag_app - ERROR - [main.py:890] - Failed to initialize RAG services: name 'query_cache_service' is not defined
+Traceback (most recent call last):
+  File "/Users/admin/Desktop/Personal/Rag-System-design/app/main.py", line 877, in initialize_services
+NameError: name 'query_cache_service' is not defined
+2026-02-15 00:34:19 - rag_app - ERROR - [main.py:457] - Service initialization error: RAGService.__init__() got an unexpected keyword argument 'embedding_service'
+2026-02-15 00:37:09 - rag_app - ERROR - [main.py:454] - Service initialization error: HybridSearchService.__init__() got an unexpected keyword argument 'settings'

@@ -15,6 +15,8 @@ logger = logging.getLogger("rag_app.vector_service")
 class VectorService:
     """Service for vector operations using Pinecone."""
 
+    METADATA_TEXT_LIMIT = 6000
+
     def __init__(self, api_key: str | None = None):
         """
         Initialize the vector service with Pinecone.
@@ -41,7 +43,7 @@ class VectorService:
         try:
             # Check if index exists
             existing_indexes = self.pc.list_indexes()
-            index_names = [idx['name'] for idx in existing_indexes]
+            index_names = [idx["name"] for idx in existing_indexes]
 
             if self.index_name not in index_names:
                 # Create index if it doesn't exist
@@ -51,10 +53,7 @@ class VectorService:
                     name=self.index_name,
                     dimension=1536,  # OpenAI text-embedding-3-small dimension
                     metric="cosine",
-                    spec=ServerlessSpec(
-                        cloud="aws",
-                        region=region
-                    )
+                    spec=ServerlessSpec(cloud="aws", region=region),
                 )
                 logger.info(f"Index {self.index_name} created successfully")
 
@@ -83,7 +82,7 @@ class VectorService:
         chunks: List[Dict[str, Any]],
         embeddings: List[List[float]],
         filename: str,
-        namespace: str = "default"
+        namespace: str = "default",
     ):
         """
         Store document chunks with their embeddings in Pinecone.
@@ -113,17 +112,20 @@ class VectorService:
 
                 # Prepare metadata
                 import json
+
                 metadata = {
                     "filename": filename,
-                    "chunk_index": chunk['chunk_index'],
-                    "token_count": chunk['token_count'],
-                    "text": chunk['text'][:1000],  # Limit text size in metadata (Pinecone has limits)
-                    "start_char": chunk.get('start_char', 0),
-                    "end_char": chunk.get('end_char', 0),
+                    "chunk_index": chunk["chunk_index"],
+                    "token_count": chunk["token_count"],
+                    # Keep substantially more context for downstream QA quality.
+                    "text": chunk["text"][: self.METADATA_TEXT_LIMIT],
+                    "start_char": chunk.get("start_char", 0),
+                    "end_char": chunk.get("end_char", 0),
                     # NEW: Docling enhancements - store as JSON strings
-                    "headings": json.dumps(chunk.get('headings', [])),
-                    "page_numbers": json.dumps(chunk.get('page_numbers', [])),
-                    "has_context": len(chunk.get('headings', [])) > 0  # Quick filter for context-aware chunks
+                    "headings": json.dumps(chunk.get("headings", [])),
+                    "page_numbers": json.dumps(chunk.get("page_numbers", [])),
+                    "has_context": len(chunk.get("headings", []))
+                    > 0,  # Quick filter for context-aware chunks
                 }
 
                 # Create vector tuple: (id, values, metadata)
@@ -132,11 +134,8 @@ class VectorService:
             # Upsert vectors in batches
             batch_size = 100
             for i in range(0, len(vectors_to_upsert), batch_size):
-                batch = vectors_to_upsert[i:i + batch_size]
-                self.index.upsert(
-                    vectors=batch,
-                    namespace=namespace
-                )
+                batch = vectors_to_upsert[i : i + batch_size]
+                self.index.upsert(vectors=batch, namespace=namespace)
 
             logger.info(f"Successfully upserted {len(vectors_to_upsert)} vectors to Pinecone")
 
@@ -148,7 +147,7 @@ class VectorService:
         query_embedding: List[float],
         top_k: int = 3,
         namespace: str = "default",
-        filter_dict: Dict[str, Any] | None = None
+        filter_dict: Dict[str, Any] | None = None,
     ) -> Dict[str, Any]:
         """
         Search for similar vectors in Pinecone.
@@ -175,27 +174,29 @@ class VectorService:
                 top_k=top_k,
                 include_metadata=True,
                 namespace=namespace,
-                filter=filter_dict
+                filter=filter_dict,
             )
 
             # Format results
             chunks = []
-            for match in results['matches']:
-                chunks.append({
-                    'id': match['id'],
-                    'score': match['score'],
-                    'text': match['metadata'].get('text', ''),
-                    'metadata': {
-                        'filename': match['metadata'].get('filename', ''),
-                        'chunk_index': match['metadata'].get('chunk_index', 0),
-                        'token_count': match['metadata'].get('token_count', 0),
+            for match in results["matches"]:
+                chunks.append(
+                    {
+                        "id": match["id"],
+                        "score": match["score"],
+                        "text": match["metadata"].get("text", ""),
+                        "metadata": {
+                            "filename": match["metadata"].get("filename", ""),
+                            "chunk_index": match["metadata"].get("chunk_index", 0),
+                            "token_count": match["metadata"].get("token_count", 0),
+                        },
                     }
-                })
+                )
 
             return {
-                'query_preview': query_embedding[:5],  # Just first 5 dims for reference
-                'chunks': chunks,
-                'total_found': len(chunks)
+                "query_preview": query_embedding[:5],  # Just first 5 dims for reference
+                "chunks": chunks,
+                "total_found": len(chunks),
             }
 
         except Exception as e:
@@ -217,9 +218,9 @@ class VectorService:
         try:
             stats = self.index.describe_index_stats()
             return {
-                "total_vector_count": stats.get('total_vector_count', 0),
-                "dimension": stats.get('dimension', 0),
-                "namespaces": stats.get('namespaces', {}),
+                "total_vector_count": stats.get("total_vector_count", 0),
+                "dimension": stats.get("dimension", 0),
+                "namespaces": stats.get("namespaces", {}),
             }
         except Exception as e:
             raise Exception(f"Failed to get index stats: {str(e)}")
@@ -237,10 +238,7 @@ class VectorService:
 
         try:
             # Delete using metadata filter
-            self.index.delete(
-                filter={"filename": {"$eq": filename}},
-                namespace=namespace
-            )
+            self.index.delete(filter={"filename": {"$eq": filename}}, namespace=namespace)
             logger.info(f"Deleted all vectors for filename: {filename}")
 
         except Exception as e:
@@ -274,14 +272,14 @@ class VectorService:
             if namespace == "*":
                 # Clear all namespaces
                 stats = self.get_index_stats()
-                namespaces_to_clear = list(stats.get('namespaces', {}).keys())
+                namespaces_to_clear = list(stats.get("namespaces", {}).keys())
 
                 if not namespaces_to_clear:
                     logger.info("No namespaces found to clear")
                     return {
-                        'status': 'success',
-                        'namespaces_cleared': [],
-                        'message': 'No vectors found in index'
+                        "status": "success",
+                        "namespaces_cleared": [],
+                        "message": "No vectors found in index",
                     }
 
                 # Delete all vectors from each namespace
@@ -292,9 +290,9 @@ class VectorService:
                 logger.info(f"Cleared all vectors from {len(namespaces_to_clear)} namespaces")
 
                 return {
-                    'status': 'success',
-                    'namespaces_cleared': namespaces_to_clear,
-                    'message': f'Deleted all vectors from {len(namespaces_to_clear)} namespaces'
+                    "status": "success",
+                    "namespaces_cleared": namespaces_to_clear,
+                    "message": f"Deleted all vectors from {len(namespaces_to_clear)} namespaces",
                 }
             else:
                 # Clear specific namespace
@@ -304,15 +302,15 @@ class VectorService:
                 logger.info(f"Cleared all vectors from namespace: {namespace}")
 
                 return {
-                    'status': 'success',
-                    'namespaces_cleared': [namespace],
-                    'message': f'Deleted all vectors from namespace "{namespace}"'
+                    "status": "success",
+                    "namespaces_cleared": [namespace],
+                    "message": f'Deleted all vectors from namespace "{namespace}"',
                 }
 
         except Exception as e:
             logger.error(f"Failed to delete all vectors: {e}")
             return {
-                'status': 'failed',
-                'namespaces_cleared': [],
-                'message': f'Failed to delete vectors: {str(e)}'
+                "status": "failed",
+                "namespaces_cleared": [],
+                "message": f"Failed to delete vectors: {str(e)}",
             }

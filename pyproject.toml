@@ -111,6 +111,7 @@ all = [
 [project.scripts]
 evaluate-rag = "evaluate:main"
 generate-sample-data = "data.generate_sample_data:main"
+generate-pycache = "app.scripts.generate_pycache:main"
 
 [tool.hatch.build]
 include = [
