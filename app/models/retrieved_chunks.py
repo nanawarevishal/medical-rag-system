@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from typing import Optional, Any, Dict
+from typing import List, Optional, Any, Dict
 from datetime import datetime
 
 
@@ -29,6 +29,8 @@ class RetrievedChunk(BaseModel):
     title: Optional[str] = Field(None, description="Document title")
     source: Optional[str] = Field(None, description="File path or URL")
     created_at: Optional[datetime] = Field(None, description="Chunk creation time")
+
+    embedding: Optional[List[float]] = None  # <-- ADD THIS FIELD
 
     def __repr__(self):
         preview = self.content[:50].replace("\n", " ")

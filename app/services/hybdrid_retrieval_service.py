@@ -151,6 +151,133 @@ class LocalDenseBackend:
         return results
 
 
+# ============================================================================
+# PINECONE DENSE BACKEND
+# ============================================================================
+
+
+class PineconeDenseBackend:
+    """Pinecone vector database backend for dense retrieval"""
+
+    def __init__(self, settings):
+        self.settings = settings
+
+        # Match your actual env variable names
+        self.index_name = getattr(settings, "PINECONE_INDEX_NAME", "rag-index")
+        self.api_key = getattr(settings, "PINECONE_API_KEY", None)
+        self.environment = getattr(settings, "PINECONE_ENVIRONMENT", "us-east-1")
+
+        # Namespace is optional - default to None (no namespace)
+        self.namespace = getattr(settings, "PINECONE_NAMESPACE", None)
+
+        if not self.api_key:
+            raise ValueError("Pinecone API key required. Set PINECONE_API_KEY in .env file.")
+
+        try:
+            from pinecone import Pinecone
+
+            self.pc = Pinecone(api_key=self.api_key)
+
+            # Get index
+            existing_indexes = self.pc.list_indexes().names()
+            if self.index_name not in existing_indexes:
+                raise ValueError(
+                    f"Pinecone index '{self.index_name}' does not exist. "
+                    f"Available indexes: {existing_indexes}. Create it first."
+                )
+
+            self.index = self.pc.Index(self.index_name)
+            logger.info(f"Pinecone backend initialized: index={self.index_name}")
+
+        except ImportError:
+            raise ImportError("pinecone package required. Install with: uv add pinecone-client")
+
+    def index_documents(self, chunks: list[RetrievedChunk]) -> None:
+        """
+        Upsert documents to Pinecone.
+        Note: This assumes chunks already have embeddings from your embedding service.
+        """
+        if not chunks:
+            logger.warning("No chunks to index")
+            return
+
+        logger.info(f"Upserting {len(chunks)} chunks to Pinecone")
+
+        vectors = []
+        for chunk in chunks:
+            embedding = getattr(chunk, "embedding", None)
+            if embedding is None:
+                raise ValueError(
+                    f"Chunk {chunk.id} missing embedding. Pre-compute embeddings before upserting."
+                )
+
+            vectors.append(
+                {
+                    "id": chunk.id,
+                    "values": embedding,
+                    "metadata": {"content": chunk.content, **(chunk.metadata or {})},
+                }
+            )
+
+        # Upsert in batches of 100
+        batch_size = 100
+        total_upserted = 0
+
+        for i in range(0, len(vectors), batch_size):
+            batch = vectors[i : i + batch_size]
+
+            # Only pass namespace if it's set
+            kwargs = {}
+            if self.namespace:
+                kwargs["namespace"] = self.namespace
+
+            self.index.upsert(vectors=batch, **kwargs)
+            total_upserted += len(batch)
+
+        logger.info(f"Upserted {total_upserted} vectors to Pinecone index '{self.index_name}'")
+
+    def encode_query(self, query: str) -> list[float]:
+        """Not implemented - embeddings should be pre-computed"""
+        raise NotImplementedError(
+            "Pinecone backend requires pre-computed query embeddings. "
+            "Compute embeddings using your embedding service before calling search()."
+        )
+
+    def search(
+        self, query: str, query_embedding: list[float] | None, top_k: int
+    ) -> list[RetrievedChunk]:
+        """Search Pinecone index"""
+        if query_embedding is None:
+            raise ValueError(
+                "Pinecone backend requires pre-computed query_embedding. "
+                "Pass query_embedding parameter to search()."
+            )
+
+        # Build query kwargs - only add namespace if set
+        query_kwargs = {"vector": query_embedding, "top_k": top_k, "include_metadata": True}
+
+        if self.namespace:
+            query_kwargs["namespace"] = self.namespace
+
+        results = self.index.query(**query_kwargs)
+
+        chunks = []
+        for match in results.matches:
+            metadata = match.metadata or {}
+            content = metadata.pop("content", "") if "content" in metadata else ""
+
+            chunk = RetrievedChunk(
+                id=match.id,
+                content=content,
+                metadata=metadata,
+                score=match.score,
+            )
+            chunks.append(chunk)
+
+        logger.info(f"Pinecone retrieval: {len(chunks)} chunks from index '{self.index_name}'")
+        return chunks
+
+
 class OpenAIEmbeddingBackend:
     """OpenAI API-based dense retrieval"""
 
@@ -558,6 +685,7 @@ class HybridSearchService:
 
     DENSE_BACKENDS = {
         "local": LocalDenseBackend,
+        "pinecone": PineconeDenseBackend,
         "openai": OpenAIEmbeddingBackend,
     }
 
@@ -576,7 +704,7 @@ class HybridSearchService:
         self.settings = settings
 
         # Initialize dense backend
-        dense_backend_name = getattr(self.settings, "hybrid_dense_backend", "local")
+        dense_backend_name = getattr(self.settings, "HYBRID_DENSE_BACKEND", "local")
         if dense_backend_name not in self.DENSE_BACKENDS:
             raise ValueError(f"Unknown dense backend: {dense_backend_name}")
 
@@ -584,7 +712,7 @@ class HybridSearchService:
         logger.info(f"Dense backend: {dense_backend_name}")
 
         # Initialize sparse backend
-        sparse_backend_name = getattr(self.settings, "hybrid_sparse_backend", "bm25")
+        sparse_backend_name = getattr(self.settings, "HYBRID_SPARSE_BACKEND", "bm25")
         if sparse_backend_name not in self.SPARSE_BACKENDS:
             raise ValueError(f"Unknown sparse backend: {sparse_backend_name}")
 
@@ -592,14 +720,14 @@ class HybridSearchService:
         logger.info(f"Sparse backend: {sparse_backend_name}")
 
         # Initialize fusion strategy
-        fusion_name = getattr(self.settings, "hybrid_fusion_strategy", "rrf")
+        fusion_name = getattr(self.settings, "HYBRID_FUSION_STRATEGY", "rrf")
         fusion_class = self.FUSION_STRATEGIES.get(fusion_name, ReciprocalRankFusion)
         self.fusion = fusion_class()
         logger.info(f"Fusion strategy: {fusion_name}")
 
         # Weights for combining scores
-        self.dense_weight = getattr(self.settings, "hybrid_dense_weight", 1.0)
-        self.sparse_weight = getattr(self.settings, "hybrid_sparse_weight", 1.0)
+        self.dense_weight = getattr(self.settings, "HYBRID_DENSE_WEIGHT", 1.0)
+        self.sparse_weight = getattr(self.settings, "HYBRID_SPARSE_WEIGHT", 1.0)
 
         # Retrieval depth (retrieve more than final top_k for better fusion)
         self.retrieval_k = getattr(self.settings, "hybrid_retrieval_k", 100)
@@ -611,11 +739,25 @@ class HybridSearchService:
         # Flatten documents to chunks for dense indexing
         all_chunks = []
         for doc in documents:
-            all_chunks.extend(doc.chunks)
+            # Create RetrievedChunk with embedding from metadata
+            embedding = doc.metadata.pop("embedding", None) if "embedding" in doc.metadata else None
 
-        # Index in both backends
-        self.dense_backend.index_documents(all_chunks)
-        self.sparse_backend.index_documents(documents)
+            chunk = RetrievedChunk(
+                id=doc.id or doc.metadata.get("id"),
+                content=doc.page_content,
+                metadata=doc.metadata,
+                embedding=embedding,  # Attach embedding for Pinecone
+            )
+            all_chunks.append(chunk)
+
+        # Index DENSE (Pinecone) - requires embeddings
+        if hasattr(self.dense_backend, "index_documents"):
+            self.dense_backend.index_documents(all_chunks)
+
+        # Index SPARSE (BM25) - only needs text
+        if self.sparse_backend:
+            # BM25 can work with the same chunks (just needs content)
+            self.sparse_backend.index_documents(all_chunks)
 
         logger.info("Hybrid indexing complete")
 

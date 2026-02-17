@@ -130,3 +130,4 @@ Traceback (most recent call last):
 NameError: name 'query_cache_service' is not defined
 2026-02-15 00:34:19 - rag_app - ERROR - [main.py:457] - Service initialization error: RAGService.__init__() got an unexpected keyword argument 'embedding_service'
 2026-02-15 00:37:09 - rag_app - ERROR - [main.py:454] - Service initialization error: HybridSearchService.__init__() got an unexpected keyword argument 'settings'
+2026-02-17 23:00:39 - rag_app - ERROR - [main.py:449] - Service initialization error: Unknown dense backend: pinecone

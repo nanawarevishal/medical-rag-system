@@ -14,6 +14,7 @@ import shutil
 
 from app.config import settings
 from app.logging_config import setup_logging, get_logger
+from app.models.retrieved_chunks import RetrievedChunk
 from app.services.document_service import parse_document, chunk_text
 from app.services.embedding_service import EmbeddingService
 from app.services.vector_service import VectorService
@@ -195,27 +196,25 @@ async def upload_document(file: UploadFile = File(...)):
         embeddings, _ = await embedding_service.generate_embeddings(texts)
 
         # Store in Pinecone
-        logger.info(f"Storing {len(chunks)} vectors in Pinecone...")
-        vector_service.add_documents(
-            chunks=chunks, embeddings=embeddings, filename=file.filename, namespace="default"
-        )
+        # logger.info(f"Storing {len(chunks)} vectors in Pinecone...")
+        # vector_service.add_documents(
+        #     chunks=chunks, embeddings=embeddings, filename=file.filename, namespace="default"
+        # )
 
         # Index in hybrid search if available
         if advanced_rag_service:
-            logger.info(f"Indexing {len(chunks)} chunks in hybrid search...")
-            # Convert chunks to format expected by hybrid search
+            # Create chunks with embeddings attached
             hybrid_chunks = [
-                {
-                    "id": f"{file.filename}_{i}",
-                    "content": chunk["text"],
-                    "metadata": {
-                        "filename": file.filename,
-                        "chunk_index": i,
-                        **{k: v for k, v in chunk.items() if k != "text"},
-                    },
-                }
-                for i, chunk in enumerate(chunks)
+                RetrievedChunk(
+                    id=f"{file.filename}_{i}",
+                    content=chunk["text"],
+                    metadata={"filename": file.filename, "chunk_index": i, **chunk},
+                    embedding=emb,  # CRITICAL: Attach embedding here
+                )
+                for i, (chunk, emb) in enumerate(zip(chunks, embeddings))
             ]
+
+            # This indexes to BOTH Pinecone (dense) and BM25 (sparse)
             await advanced_rag_service.index_documents(hybrid_chunks)
 
         file_size = file_path.stat().st_size

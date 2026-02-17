@@ -10,6 +10,7 @@ import re
 import numpy as np
 from openai import AsyncOpenAI
 from app.config import settings
+from app.models.retrieved_chunks import RetrievedChunk
 from app.services.query_rewriting_service import QueryRewritingService
 from app.services.embedding_service import EmbeddingService
 from app.services.hybdrid_retrieval_service import HybridSearchService
@@ -33,7 +34,6 @@ class AdvancedRAGPipelineService:
 
         Args:
             api_key: OpenAI API key (optional, uses settings if not provided)
-            query_cache_service: Optional QueryCacheService for embedding caching
             hybrid_search_service: Optional pre-configured HybridSearchService
         """
         self.api_key = api_key or settings.OPENAI_API_KEY
@@ -60,9 +60,26 @@ class AdvancedRAGPipelineService:
         self.temperature = 0.1
         self.max_tokens = 1000
 
-    async def index_documents(self, chunks: list[dict]) -> None:
-        """Index documents for hybrid search"""
-        await self.hybrid_search.index(chunks)
+    async def index_documents(self, chunks: list[RetrievedChunk]) -> None:
+        """Index documents to both dense (Pinecone) and sparse (BM25) backends"""
+
+        from langchain_core.documents import Document
+
+        documents = []
+        for chunk in chunks:
+            doc = Document(
+                page_content=chunk.content,
+                metadata={
+                    "id": chunk.id,
+                    **chunk.metadata,
+                    "embedding": chunk.embedding,  # Pass embedding through metadata
+                },
+                id=chunk.id,
+            )
+            documents.append(doc)
+
+        # Index to hybrid service (both Pinecone + BM25)
+        self.hybrid_search.index(documents)
 
     async def answer_query(
         self,
@@ -91,21 +108,22 @@ class AdvancedRAGPipelineService:
                 "usage": None,
             }
 
-        # Step 1: Rewrite + Expand
-        query_variants = await self._generate_query_variants(
-            query, use_rewrites, use_expansions, max_rewrites, max_expansions
-        )
+        # query_variants = await self._generate_query_variants(
+        #     query, use_rewrites, use_expansions, max_rewrites, max_expansions
+        # )
 
-        # Step 2: Hybrid Search for each variant, then merge
+        variant_embeddings = await self.embedding_service.generate_single_embedding(query)
+
         all_results = []
-        for variant in query_variants:
-            results = await self.hybrid_search.search(
-                query=variant, top_k=top_k, dense_weight=dense_weight, sparse_weight=sparse_weight
-            )
-            # Tag results with which query found them
-            for r in results:
-                r["matched_query"] = variant
-            all_results.extend(results)
+        # for variant, embedding in zip(query_variants, variant_embeddings):
+        results = await self.hybrid_search.search(
+            query=query,
+            query_embedding=variant_embeddings,  # Pass pre-computed embedding
+            top_k=top_k,
+        )
+        # for r in results:
+        #     r["matched_query"] = variant
+        all_results.extend(results)
 
         # Deduplicate by ID and keep highest hybrid_score
         seen: dict[str, dict] = {}
@@ -121,7 +139,7 @@ class AdvancedRAGPipelineService:
             :top_k
         ]
 
-        # Step 3: Build context
+        # Step 4: Build context
         context = self._build_context(final_results)
 
         if not context.strip():
@@ -132,14 +150,14 @@ class AdvancedRAGPipelineService:
                 "chunks_used": 0,
                 "model": self.model,
                 "retrieval_stats": {
-                    "query_variants": len(query_variants),
+                    "query_variants": len(query),
                     "unique_results": len(seen),
                     "final_results": len(final_results),
                 },
                 "usage": None,
             }
 
-        # Step 4: LLM answer
+        # Step 5: LLM answer
         prompt = self._create_prompt(query, context)
         response = await self.llm_client.chat.completions.create(
             model=self.model,
@@ -174,7 +192,7 @@ class AdvancedRAGPipelineService:
             "chunks_used": len(final_results),
             "model": self.model,
             "retrieval_stats": {
-                "query_variants": len(query_variants),
+                "query_variants": len(query),
                 "unique_results": len(seen),
                 "final_results": len(final_results),
             },
@@ -182,6 +200,25 @@ class AdvancedRAGPipelineService:
                 "llm": llm_usage,
             },
         }
+
+    async def _embed_query_variants(self, variants: list[str]) -> list[list[float] | None]:
+        """
+        Batch embed all query variants for efficiency.
+        Returns list of embeddings aligned with input variants.
+        """
+        if not variants:
+            return []
+
+        # Use the embedding service to batch encode all variants
+        try:
+            embeddings = await self.embedding_service.generate_single_embedding(variants)
+            return embeddings
+        except Exception as e:
+            logger.warning(
+                f"Failed to batch embed queries: {e}, falling back to individual encoding"
+            )
+            # Fallback: return None for each to let hybrid search handle encoding individually
+            return [None] * len(variants)
 
     async def _generate_query_variants(
         self,

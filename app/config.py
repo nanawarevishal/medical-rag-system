@@ -13,7 +13,7 @@ class Settings(BaseSettings):
     """Application settings loaded from environment variables."""
 
     # Application
-    APP_NAME: str = "Multi-Source RAG + Text-to-SQL"
+    APP_NAME: str = "Medical Research Assistant"
     APP_VERSION: str = "0.1.0"
     ENVIRONMENT: str = "development"
     ROOT_PATH: str = ""  # Set to "/prod" for API Gateway, empty for local development
@@ -23,8 +23,9 @@ class Settings(BaseSettings):
 
     # Pinecone Configuration
     PINECONE_API_KEY: Optional[str] = None  # Required for vector storage
-    PINECONE_ENVIRONMENT: str = "us-east-1-aws"
-    PINECONE_INDEX_NAME: str = "rag-cache-docsqa"
+    PINECONE_ENVIRONMENT: str = "us-east-1"
+    PINECONE_INDEX_NAME: str = "medical-documents"
+    PINECONE_NAMESPACE: str = "default"  # Namespace for organizing vectors within the index
 
     # Supabase/PostgreSQL Configuration
     DATABASE_URL: Optional[str] = None  # Required for Text-to-SQL
@@ -87,6 +88,13 @@ class Settings(BaseSettings):
     CACHE_TTL_RAG: int = 3600  # 1 hour - may change with new documents
     CACHE_TTL_SQL_GEN: int = 86400  # 24 hours - schema relatively stable
     CACHE_TTL_SQL_RESULT: int = 900  # 15 minutes - data changes frequently
+
+    HYBRID_DENSE_BACKEND: str = "pinecone"  # Use pinecone instead of local
+    HYBRID_SPARSE_BACKEND: str = "bm25"
+    HYBRID_FUSION_STRATEGY: str = "rrf"
+
+    HYBRID_DENSE_WEIGHT: float = 1.0
+    HYBRID_SPARSE_WEIGHT: float = 1.0
 
     @field_validator(
         "VANNA_TEMPERATURE",
