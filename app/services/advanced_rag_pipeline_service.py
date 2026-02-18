@@ -13,7 +13,7 @@ from app.config import settings
 from app.models.retrieved_chunks import RetrievedChunk
 from app.services.query_rewriting_service import QueryRewritingService
 from app.services.embedding_service import EmbeddingService
-from app.services.hybdrid_retrieval_service import HybridSearchService
+from app.services.hybdrid_retrieval_service import HybridSearchService, SearchResult
 
 
 logger = logging.getLogger("rag_app.advanced_rag_pipeline_service")
@@ -108,38 +108,32 @@ class AdvancedRAGPipelineService:
                 "usage": None,
             }
 
-        # query_variants = await self._generate_query_variants(
-        #     query, use_rewrites, use_expansions, max_rewrites, max_expansions
-        # )
+        query_variants = await self._generate_query_variants(
+            query, use_rewrites, use_expansions, max_rewrites, max_expansions
+        )
 
-        variant_embeddings = await self.embedding_service.generate_single_embedding(query)
+        variant_embeddings = await self._embed_query_variants(query_variants)
 
         all_results = []
-        # for variant, embedding in zip(query_variants, variant_embeddings):
-        results = await self.hybrid_search.search(
-            query=query,
-            query_embedding=variant_embeddings,  # Pass pre-computed embedding
-            top_k=top_k,
-        )
-        # for r in results:
-        #     r["matched_query"] = variant
-        all_results.extend(results)
+        for variant, embedding in zip(query_variants, variant_embeddings):
+            results = await self.hybrid_search.search(
+                query=variant,
+                query_embedding=embedding,
+                top_k=top_k,
+            )
+            all_results.extend(results)
 
-        # Deduplicate by ID and keep highest hybrid_score
-        seen: dict[str, dict] = {}
+        seen: dict[str, SearchResult] = {}
         for result in all_results:
-            cid = result.get("id")
+            cid = result.chunk.id
             if not cid:
                 continue
-            if cid not in seen or result.get("hybrid_score", 0) > seen[cid].get("hybrid_score", 0):
+
+            if cid not in seen or result.combined_score > seen[cid].combined_score:
                 seen[cid] = result
 
-        # Sort by hybrid_score and take top_k
-        final_results = sorted(seen.values(), key=lambda x: x.get("hybrid_score", 0), reverse=True)[
-            :top_k
-        ]
+        final_results = sorted(seen.values(), key=lambda x: x.combined_score, reverse=True)[:top_k]
 
-        # Step 4: Build context
         context = self._build_context(final_results)
 
         if not context.strip():
@@ -201,24 +195,29 @@ class AdvancedRAGPipelineService:
             },
         }
 
+    # In advanced_rag_pipeline_service.py
+
     async def _embed_query_variants(self, variants: list[str]) -> list[list[float] | None]:
         """
         Batch embed all query variants for efficiency.
-        Returns list of embeddings aligned with input variants.
         """
         if not variants:
             return []
 
-        # Use the embedding service to batch encode all variants
         try:
-            embeddings = await self.embedding_service.generate_single_embedding(variants)
+            # Call generate_embeddings directly with the list
+            embeddings, _ = await self.embedding_service.generate_embeddings(variants)
             return embeddings
         except Exception as e:
-            logger.warning(
-                f"Failed to batch embed queries: {e}, falling back to individual encoding"
-            )
-            # Fallback: return None for each to let hybrid search handle encoding individually
-            return [None] * len(variants)
+            logger.warning(f"Batch embedding failed: {e}, falling back to individual")
+            embeddings = []
+            for variant in variants:
+                try:
+                    result, _ = await self.embedding_service.generate_embeddings([variant])
+                    embeddings.append(result[0] if result else None)
+                except Exception:
+                    embeddings.append(None)
+            return embeddings
 
     async def _generate_query_variants(
         self,
@@ -237,24 +236,26 @@ class AdvancedRAGPipelineService:
             )
             variants.extend(rewrite_data.get("rewrites", []))
             variants.extend(rewrite_data.get("expansions", []))
-            expanded = rewrite_data.get("expanded_query")
-            if expanded and expanded != query:
-                variants.append(expanded)
+            # DON'T add expanded_query - it's redundant with individual expansions
+            # The expanded_query is just query + " " + " ".join(expansions)
+
         elif use_rewrites:
             rewrite_data = await self.query_rewriting_service.rewrite_query(
                 query, max_rewrites=max_rewrites
             )
             variants.extend(rewrite_data.get("rewrites", []))
+
         elif use_expansions:
             expansion_data = await self.query_rewriting_service.expand_query(
                 query, max_expansions=max_expansions
             )
             variants.extend(expansion_data.get("expansions", []))
+            # Only add expanded_query when NOT using individual expansions
             expanded = expansion_data.get("expanded_query")
             if expanded and expanded != query:
                 variants.append(expanded)
 
-        # Deduplicate
+        # Deduplicate (keep order, case-insensitive)
         seen = set()
         result = []
         for v in variants:
@@ -265,15 +266,22 @@ class AdvancedRAGPipelineService:
 
         return result
 
-    def _build_context(self, chunks: list[dict]) -> str:
-        """Build context string from chunks"""
+    def _build_context(self, search_results: list[SearchResult]) -> str:
+        """Build context string from SearchResult objects"""
         context_parts = []
-        for i, chunk in enumerate(chunks, 1):
-            filename = chunk.get("metadata", {}).get("filename", "Unknown")
-            text = chunk.get("text", chunk.get("content", ""))
-            score = chunk.get("hybrid_score", 0.0)
-            source = chunk.get("source", "unknown")
+        for i, result in enumerate(search_results, 1):
+            chunk = result.chunk
+
+            metadata = chunk.metadata or {}
+            filename = metadata.get("filename", "Unknown")
+
+            text = getattr(chunk, "content", None) or getattr(chunk, "text", "")
+
+            score = result.combined_score
+            source = result.source
+
             context_parts.append(f"[{i}] {filename} (score: {score:.4f}, source: {source})\n{text}")
+
         return "\n\n".join(context_parts)
 
     def _create_prompt(self, question: str, context: str) -> str:
@@ -285,22 +293,27 @@ class AdvancedRAGPipelineService:
             "closest supported partial answer and clearly state what is missing."
         )
 
-    def _format_sources(self, chunks: list[dict]) -> list[dict]:
-        """Format chunks as sources"""
+    def _format_sources(self, search_results: list[SearchResult]) -> list[dict]:
+        """Format SearchResult objects as sources"""
         sources = []
-        for chunk in chunks:
+        for result in search_results:
+            chunk = result.chunk
+            metadata = chunk.metadata or {}
+
+            # Get text content safely
+            text = getattr(chunk, "content", "") or getattr(chunk, "text", "")
+
             sources.append(
                 {
-                    "id": chunk.get("id"),
-                    "filename": chunk.get("metadata", {}).get("filename", ""),
-                    "chunk_index": chunk.get("metadata", {}).get("chunk_index", 0),
-                    "score": chunk.get("hybrid_score", 0.0),
-                    "source_type": chunk.get("source", "unknown"),
-                    "text": (
-                        chunk.get("text", chunk.get("content", ""))[:200] + "..."
-                        if len(chunk.get("text", chunk.get("content", ""))) > 200
-                        else chunk.get("text", chunk.get("content", ""))
-                    ),
+                    "id": chunk.id,
+                    "filename": metadata.get("filename", ""),
+                    "chunk_index": metadata.get("chunk_index", 0),
+                    "score": result.combined_score,  # Use combined_score from SearchResult
+                    "source_type": result.source,  # Use source from SearchResult
+                    "dense_score": result.dense_score,
+                    "sparse_score": result.sparse_score,
+                    "text": text[:200] + "..." if len(text) > 200 else text,
                 }
             )
+
         return sources

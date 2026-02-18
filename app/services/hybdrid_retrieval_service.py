@@ -10,6 +10,17 @@ from loguru import logger
 from app.models.retrieved_chunks import RetrievedChunk
 from langchain_core.documents import Document
 from app.config import settings
+import pickle
+import json
+from pathlib import Path
+from typing import List, Dict, Any
+import numpy as np
+from rank_bm25 import BM25Okapi
+import Stemmer
+from loguru import logger
+
+from app.models.retrieved_chunks import RetrievedChunk
+from langchain_core.documents import Document
 
 
 # ============================================================================
@@ -365,61 +376,183 @@ class OpenAIEmbeddingBackend:
 
 
 class BM25Backend:
-    """Local BM25 sparse retrieval with stemming"""
+    """Local BM25 sparse retrieval with disk persistence"""
 
-    def __init__(self, settings):
+    def __init__(self, settings, persist_dir: str = "./data/bm25_index"):
         self.settings = settings
+        self.persist_dir = Path(persist_dir)
+        self.persist_dir.mkdir(parents=True, exist_ok=True)
+
+        self.index_file = self.persist_dir / "bm25_index.pkl"
+        self.metadata_file = self.persist_dir / "chunk_metadata.json"
+
         self._chunk_index: list[RetrievedChunk] = []
         self._bm25: BM25Okapi | None = None
         self._stemmer = Stemmer.Stemmer("english")
+        self._is_indexed = False
+
+        # Try to load existing index on init
+        self._load_index()
 
     def _tokenize(self, text: str) -> list[str]:
         """Tokenize and stem text for BM25"""
-        # Simple whitespace tokenization + stemming
         tokens = text.lower().split()
         return self._stemmer.stemWords(tokens)
 
+    def _save_index(self) -> None:
+        """Persist BM25 index and metadata to disk"""
+        if not self._is_indexed or self._bm25 is None:
+            return
+
+        try:
+            # Save BM25 object
+            with open(self.index_file, "wb") as f:
+                pickle.dump(self._bm25, f)
+
+            # Save chunk metadata (not the full objects, just serializable data)
+            metadata = []
+            for chunk in self._chunk_index:
+                metadata.append(
+                    {
+                        "id": chunk.id,
+                        "content": chunk.content,
+                        "metadata": chunk.metadata,
+                    }
+                )
+
+            with open(self.metadata_file, "w", encoding="utf-8") as f:
+                json.dump(metadata, f, ensure_ascii=False, indent=2)
+
+            logger.info(f"BM25 index saved: {len(self._chunk_index)} chunks")
+
+        except Exception as e:
+            logger.error(f"Failed to save BM25 index: {e}")
+
+    def _load_index(self) -> bool:
+        """Load BM25 index from disk if exists"""
+        try:
+            if not self.index_file.exists() or not self.metadata_file.exists():
+                logger.info("No existing BM25 index found on disk")
+                return False
+
+            # Load BM25
+            with open(self.index_file, "rb") as f:
+                self._bm25 = pickle.load(f)
+
+            # Load metadata and reconstruct chunks
+            with open(self.metadata_file, "r", encoding="utf-8") as f:
+                metadata = json.load(f)
+
+            self._chunk_index = [
+                RetrievedChunk(
+                    id=item["id"],
+                    content=item["content"],
+                    metadata=item["metadata"],
+                )
+                for item in metadata
+            ]
+
+            self._is_indexed = True
+            logger.info(f"BM25 index loaded from disk: {len(self._chunk_index)} chunks")
+            return True
+
+        except Exception as e:
+            logger.error(f"Failed to load BM25 index: {e}")
+            # Reset state on failure
+            self._bm25 = None
+            self._chunk_index = []
+            self._is_indexed = False
+            return False
+
     def index_documents(self, documents: list[Document] | list[RetrievedChunk]) -> None:
-        """Build BM25 index from documents"""
+        """Build BM25 index from documents and persist to disk"""
+        if not documents:
+            logger.warning("No documents provided to BM25 index_documents")
+            self._is_indexed = True
+            self._save_index()
+            return
+
         logger.info(f"Building BM25 index for {len(documents)} documents")
 
-        # Handle both Document and RetrievedChunk types
-        if documents and hasattr(documents[0], "chunks"):
-            # It's a list of Documents with sub-chunks
-            all_chunks = []
-            for doc in documents:
-                all_chunks.extend(doc.chunks)
-            self._chunk_index = all_chunks
-        else:
-            # It's already chunks
+        # Convert to RetrievedChunk objects
+        if documents and hasattr(documents[0], "page_content"):
+            self._chunk_index = [
+                RetrievedChunk(
+                    id=doc.metadata.get("id", str(i)),
+                    content=doc.page_content,
+                    metadata=doc.metadata,
+                )
+                for i, doc in enumerate(documents)
+            ]
+        elif documents and hasattr(documents[0], "content"):
             self._chunk_index = documents
+        else:
+            raise ValueError(f"Unknown document type: {type(documents[0])}")
 
-        # Tokenize all documents
+        # Tokenize and build index
         tokenized_docs = [self._tokenize(chunk.content) for chunk in self._chunk_index]
 
+        if not tokenized_docs:
+            logger.warning("No tokenized documents to index")
+            self._bm25 = None
+            self._is_indexed = True
+            return
+
         self._bm25 = BM25Okapi(tokenized_docs)
-        logger.info("BM25 index built")
+        self._is_indexed = True
+
+        # Persist to disk
+        self._save_index()
+        logger.info(f"BM25 index built and saved: {len(tokenized_docs)} documents")
 
     def search(self, query: str, top_k: int) -> list[RetrievedChunk]:
         """BM25 retrieval"""
-        if self._bm25 is None:
-            raise RuntimeError("BM25 not indexed. Call index_documents() first.")
+        if not self._is_indexed:
+            # Try loading from disk one more time
+            if not self._load_index():
+                raise RuntimeError("BM25 not indexed. Call index_documents() first.")
+
+        if self._bm25 is None or not self._chunk_index:
+            logger.warning("BM25 index is empty, returning no results")
+            return []
 
         tokenized_query = self._tokenize(query)
         scores = self._bm25.get_scores(tokenized_query)
 
-        # Get top_k indices
         top_indices = np.argsort(scores)[::-1][:top_k]
 
         results = []
         for idx in top_indices:
-            if scores[idx] > 0:  # Only return positive scores
+            if scores[idx] > 0:
                 chunk = self._chunk_index[int(idx)]
-                chunk.score = float(scores[idx])
-                results.append(chunk)
+                result_chunk = RetrievedChunk(
+                    id=chunk.id,
+                    content=chunk.content,
+                    metadata=chunk.metadata,
+                    score=float(scores[idx]),
+                )
+                results.append(result_chunk)
 
         logger.info(f"BM25 retrieval: {len(results)} chunks")
         return results
+
+    def is_ready(self) -> bool:
+        """Check if index is ready for searching"""
+        if not self._is_indexed:
+            self._load_index()  # Try loading
+        return self._is_indexed and self._bm25 is not None
+
+    def clear_index(self) -> None:
+        """Clear the index and delete persisted files"""
+        self._bm25 = None
+        self._chunk_index = []
+        self._is_indexed = False
+
+        if self.index_file.exists():
+            self.index_file.unlink()
+        if self.metadata_file.exists():
+            self.metadata_file.unlink()
+        logger.info("BM25 index cleared")
 
 
 class ElasticsearchSparseBackend:
@@ -761,7 +894,7 @@ class HybridSearchService:
 
         logger.info("Hybrid indexing complete")
 
-    def search(
+    async def search(
         self,
         query: str,
         top_k: int = None,
