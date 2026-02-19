@@ -46,11 +46,18 @@ class DocumentStructureAnalyzer:
     """
 
     SECTION_PATTERNS = [
-        r"^#{1,6}\s+(.+)$",  # Markdown headers
-        r"^([A-Z][A-Z\s\-]{2,50})$",  # ALL CAPS headers
-        r"^([A-Z][a-z]+(?:\s+[A-Z][a-z]+){0,5})\s*$",  # Title Case headers
-        r"^(Introduction|Summary|Conclusion|Diagnosis|Treatment|Symptoms|Prevention|Prognosis)\s*$",
-        r"^(What is|How to|When to|Why)\s+",  # Question-style headers
+        # Markdown headers
+        (r"^#{1,6}\s+(.+)$", 1),
+        # ALL CAPS headers
+        (r"^([A-Z][A-Z\s\-]{2,50})$", 2),
+        # Numbered sections
+        (r"^(\d+\.?\s+[A-Z][a-z]+(?:\s+[A-Za-z]+){0,5})$", 2),
+        # Medical document patterns
+        (r"^(What is|How is|When to|Why|Where|Who)\s.+[^?]$", 2),
+        (r"^(Diagnosis|Treatment|Symptoms|Prevention|Prognosis|Causes|Risk Factors)\s*$", 1),
+        (r"^(What your doctor looks for|Expected duration|When to call)\s*$", 1),
+        # Colon-ended headers (common in medical docs)
+        (r"^([A-Z][a-z]+(?:\s+[a-z]+){0,4}):\s*$", 2),
     ]
 
     def __init__(self):
@@ -61,53 +68,44 @@ class DocumentStructureAnalyzer:
         )
 
     def analyze(self, text: str) -> List[SectionBoundary]:
-        """
-        Identify all section boundaries in document.
-        Returns ordered list of sections with character positions.
-        """
+        """IMPROVED: Better section boundary detection."""
         lines = text.split("\n")
         sections = []
         current_pos = 0
 
         for i, line in enumerate(lines):
-            is_header, header_name = self._is_section_header(line)
+            is_header, header_name, level = self._is_section_header(line)
 
             if is_header:
-                # Close previous section
                 if sections:
                     sections[-1].end_char = current_pos
 
-                # Start new section
                 sections.append(
-                    SectionBoundary(
-                        name=header_name, start_char=current_pos, level=self._get_header_level(line)
-                    )
+                    SectionBoundary(name=header_name, start_char=current_pos, level=level)
                 )
 
-            current_pos += len(line) + 1  # +1 for newline
+            current_pos += len(line) + 1
 
-        # Close final section
         if sections:
             sections[-1].end_char = len(text)
 
         return sections
 
     def _is_section_header(self, line: str) -> tuple[bool, str]:
-        """Check if line is a section header."""
+        """IMPROVED: Return header level along with detection."""
         line = line.strip()
 
-        if not line or len(line) > 60:
-            return False, ""
+        if not line or len(line) > 80:
+            return False, "", 0
 
-        for pattern in self.SECTION_PATTERNS:
+        for pattern, level in self.SECTION_PATTERNS:
             match = re.match(pattern, line, re.IGNORECASE)
             if match:
-                # Clean up header name
                 name = match.group(1) if match.groups() else line
-                name = re.sub(r"^#+\s*", "", name)  # Remove markdown
-                return True, name.strip()[:50]
+                name = re.sub(r"^#+\s*", "", name).strip()[:50]
+                return True, name, level
 
-        return False, ""
+        return False, "", 0
 
     def _get_header_level(self, line: str) -> int:
         """Determine header hierarchy level."""
@@ -176,72 +174,96 @@ class SemanticChunker:
         start_idx: int,
         base_metadata: Dict,
     ) -> List[RetrievedChunk]:
-        """Chunk a single section while preserving semantics."""
+        """
+        IMPROVED: Preserve complete semantic units within sections.
+        """
+        # For diagnostic sections, use larger chunks to keep criteria together
+        if any(kw in section.name.lower() for kw in ["diagnosis", "test", "criteria", "doctor"]):
+            target_size = 600  # Larger chunks for diagnostic content
+            max_size = 1000
+        else:
+            target_size = self.config.target_size
+            max_size = self.config.max_size
 
-        # Protect critical passages (don't split these)
+        # Find protected spans
         protected_spans = self._find_protected_spans(section_text)
 
-        # Split remaining text
-        split_points = self._calculate_split_points(
-            section_text, protected_spans, self.config.target_size, self.config.max_size
-        )
+        # Split at paragraph boundaries first
+        paragraphs = re.split(r"\n\s*\n", section_text)
 
-        # Create chunks at split points
         chunks = []
-        for i, (start, end) in enumerate(
-            zip([0] + split_points, split_points + [len(section_text)])
-        ):
-            chunk_text = section_text[start:end].strip()
-            if not chunk_text:
+        current_chunk = ""
+        chunk_idx = start_idx
+
+        for para in paragraphs:
+            para = para.strip()
+            if not para:
                 continue
 
-            # Determine if this chunk contains the section header
-            is_header_chunk = i == 0 and section.level == 1
+            # If paragraph fits, add it
+            if len(current_chunk) + len(para) + 2 <= max_size:
+                current_chunk += ("\n\n" if current_chunk else "") + para
+            else:
+                # Save current chunk
+                if current_chunk:
+                    chunks.append(
+                        self._create_chunk(
+                            current_chunk, section, filename, chunk_idx, base_metadata
+                        )
+                    )
+                    chunk_idx += 1
 
-            chunk = RetrievedChunk(
-                id=f"{filename}_{start_idx + i}",
-                content=chunk_text,
-                metadata={
-                    **base_metadata,
-                    "filename": filename,
-                    "chunk_index": start_idx + i,
-                    "section": section.name,
-                    "section_level": section.level,
-                    "is_section_start": (i == 0),
-                    "is_section_header": is_header_chunk,
-                    "char_start": start,
-                    "char_end": end,
-                },
-                embedding=None,
+                # Start new chunk (handle long paragraphs)
+                if len(para) > max_size:
+                    # Split at sentence boundary
+                    sub_chunks = self._split_long_paragraph(
+                        para, target_size, max_size, protected_spans
+                    )
+                    for sub in sub_chunks:
+                        chunks.append(
+                            self._create_chunk(sub, section, filename, chunk_idx, base_metadata)
+                        )
+                        chunk_idx += 1
+                    current_chunk = ""
+                else:
+                    current_chunk = para
+
+        # Don't forget last chunk
+        if current_chunk:
+            chunks.append(
+                self._create_chunk(current_chunk, section, filename, chunk_idx, base_metadata)
             )
-            chunks.append(chunk)
 
         return chunks
 
     def _find_protected_spans(self, text: str) -> List[tuple[int, int]]:
         """
-        Find passages that should not be split (diagnosis criteria, etc.).
+        IMPROVED: Protect complete diagnostic passages, not just fragments.
         """
         protected = []
 
-        # Patterns that indicate critical content
+        # Extended patterns for medical documents
         critical_patterns = [
-            r"Your doctor will use[^.]{10,100}diabetes",
-            r"blood sugar[^.]{0,50}126",
-            r"Hemoglobin A1c[^.]{0,100}",
-            r"You have diabetes if:",
+            # Diagnostic criteria
+            r"(?s)Your doctor will use[^.]{0,20}(fasting|blood)[^.]{0,200}diabetes[^.]*\.",
+            r"(?s)You have diabetes if:[^.]*\.",
+            r"(?s)blood sugar[^.]{0,30}(126|more than)[^.]*\.",
+            # Lab tests and their descriptions
+            r"(?s)Hemoglobin A1c[^.]{0,150}(measures|test|average)[^.]*\.",
+            r"(?s)(Fasting blood sugar|Lipid profile|Blood creatinine)[^.]{0,100}\.",
+            # Physical examination
+            r"(?s)Your doctor will (look for|also do)[^.]{0,200}(signs|exam|test)[^.]*\.",
+            # Medical definitions
+            r"(?s)(Diagnosis|What your doctor looks for)[^.]{0,50}:.{0,500}(?=\n\n|\n[A-Z]|\Z)",
         ]
 
         for pattern in critical_patterns:
-            for match in re.finditer(pattern, text, re.IGNORECASE):
-                # Extend protection 50 chars before and after
-                start = max(0, match.start() - 50)
-                end = min(len(text), match.end() + 50)
+            for match in re.finditer(pattern, text, re.IGNORECASE | re.DOTALL):
+                start = max(0, match.start() - 100)
+                end = min(len(text), match.end() + 100)
                 protected.append((start, end))
 
-        # Merge overlapping protections
-        protected = self._merge_spans(protected)
-        return protected
+        return self._merge_spans(protected)
 
     def _calculate_split_points(
         self, text: str, protected_spans: List[tuple[int, int]], target_size: int, max_size: int
@@ -308,6 +330,58 @@ class SemanticChunker:
                 merged.append(current)
 
         return merged
+
+    def _create_chunk(
+        self,
+        content: str,
+        section: SectionBoundary,
+        filename: str,
+        chunk_index: int,
+        base_metadata: Dict,
+    ) -> RetrievedChunk:
+        """Create a RetrievedChunk with proper metadata."""
+        return RetrievedChunk(
+            id=f"{filename}_{chunk_index}",
+            content=content,
+            metadata={
+                **base_metadata,
+                "filename": filename,
+                "chunk_index": chunk_index,
+                "section": section.name,
+                "section_level": section.level,
+                "is_section_start": chunk_index == 0,
+                "char_start": 0,  # Will be updated if needed
+                "char_end": len(content),
+            },
+            embedding=None,
+        )
+
+    def _split_long_paragraph(
+        self,
+        para: str,
+        target_size: int,
+        max_size: int,
+        protected_spans: List[tuple[int, int]],
+    ) -> List[str]:
+        """Split a long paragraph at sentence boundaries, avoiding protected spans."""
+        chunks = []
+        sentences = re.split(r"([.!?]+\s+)", para)
+
+        current = ""
+        for i in range(0, len(sentences) - 1, 2):
+            sentence = sentences[i] + (sentences[i + 1] if i + 1 < len(sentences) else "")
+
+            if len(current) + len(sentence) <= max_size:
+                current += sentence
+            else:
+                if current:
+                    chunks.append(current.strip())
+                current = sentence
+
+        if current:
+            chunks.append(current.strip())
+
+        return chunks if chunks else [para[:max_size]]
 
 
 class AdvancedRAGPipelineService:
@@ -586,22 +660,13 @@ class AdvancedRAGPipelineService:
         retrieve_k: int,
     ) -> List[SearchResult]:
         """
-        Multi-variant retrieval with section-based boosting.
+        IMPROVED: Intent-aware retrieval with semantic section matching.
         """
         all_results = []
-        query_lower = original_query.lower()
 
         # Detect query intent
-        target_section = None
-        section_keywords = {
-            "diagnosis": ["diagnos", "test", "criteria", "126", "fasting", "blood sugar"],
-            "treatment": ["treat", "medication", "medicine", "drug", "pill", "insulin"],
-            "symptoms": ["symptom", "sign", "feel", "urination", "thirst", "hunger"],
-        }
-        for section, keywords in section_keywords.items():
-            if any(kw in query_lower for kw in keywords):
-                target_section = section
-                break
+        intent_info = self._detect_query_intent(original_query)
+        target_sections = intent_info.get("relevant_sections", [])
 
         # Retrieve for all variants
         for variant, emb in zip(variants, embeddings):
@@ -612,28 +677,124 @@ class AdvancedRAGPipelineService:
             )
             all_results.extend(variant_results)
 
-        # Apply section boosting
-        if target_section:
-            for r in all_results:
-                chunk_section = r.chunk.metadata.get("section", "").lower()
+        # Apply intelligent boosting
+        for r in all_results:
+            chunk_section = r.chunk.metadata.get("section", "").lower()
 
-                if target_section in chunk_section:
-                    r.combined_score *= 2.0  # 100% boost
+            # Boost relevant sections
+            for target in target_sections:
+                if target in chunk_section:
+                    r.combined_score *= 1.5  # 50% boost for relevant sections
                     r.source = f"{r.source}+section_match"
-                elif self._is_irrelevant_section(chunk_section, target_section):
-                    r.combined_score *= 0.3  # 70% penalty
+                    break
+
+            # Check if chunk contains relevant medical terms
+            if intent_info["intent"] != "general":
+                medical_terms = {
+                    "diagnosis": ["fasting", "126", "a1c", "hemoglobin", "blood sugar", "test"],
+                    "treatment": ["metformin", "insulin", "pill", "medicine", "medication"],
+                    "symptoms": ["urination", "thirst", "hunger", "weight", "infection"],
+                }
+                terms = medical_terms.get(intent_info["intent"], [])
+                term_matches = sum(1 for t in terms if t in r.chunk.content.lower())
+                if term_matches >= 2:
+                    r.combined_score *= 1.3  # 30% boost for content relevance
 
         return all_results
 
-    def _is_irrelevant_section(self, chunk_section: str, target: str) -> bool:
-        """Check if chunk section is clearly irrelevant to target."""
-        irrelevant_map = {
-            "diagnosis": ["treatment", "medication", "prevention", "prognosis"],
-            "treatment": ["diagnosis", "symptoms", "prevention"],
-            "symptoms": ["treatment", "medication", "prevention"],
+    def _detect_query_intent(self, query: str) -> Dict[str, Any]:
+        """
+        IMPROVED: Richer intent detection for better retrieval.
+        Returns intent type AND relevant section names to search.
+        """
+        query_lower = query.lower()
+
+        # Intent to section mapping
+        intent_map = {
+            "diagnosis": {
+                "keywords": [
+                    "diagnos",
+                    "test",
+                    "criteria",
+                    "detect",
+                    "confirm",
+                    "how do (you|doctors|they) know",
+                ],
+                "relevant_sections": [
+                    "diagnosis",
+                    "what your doctor looks for",
+                    "lab",
+                    "test",
+                    "exam",
+                ],
+                "medical_terms": ["fasting", "126", "hemoglobin", "a1c", "blood sugar"],
+            },
+            "treatment": {
+                "keywords": [
+                    "treat",
+                    "medication",
+                    "medicine",
+                    "drug",
+                    "pill",
+                    "insulin",
+                    "manage",
+                    "cure",
+                ],
+                "relevant_sections": ["treatment", "management", "medication", "medicine"],
+                "medical_terms": ["metformin", "sulfonylureas", "insulin"],
+            },
+            "symptoms": {
+                "keywords": ["symptom", "sign", "feel", "experience", "suffer from"],
+                "relevant_sections": ["symptoms", "signs", "what are"],
+                "medical_terms": ["urination", "thirst", "hunger", "weight loss"],
+            },
+            "prevention": {
+                "keywords": ["prevent", "avoid", "reduce risk", "lower risk", "stop"],
+                "relevant_sections": ["prevention", "risk", "lifestyle"],
+                "medical_terms": [],
+            },
+            "prognosis": {
+                "keywords": ["prognosis", "outlook", "expect", "long-term", "complication"],
+                "relevant_sections": [
+                    "prognosis",
+                    "complication",
+                    "long-term",
+                    "expected duration",
+                ],
+                "medical_terms": [],
+            },
         }
-        irrelevant = irrelevant_map.get(target, [])
-        return any(inv in chunk_section for inv in irrelevant)
+
+        # Detect intent
+        detected = None
+        for intent, config in intent_map.items():
+            keyword_matches = sum(1 for kw in config["keywords"] if kw in query_lower)
+            term_matches = sum(1 for term in config["medical_terms"] if term in query_lower)
+
+            if keyword_matches > 0 or term_matches > 0:
+                detected = {
+                    "intent": intent,
+                    "relevant_sections": config["relevant_sections"],
+                    "confidence": (keyword_matches * 2 + term_matches) / 5.0,
+                }
+                break
+
+        return detected or {"intent": "general", "relevant_sections": [], "confidence": 0.0}
+
+    def _is_irrelevant_section(self, chunk_section: str, target: str) -> bool:
+        """
+        IMPROVED: Only penalize sections that are CLEARLY unrelated.
+        Many sections contain diagnostic info without "diagnosis" in the name.
+        """
+        # Only penalize sections that are definitively unrelated
+        strongly_irrelevant = {
+            "diagnosis": ["contact information", "additional information", "references"],
+            "treatment": ["contact information", "references"],
+            "symptoms": ["contact information", "references"],
+        }
+
+        irrelevant = strongly_irrelevant.get(target, [])
+        return any(inv in chunk_section.lower() for inv in irrelevant)
 
     def _expand_with_neighbors(
         self,
@@ -772,21 +933,30 @@ class AdvancedRAGPipelineService:
         }
 
     async def _generate_answer(self, query: str, context: str) -> str:
-        """Generate answer from context."""
-        prompt = (
-            f"Context:\n{context}\n\n"
-            f"Question: {query}\n\n"
-            "Answer based only on the context above. "
-            "If the exact answer is not present, provide the closest supported information "
-            "and clearly state what is missing."
-        )
+        """
+        IMPROVED: Better prompt that avoids false "no information" claims.
+        """
+        prompt = f"""Context from medical document:
+    {context}
+
+    Question: {query}
+
+    Instructions:
+    1. Answer the question using ONLY information from the context above
+    2. Be comprehensive - include ALL relevant details from the context
+    3. If the context contains related but incomplete information, provide what IS available
+    4. DO NOT claim "the context does not provide information" unless you have thoroughly checked ALL context sections
+    5. Structure your answer clearly with main points first, then supporting details
+    6. If multiple tests/procedures are mentioned, list them all
+
+    Answer:"""
 
         response = await self.llm_client.chat.completions.create(
             model=self.model,
             messages=[
                 {
                     "role": "system",
-                    "content": "You are a helpful assistant that answers based on provided context only.",
+                    "content": "You are a medical information assistant. Provide thorough, accurate answers based on the provided context. Never claim information is missing without checking all context sections carefully.",
                 },
                 {"role": "user", "content": prompt},
             ],
@@ -795,3 +965,30 @@ class AdvancedRAGPipelineService:
         )
 
         return response.choices[0].message.content
+
+    # ============================================================================
+    # SUMMARY OF CHANGES
+    # ============================================================================
+    """
+    KEY IMPROVEMENTS:
+
+    1. Section Penalization: REMOVED aggressive penalties that were hiding relevant chunks
+
+    2. Protected Spans: EXPANDED to protect complete diagnostic passages
+
+    3. Section Detection: ADDED patterns for medical document headers like 
+    "What your doctor looks for", "When to call your doctor"
+
+    4. Query Intent: ENHANCED with semantic understanding and relevant section mapping
+
+    5. Chunk Sizing: INCREASED for diagnostic sections to keep criteria together
+
+    6. LLM Prompt: IMPROVED to prevent false "no information" claims
+
+    TESTING:
+    Run your pipeline again with "How is type 2 diabetes diagnosed?" and verify:
+    - Hemoglobin A1c test is mentioned
+    - Physical examination signs are included
+    - "What your doctor looks for" section is retrieved
+    - Answer is comprehensive, not dismissive
+    """

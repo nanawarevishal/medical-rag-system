@@ -2782,3 +2782,104 @@ NameError: name 'query_cache_service' is not defined
 2026-02-19 23:59:04 - rag_app - INFO - [main.py:452] -   - Basic RAG: ✓
 2026-02-19 23:59:04 - rag_app - INFO - [main.py:453] -   - Advanced RAG (Hybrid): ✓
 2026-02-19 23:59:04 - rag_app - INFO - [main.py:454] - ============================================================
+2026-02-20 00:17:08 - rag_app - INFO - [main.py:403] - Upload directory initialized: /tmp/uploads
+2026-02-20 00:17:08 - rag_app - INFO - [main.py:405] - ============================================================
+2026-02-20 00:17:08 - rag_app - INFO - [main.py:406] - Starting Multi-Source RAG + Text-to-SQL API...
+2026-02-20 00:17:08 - rag_app - INFO - [main.py:407] - ============================================================
+2026-02-20 00:17:08 - rag_app - INFO - [main.py:412] - Initializing Embedding Service...
+2026-02-20 00:17:08 - rag_app - INFO - [main.py:414] - ✓ Embedding Service initialized
+2026-02-20 00:17:08 - rag_app - INFO - [main.py:420] - Initializing Vector Service...
+2026-02-20 00:17:08 - rag_app - INFO - [main.py:422] - ✓ Vector Service initialized
+2026-02-20 00:17:08 - rag_app - INFO - [main.py:428] - Initializing Basic RAG Service...
+2026-02-20 00:17:08 - rag_app - INFO - [main.py:430] - ✓ Basic RAG Service initialized
+2026-02-20 00:17:08 - rag_app - INFO - [main.py:434] - Initializing Advanced RAG Pipeline Service with Hybrid Search...
+2026-02-20 00:17:10 - rag_app - INFO - [main.py:443] - ✓ Advanced RAG Pipeline initialized (BM25 + Dense + RRF)
+2026-02-20 00:17:10 - rag_app - INFO - [main.py:448] - ============================================================
+2026-02-20 00:17:10 - rag_app - INFO - [main.py:449] - Service Status:
+2026-02-20 00:17:10 - rag_app - INFO - [main.py:450] -   - Embedding: ✓
+2026-02-20 00:17:10 - rag_app - INFO - [main.py:451] -   - Vector DB: ✓
+2026-02-20 00:17:10 - rag_app - INFO - [main.py:452] -   - Basic RAG: ✓
+2026-02-20 00:17:10 - rag_app - INFO - [main.py:453] -   - Advanced RAG (Hybrid): ✓
+2026-02-20 00:17:10 - rag_app - INFO - [main.py:454] - ============================================================
+2026-02-20 00:17:30 - rag_app - INFO - [main.py:183] - Parsing and chunking document: Diabetes Mellitus Type 2.pdf
+2026-02-20 00:17:34 - rag_app.document_service - INFO - [document_service.py:314] - Using Docling for context-aware chunking: Diabetes Mellitus Type 2.pdf
+2026-02-20 00:17:34 - rag_app.docling_service - INFO - [docling_service.py:45] - Converting document with Docling: Diabetes Mellitus Type 2.pdf
+2026-02-20 00:17:53 - rag_app.docling_service - INFO - [docling_service.py:50] - Document converted successfully: 112 text elements
+2026-02-20 00:17:54 - rag_app.docling_service - INFO - [docling_service.py:102] - Chunking with HybridChunker (max_tokens=512, merge_peers=True)
+2026-02-20 00:17:54 - rag_app.docling_service - INFO - [docling_service.py:107] - Generated 13 raw semantic chunks, merging to target 256-512 tokens
+2026-02-20 00:17:54 - rag_app.docling_service - INFO - [docling_service.py:156] - After merging: 7 chunks (avg 363.7 tokens)
+2026-02-20 00:17:54 - rag_app.docling_service - INFO - [docling_service.py:212] - Sample chunk metadata - Headings: [], Pages: []
+2026-02-20 00:17:54 - rag_app.docling_service - INFO - [docling_service.py:249] - Successfully processed Diabetes Mellitus Type 2.pdf: 7 chunks with context
+2026-02-20 00:17:54 - rag_app.document_service - INFO - [document_service.py:317] - Docling chunking complete: 7 chunks with heading context
+2026-02-20 00:17:54 - rag_app - INFO - [main.py:191] - Created 7 context-aware chunks
+2026-02-20 00:17:54 - rag_app - INFO - [main.py:194] - Generating embeddings for 7 chunks...
+2026-02-20 00:17:56 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:386] - Semantic chunking: Diabetes Mellitus Type 2.pdf
+2026-02-20 00:19:03 - rag_app - INFO - [main.py:403] - Upload directory initialized: /tmp/uploads
+2026-02-20 00:19:03 - rag_app - INFO - [main.py:405] - ============================================================
+2026-02-20 00:19:03 - rag_app - INFO - [main.py:406] - Starting Multi-Source RAG + Text-to-SQL API...
+2026-02-20 00:19:03 - rag_app - INFO - [main.py:407] - ============================================================
+2026-02-20 00:19:03 - rag_app - INFO - [main.py:412] - Initializing Embedding Service...
+2026-02-20 00:19:03 - rag_app - INFO - [main.py:414] - ✓ Embedding Service initialized
+2026-02-20 00:19:03 - rag_app - INFO - [main.py:420] - Initializing Vector Service...
+2026-02-20 00:19:03 - rag_app - INFO - [main.py:422] - ✓ Vector Service initialized
+2026-02-20 00:19:03 - rag_app - INFO - [main.py:428] - Initializing Basic RAG Service...
+2026-02-20 00:19:03 - rag_app - INFO - [main.py:430] - ✓ Basic RAG Service initialized
+2026-02-20 00:19:03 - rag_app - INFO - [main.py:434] - Initializing Advanced RAG Pipeline Service with Hybrid Search...
+2026-02-20 00:19:06 - rag_app - INFO - [main.py:443] - ✓ Advanced RAG Pipeline initialized (BM25 + Dense + RRF)
+2026-02-20 00:19:06 - rag_app - INFO - [main.py:448] - ============================================================
+2026-02-20 00:19:06 - rag_app - INFO - [main.py:449] - Service Status:
+2026-02-20 00:19:06 - rag_app - INFO - [main.py:450] -   - Embedding: ✓
+2026-02-20 00:19:06 - rag_app - INFO - [main.py:451] -   - Vector DB: ✓
+2026-02-20 00:19:06 - rag_app - INFO - [main.py:452] -   - Basic RAG: ✓
+2026-02-20 00:19:06 - rag_app - INFO - [main.py:453] -   - Advanced RAG (Hybrid): ✓
+2026-02-20 00:19:06 - rag_app - INFO - [main.py:454] - ============================================================
+2026-02-20 00:19:11 - rag_app - INFO - [main.py:183] - Parsing and chunking document: Diabetes Mellitus Type 2.pdf
+2026-02-20 00:19:14 - rag_app.document_service - INFO - [document_service.py:314] - Using Docling for context-aware chunking: Diabetes Mellitus Type 2.pdf
+2026-02-20 00:19:14 - rag_app.docling_service - INFO - [docling_service.py:45] - Converting document with Docling: Diabetes Mellitus Type 2.pdf
+2026-02-20 00:19:33 - rag_app.docling_service - INFO - [docling_service.py:50] - Document converted successfully: 112 text elements
+2026-02-20 00:19:33 - rag_app.docling_service - INFO - [docling_service.py:102] - Chunking with HybridChunker (max_tokens=512, merge_peers=True)
+2026-02-20 00:19:33 - rag_app.docling_service - INFO - [docling_service.py:107] - Generated 13 raw semantic chunks, merging to target 256-512 tokens
+2026-02-20 00:19:33 - rag_app.docling_service - INFO - [docling_service.py:156] - After merging: 7 chunks (avg 363.7 tokens)
+2026-02-20 00:19:33 - rag_app.docling_service - INFO - [docling_service.py:212] - Sample chunk metadata - Headings: [], Pages: []
+2026-02-20 00:19:33 - rag_app.docling_service - INFO - [docling_service.py:249] - Successfully processed Diabetes Mellitus Type 2.pdf: 7 chunks with context
+2026-02-20 00:19:33 - rag_app.document_service - INFO - [document_service.py:317] - Docling chunking complete: 7 chunks with heading context
+2026-02-20 00:19:33 - rag_app - INFO - [main.py:191] - Created 7 context-aware chunks
+2026-02-20 00:19:33 - rag_app - INFO - [main.py:194] - Generating embeddings for 7 chunks...
+2026-02-20 00:19:35 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:386] - Semantic chunking: Diabetes Mellitus Type 2.pdf
+2026-02-20 00:19:35 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:150] - Detected 3 sections in Diabetes Mellitus Type 2.pdf
+2026-02-20 00:21:05 - rag_app - INFO - [main.py:466] - Shutting down...
+2026-02-20 00:22:02 - rag_app - INFO - [main.py:403] - Upload directory initialized: /tmp/uploads
+2026-02-20 00:22:02 - rag_app - INFO - [main.py:405] - ============================================================
+2026-02-20 00:22:02 - rag_app - INFO - [main.py:406] - Starting Multi-Source RAG + Text-to-SQL API...
+2026-02-20 00:22:02 - rag_app - INFO - [main.py:407] - ============================================================
+2026-02-20 00:22:02 - rag_app - INFO - [main.py:412] - Initializing Embedding Service...
+2026-02-20 00:22:02 - rag_app - INFO - [main.py:414] - ✓ Embedding Service initialized
+2026-02-20 00:22:02 - rag_app - INFO - [main.py:420] - Initializing Vector Service...
+2026-02-20 00:22:02 - rag_app - INFO - [main.py:422] - ✓ Vector Service initialized
+2026-02-20 00:22:02 - rag_app - INFO - [main.py:428] - Initializing Basic RAG Service...
+2026-02-20 00:22:02 - rag_app - INFO - [main.py:430] - ✓ Basic RAG Service initialized
+2026-02-20 00:22:02 - rag_app - INFO - [main.py:434] - Initializing Advanced RAG Pipeline Service with Hybrid Search...
+2026-02-20 00:22:05 - rag_app - INFO - [main.py:443] - ✓ Advanced RAG Pipeline initialized (BM25 + Dense + RRF)
+2026-02-20 00:22:05 - rag_app - INFO - [main.py:448] - ============================================================
+2026-02-20 00:22:05 - rag_app - INFO - [main.py:449] - Service Status:
+2026-02-20 00:22:05 - rag_app - INFO - [main.py:450] -   - Embedding: ✓
+2026-02-20 00:22:05 - rag_app - INFO - [main.py:451] -   - Vector DB: ✓
+2026-02-20 00:22:05 - rag_app - INFO - [main.py:452] -   - Basic RAG: ✓
+2026-02-20 00:22:05 - rag_app - INFO - [main.py:453] -   - Advanced RAG (Hybrid): ✓
+2026-02-20 00:22:05 - rag_app - INFO - [main.py:454] - ============================================================
+2026-02-20 00:22:36 - rag_app - INFO - [main.py:183] - Parsing and chunking document: Diabetes Mellitus Type 2.pdf
+2026-02-20 00:22:40 - rag_app.document_service - INFO - [document_service.py:314] - Using Docling for context-aware chunking: Diabetes Mellitus Type 2.pdf
+2026-02-20 00:22:40 - rag_app.docling_service - INFO - [docling_service.py:45] - Converting document with Docling: Diabetes Mellitus Type 2.pdf
+2026-02-20 00:22:58 - rag_app.docling_service - INFO - [docling_service.py:50] - Document converted successfully: 112 text elements
+2026-02-20 00:22:58 - rag_app.docling_service - INFO - [docling_service.py:102] - Chunking with HybridChunker (max_tokens=512, merge_peers=True)
+2026-02-20 00:22:58 - rag_app.docling_service - INFO - [docling_service.py:107] - Generated 13 raw semantic chunks, merging to target 256-512 tokens
+2026-02-20 00:22:58 - rag_app.docling_service - INFO - [docling_service.py:156] - After merging: 7 chunks (avg 363.7 tokens)
+2026-02-20 00:22:58 - rag_app.docling_service - INFO - [docling_service.py:212] - Sample chunk metadata - Headings: [], Pages: []
+2026-02-20 00:22:58 - rag_app.docling_service - INFO - [docling_service.py:249] - Successfully processed Diabetes Mellitus Type 2.pdf: 7 chunks with context
+2026-02-20 00:22:58 - rag_app.document_service - INFO - [document_service.py:317] - Docling chunking complete: 7 chunks with heading context
+2026-02-20 00:22:58 - rag_app - INFO - [main.py:191] - Created 7 context-aware chunks
+2026-02-20 00:22:58 - rag_app - INFO - [main.py:194] - Generating embeddings for 7 chunks...
+2026-02-20 00:23:00 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:438] - Semantic chunking: Diabetes Mellitus Type 2.pdf
+2026-02-20 00:23:00 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:150] - Detected 3 sections in Diabetes Mellitus Type 2.pdf
+2026-02-20 00:23:00 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:441] -   Created 26 chunks
+2026-02-20 00:23:06 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:470] - Indexed 26 semantic chunks
