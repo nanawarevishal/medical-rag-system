@@ -388,8 +388,6 @@ async def pipeline_query(payload: PipelineQueryRequest):
             use_expansions=payload.use_expansions,
             max_rewrites=payload.max_rewrites,
             max_expansions=payload.max_expansions,
-            sparse_weight=payload.sparse_weight,
-            dense_weight=payload.dense_weight,
         )
         return result
     except Exception as e:

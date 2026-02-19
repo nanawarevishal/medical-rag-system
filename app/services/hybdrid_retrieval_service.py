@@ -610,12 +610,6 @@ class ElasticsearchSparseBackend:
 
 
 class ReciprocalRankFusion:
-    """
-    RRF: Combines rankings using reciprocal rank formula.
-    Score = Σ 1/(k + rank) for each list containing the item.
-    k=60 is standard (tuneable).
-    """
-
     def __init__(self, k: int = 60):
         self.k = k
 
@@ -629,31 +623,41 @@ class ReciprocalRankFusion:
     ) -> list[SearchResult]:
         """Merge using Reciprocal Rank Fusion"""
 
-        scores: dict[str, dict] = {}  # chunk_id -> {dense_rank, sparse_rank, chunk}
+        scores: dict[str, dict] = {}
 
-        # Process dense results (rank 1-indexed)
+        # Process dense results
         for rank, chunk in enumerate(dense_results, 1):
             cid = chunk.id
             if cid not in scores:
-                scores[cid] = {"chunk": chunk, "dense_rank": None, "sparse_rank": None}
+                scores[cid] = {
+                    "chunk": chunk,
+                    "dense_rank": None,
+                    "sparse_rank": None,
+                    "dense_rrf": 0.0,
+                    "sparse_rrf": 0.0,
+                }
             scores[cid]["dense_rank"] = rank
+            scores[cid]["dense_rrf"] = dense_weight * (1.0 / (self.k + rank))
 
         # Process sparse results
         for rank, chunk in enumerate(sparse_results, 1):
             cid = chunk.id
             if cid not in scores:
-                scores[cid] = {"chunk": chunk, "dense_rank": None, "sparse_rank": None}
+                scores[cid] = {
+                    "chunk": chunk,
+                    "dense_rank": None,
+                    "sparse_rank": None,
+                    "dense_rrf": 0.0,
+                    "sparse_rrf": 0.0,
+                }
             scores[cid]["sparse_rank"] = rank
+            scores[cid]["sparse_rrf"] = sparse_weight * (1.0 / (self.k + rank))
 
-        # Calculate RRF scores
+        # Build results
         fused_results = []
         for cid, data in scores.items():
-            rrf_score = 0.0
-
-            if data["dense_rank"]:
-                rrf_score += dense_weight * (1.0 / (self.k + data["dense_rank"]))
-            if data["sparse_rank"]:
-                rrf_score += sparse_weight * (1.0 / (self.k + data["sparse_rank"]))
+            # Sum of RRF contributions
+            combined_rrf = data["dense_rrf"] + data["sparse_rrf"]
 
             # Determine source
             sources = []
@@ -662,23 +666,17 @@ class ReciprocalRankFusion:
             if data["sparse_rank"]:
                 sources.append("sparse")
 
+            # ✅ FIXED: Store RRF scores, not similarity
             result = SearchResult(
                 chunk=data["chunk"],
-                dense_score=data["chunk"].score if data["dense_rank"] else 0.0,
-                sparse_score=data["chunk"].score if data["sparse_rank"] else 0.0,
-                combined_score=rrf_score,
+                dense_score=data["dense_rrf"],  # RRF score (~0.016)
+                sparse_score=data["sparse_rrf"],  # RRF score (~0.016)
+                combined_score=combined_rrf,  # Sum (~0.032)
                 source="+".join(sources),
             )
             fused_results.append(result)
 
-        # Sort by combined score and take top_k
         fused_results.sort(key=lambda x: x.combined_score, reverse=True)
-
-        logger.info(
-            f"RRF fusion: dense={len(dense_results)}, sparse={len(sparse_results)}, "
-            f"unique={len(fused_results)}, final={min(top_k, len(fused_results))}"
-        )
-
         return fused_results[:top_k]
 
 

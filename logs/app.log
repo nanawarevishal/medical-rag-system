@@ -1997,3 +1997,788 @@ NameError: name 'query_cache_service' is not defined
 2026-02-18 23:25:35 - rag_app - INFO - [main.py:454] -   - Basic RAG: ✓
 2026-02-18 23:25:35 - rag_app - INFO - [main.py:455] -   - Advanced RAG (Hybrid): ✓
 2026-02-18 23:25:35 - rag_app - INFO - [main.py:456] - ============================================================
+2026-02-18 23:44:20 - rag_app - INFO - [main.py:468] - Shutting down...
+2026-02-18 23:44:54 - rag_app - INFO - [main.py:405] - Upload directory initialized: /tmp/uploads
+2026-02-18 23:44:54 - rag_app - INFO - [main.py:407] - ============================================================
+2026-02-18 23:44:54 - rag_app - INFO - [main.py:408] - Starting Multi-Source RAG + Text-to-SQL API...
+2026-02-18 23:44:54 - rag_app - INFO - [main.py:409] - ============================================================
+2026-02-18 23:44:54 - rag_app - INFO - [main.py:414] - Initializing Embedding Service...
+2026-02-18 23:44:54 - rag_app - INFO - [main.py:416] - ✓ Embedding Service initialized
+2026-02-18 23:44:54 - rag_app - INFO - [main.py:422] - Initializing Vector Service...
+2026-02-18 23:44:54 - rag_app - INFO - [main.py:424] - ✓ Vector Service initialized
+2026-02-18 23:44:54 - rag_app - INFO - [main.py:430] - Initializing Basic RAG Service...
+2026-02-18 23:44:54 - rag_app - INFO - [main.py:432] - ✓ Basic RAG Service initialized
+2026-02-18 23:44:54 - rag_app - INFO - [main.py:436] - Initializing Advanced RAG Pipeline Service with Hybrid Search...
+2026-02-18 23:44:55 - rag_app - INFO - [main.py:445] - ✓ Advanced RAG Pipeline initialized (BM25 + Dense + RRF)
+2026-02-18 23:44:55 - rag_app - INFO - [main.py:450] - ============================================================
+2026-02-18 23:44:55 - rag_app - INFO - [main.py:451] - Service Status:
+2026-02-18 23:44:55 - rag_app - INFO - [main.py:452] -   - Embedding: ✓
+2026-02-18 23:44:55 - rag_app - INFO - [main.py:453] -   - Vector DB: ✓
+2026-02-18 23:44:55 - rag_app - INFO - [main.py:454] -   - Basic RAG: ✓
+2026-02-18 23:44:55 - rag_app - INFO - [main.py:455] -   - Advanced RAG (Hybrid): ✓
+2026-02-18 23:44:55 - rag_app - INFO - [main.py:456] - ============================================================
+2026-02-18 23:45:21 - rag_app - INFO - [main.py:468] - Shutting down...
+2026-02-18 23:45:53 - rag_app - INFO - [main.py:405] - Upload directory initialized: /tmp/uploads
+2026-02-18 23:45:53 - rag_app - INFO - [main.py:407] - ============================================================
+2026-02-18 23:45:53 - rag_app - INFO - [main.py:408] - Starting Multi-Source RAG + Text-to-SQL API...
+2026-02-18 23:45:53 - rag_app - INFO - [main.py:409] - ============================================================
+2026-02-18 23:45:53 - rag_app - INFO - [main.py:414] - Initializing Embedding Service...
+2026-02-18 23:45:53 - rag_app - INFO - [main.py:416] - ✓ Embedding Service initialized
+2026-02-18 23:45:53 - rag_app - INFO - [main.py:422] - Initializing Vector Service...
+2026-02-18 23:45:53 - rag_app - INFO - [main.py:424] - ✓ Vector Service initialized
+2026-02-18 23:45:53 - rag_app - INFO - [main.py:430] - Initializing Basic RAG Service...
+2026-02-18 23:45:53 - rag_app - INFO - [main.py:432] - ✓ Basic RAG Service initialized
+2026-02-18 23:45:53 - rag_app - INFO - [main.py:436] - Initializing Advanced RAG Pipeline Service with Hybrid Search...
+2026-02-18 23:45:56 - rag_app - INFO - [main.py:445] - ✓ Advanced RAG Pipeline initialized (BM25 + Dense + RRF)
+2026-02-18 23:45:56 - rag_app - INFO - [main.py:450] - ============================================================
+2026-02-18 23:45:56 - rag_app - INFO - [main.py:451] - Service Status:
+2026-02-18 23:45:56 - rag_app - INFO - [main.py:452] -   - Embedding: ✓
+2026-02-18 23:45:56 - rag_app - INFO - [main.py:453] -   - Vector DB: ✓
+2026-02-18 23:45:56 - rag_app - INFO - [main.py:454] -   - Basic RAG: ✓
+2026-02-18 23:45:56 - rag_app - INFO - [main.py:455] -   - Advanced RAG (Hybrid): ✓
+2026-02-18 23:45:56 - rag_app - INFO - [main.py:456] - ============================================================
+2026-02-18 23:46:28 - rag_app - INFO - [main.py:405] - Upload directory initialized: /tmp/uploads
+2026-02-18 23:46:28 - rag_app - INFO - [main.py:407] - ============================================================
+2026-02-18 23:46:28 - rag_app - INFO - [main.py:408] - Starting Multi-Source RAG + Text-to-SQL API...
+2026-02-18 23:46:28 - rag_app - INFO - [main.py:409] - ============================================================
+2026-02-18 23:46:28 - rag_app - INFO - [main.py:414] - Initializing Embedding Service...
+2026-02-18 23:46:28 - rag_app - INFO - [main.py:416] - ✓ Embedding Service initialized
+2026-02-18 23:46:28 - rag_app - INFO - [main.py:422] - Initializing Vector Service...
+2026-02-18 23:46:28 - rag_app - INFO - [main.py:424] - ✓ Vector Service initialized
+2026-02-18 23:46:28 - rag_app - INFO - [main.py:430] - Initializing Basic RAG Service...
+2026-02-18 23:46:28 - rag_app - INFO - [main.py:432] - ✓ Basic RAG Service initialized
+2026-02-18 23:46:28 - rag_app - INFO - [main.py:436] - Initializing Advanced RAG Pipeline Service with Hybrid Search...
+2026-02-18 23:46:30 - rag_app - INFO - [main.py:445] - ✓ Advanced RAG Pipeline initialized (BM25 + Dense + RRF)
+2026-02-18 23:46:30 - rag_app - INFO - [main.py:450] - ============================================================
+2026-02-18 23:46:30 - rag_app - INFO - [main.py:451] - Service Status:
+2026-02-18 23:46:30 - rag_app - INFO - [main.py:452] -   - Embedding: ✓
+2026-02-18 23:46:30 - rag_app - INFO - [main.py:453] -   - Vector DB: ✓
+2026-02-18 23:46:30 - rag_app - INFO - [main.py:454] -   - Basic RAG: ✓
+2026-02-18 23:46:30 - rag_app - INFO - [main.py:455] -   - Advanced RAG (Hybrid): ✓
+2026-02-18 23:46:30 - rag_app - INFO - [main.py:456] - ============================================================
+2026-02-18 23:48:27 - rag_app - INFO - [main.py:468] - Shutting down...
+2026-02-18 23:49:01 - rag_app - INFO - [main.py:405] - Upload directory initialized: /tmp/uploads
+2026-02-18 23:49:01 - rag_app - INFO - [main.py:407] - ============================================================
+2026-02-18 23:49:01 - rag_app - INFO - [main.py:408] - Starting Multi-Source RAG + Text-to-SQL API...
+2026-02-18 23:49:01 - rag_app - INFO - [main.py:409] - ============================================================
+2026-02-18 23:49:01 - rag_app - INFO - [main.py:414] - Initializing Embedding Service...
+2026-02-18 23:49:01 - rag_app - INFO - [main.py:416] - ✓ Embedding Service initialized
+2026-02-18 23:49:01 - rag_app - INFO - [main.py:422] - Initializing Vector Service...
+2026-02-18 23:49:01 - rag_app - INFO - [main.py:424] - ✓ Vector Service initialized
+2026-02-18 23:49:01 - rag_app - INFO - [main.py:430] - Initializing Basic RAG Service...
+2026-02-18 23:49:01 - rag_app - INFO - [main.py:432] - ✓ Basic RAG Service initialized
+2026-02-18 23:49:01 - rag_app - INFO - [main.py:436] - Initializing Advanced RAG Pipeline Service with Hybrid Search...
+2026-02-18 23:49:03 - rag_app - INFO - [main.py:445] - ✓ Advanced RAG Pipeline initialized (BM25 + Dense + RRF)
+2026-02-18 23:49:03 - rag_app - INFO - [main.py:450] - ============================================================
+2026-02-18 23:49:03 - rag_app - INFO - [main.py:451] - Service Status:
+2026-02-18 23:49:03 - rag_app - INFO - [main.py:452] -   - Embedding: ✓
+2026-02-18 23:49:03 - rag_app - INFO - [main.py:453] -   - Vector DB: ✓
+2026-02-18 23:49:03 - rag_app - INFO - [main.py:454] -   - Basic RAG: ✓
+2026-02-18 23:49:03 - rag_app - INFO - [main.py:455] -   - Advanced RAG (Hybrid): ✓
+2026-02-18 23:49:03 - rag_app - INFO - [main.py:456] - ============================================================
+2026-02-18 23:49:51 - rag_app - INFO - [main.py:468] - Shutting down...
+2026-02-18 23:50:26 - rag_app - INFO - [main.py:405] - Upload directory initialized: /tmp/uploads
+2026-02-18 23:50:26 - rag_app - INFO - [main.py:407] - ============================================================
+2026-02-18 23:50:26 - rag_app - INFO - [main.py:408] - Starting Multi-Source RAG + Text-to-SQL API...
+2026-02-18 23:50:26 - rag_app - INFO - [main.py:409] - ============================================================
+2026-02-18 23:50:26 - rag_app - INFO - [main.py:414] - Initializing Embedding Service...
+2026-02-18 23:50:26 - rag_app - INFO - [main.py:416] - ✓ Embedding Service initialized
+2026-02-18 23:50:26 - rag_app - INFO - [main.py:422] - Initializing Vector Service...
+2026-02-18 23:50:26 - rag_app - INFO - [main.py:424] - ✓ Vector Service initialized
+2026-02-18 23:50:26 - rag_app - INFO - [main.py:430] - Initializing Basic RAG Service...
+2026-02-18 23:50:26 - rag_app - INFO - [main.py:432] - ✓ Basic RAG Service initialized
+2026-02-18 23:50:26 - rag_app - INFO - [main.py:436] - Initializing Advanced RAG Pipeline Service with Hybrid Search...
+2026-02-18 23:50:28 - rag_app - INFO - [main.py:445] - ✓ Advanced RAG Pipeline initialized (BM25 + Dense + RRF)
+2026-02-18 23:50:28 - rag_app - INFO - [main.py:450] - ============================================================
+2026-02-18 23:50:28 - rag_app - INFO - [main.py:451] - Service Status:
+2026-02-18 23:50:28 - rag_app - INFO - [main.py:452] -   - Embedding: ✓
+2026-02-18 23:50:28 - rag_app - INFO - [main.py:453] -   - Vector DB: ✓
+2026-02-18 23:50:28 - rag_app - INFO - [main.py:454] -   - Basic RAG: ✓
+2026-02-18 23:50:28 - rag_app - INFO - [main.py:455] -   - Advanced RAG (Hybrid): ✓
+2026-02-18 23:50:28 - rag_app - INFO - [main.py:456] - ============================================================
+2026-02-18 23:50:59 - rag_app - INFO - [main.py:405] - Upload directory initialized: /tmp/uploads
+2026-02-18 23:50:59 - rag_app - INFO - [main.py:407] - ============================================================
+2026-02-18 23:50:59 - rag_app - INFO - [main.py:408] - Starting Multi-Source RAG + Text-to-SQL API...
+2026-02-18 23:50:59 - rag_app - INFO - [main.py:409] - ============================================================
+2026-02-18 23:50:59 - rag_app - INFO - [main.py:414] - Initializing Embedding Service...
+2026-02-18 23:50:59 - rag_app - INFO - [main.py:416] - ✓ Embedding Service initialized
+2026-02-18 23:50:59 - rag_app - INFO - [main.py:422] - Initializing Vector Service...
+2026-02-18 23:50:59 - rag_app - INFO - [main.py:424] - ✓ Vector Service initialized
+2026-02-18 23:50:59 - rag_app - INFO - [main.py:430] - Initializing Basic RAG Service...
+2026-02-18 23:50:59 - rag_app - INFO - [main.py:432] - ✓ Basic RAG Service initialized
+2026-02-18 23:50:59 - rag_app - INFO - [main.py:436] - Initializing Advanced RAG Pipeline Service with Hybrid Search...
+2026-02-18 23:51:02 - rag_app - INFO - [main.py:445] - ✓ Advanced RAG Pipeline initialized (BM25 + Dense + RRF)
+2026-02-18 23:51:02 - rag_app - INFO - [main.py:450] - ============================================================
+2026-02-18 23:51:02 - rag_app - INFO - [main.py:451] - Service Status:
+2026-02-18 23:51:02 - rag_app - INFO - [main.py:452] -   - Embedding: ✓
+2026-02-18 23:51:02 - rag_app - INFO - [main.py:453] -   - Vector DB: ✓
+2026-02-18 23:51:02 - rag_app - INFO - [main.py:454] -   - Basic RAG: ✓
+2026-02-18 23:51:02 - rag_app - INFO - [main.py:455] -   - Advanced RAG (Hybrid): ✓
+2026-02-18 23:51:02 - rag_app - INFO - [main.py:456] - ============================================================
+2026-02-18 23:52:05 - rag_app - INFO - [main.py:405] - Upload directory initialized: /tmp/uploads
+2026-02-18 23:52:05 - rag_app - INFO - [main.py:407] - ============================================================
+2026-02-18 23:52:05 - rag_app - INFO - [main.py:408] - Starting Multi-Source RAG + Text-to-SQL API...
+2026-02-18 23:52:05 - rag_app - INFO - [main.py:409] - ============================================================
+2026-02-18 23:52:05 - rag_app - INFO - [main.py:414] - Initializing Embedding Service...
+2026-02-18 23:52:05 - rag_app - INFO - [main.py:416] - ✓ Embedding Service initialized
+2026-02-18 23:52:05 - rag_app - INFO - [main.py:422] - Initializing Vector Service...
+2026-02-18 23:52:05 - rag_app - INFO - [main.py:424] - ✓ Vector Service initialized
+2026-02-18 23:52:05 - rag_app - INFO - [main.py:430] - Initializing Basic RAG Service...
+2026-02-18 23:52:05 - rag_app - INFO - [main.py:432] - ✓ Basic RAG Service initialized
+2026-02-18 23:52:05 - rag_app - INFO - [main.py:436] - Initializing Advanced RAG Pipeline Service with Hybrid Search...
+2026-02-18 23:52:08 - rag_app - INFO - [main.py:445] - ✓ Advanced RAG Pipeline initialized (BM25 + Dense + RRF)
+2026-02-18 23:52:08 - rag_app - INFO - [main.py:450] - ============================================================
+2026-02-18 23:52:08 - rag_app - INFO - [main.py:451] - Service Status:
+2026-02-18 23:52:08 - rag_app - INFO - [main.py:452] -   - Embedding: ✓
+2026-02-18 23:52:08 - rag_app - INFO - [main.py:453] -   - Vector DB: ✓
+2026-02-18 23:52:08 - rag_app - INFO - [main.py:454] -   - Basic RAG: ✓
+2026-02-18 23:52:08 - rag_app - INFO - [main.py:455] -   - Advanced RAG (Hybrid): ✓
+2026-02-18 23:52:08 - rag_app - INFO - [main.py:456] - ============================================================
+2026-02-19 22:26:42 - rag_app - INFO - [main.py:405] - Upload directory initialized: /tmp/uploads
+2026-02-19 22:26:42 - rag_app - INFO - [main.py:407] - ============================================================
+2026-02-19 22:26:42 - rag_app - INFO - [main.py:408] - Starting Multi-Source RAG + Text-to-SQL API...
+2026-02-19 22:26:42 - rag_app - INFO - [main.py:409] - ============================================================
+2026-02-19 22:26:42 - rag_app - INFO - [main.py:414] - Initializing Embedding Service...
+2026-02-19 22:26:42 - rag_app - INFO - [main.py:416] - ✓ Embedding Service initialized
+2026-02-19 22:26:42 - rag_app - INFO - [main.py:422] - Initializing Vector Service...
+2026-02-19 22:26:42 - rag_app - INFO - [main.py:424] - ✓ Vector Service initialized
+2026-02-19 22:26:42 - rag_app - INFO - [main.py:430] - Initializing Basic RAG Service...
+2026-02-19 22:26:42 - rag_app - INFO - [main.py:432] - ✓ Basic RAG Service initialized
+2026-02-19 22:26:42 - rag_app - INFO - [main.py:436] - Initializing Advanced RAG Pipeline Service with Hybrid Search...
+2026-02-19 22:26:45 - rag_app - INFO - [main.py:445] - ✓ Advanced RAG Pipeline initialized (BM25 + Dense + RRF)
+2026-02-19 22:26:45 - rag_app - INFO - [main.py:450] - ============================================================
+2026-02-19 22:26:45 - rag_app - INFO - [main.py:451] - Service Status:
+2026-02-19 22:26:45 - rag_app - INFO - [main.py:452] -   - Embedding: ✓
+2026-02-19 22:26:45 - rag_app - INFO - [main.py:453] -   - Vector DB: ✓
+2026-02-19 22:26:45 - rag_app - INFO - [main.py:454] -   - Basic RAG: ✓
+2026-02-19 22:26:45 - rag_app - INFO - [main.py:455] -   - Advanced RAG (Hybrid): ✓
+2026-02-19 22:26:45 - rag_app - INFO - [main.py:456] - ============================================================
+2026-02-19 22:30:31 - rag_app - INFO - [main.py:405] - Upload directory initialized: /tmp/uploads
+2026-02-19 22:30:31 - rag_app - INFO - [main.py:407] - ============================================================
+2026-02-19 22:30:31 - rag_app - INFO - [main.py:408] - Starting Multi-Source RAG + Text-to-SQL API...
+2026-02-19 22:30:31 - rag_app - INFO - [main.py:409] - ============================================================
+2026-02-19 22:30:31 - rag_app - INFO - [main.py:414] - Initializing Embedding Service...
+2026-02-19 22:30:31 - rag_app - INFO - [main.py:416] - ✓ Embedding Service initialized
+2026-02-19 22:30:31 - rag_app - INFO - [main.py:422] - Initializing Vector Service...
+2026-02-19 22:30:31 - rag_app - INFO - [main.py:424] - ✓ Vector Service initialized
+2026-02-19 22:30:31 - rag_app - INFO - [main.py:430] - Initializing Basic RAG Service...
+2026-02-19 22:30:31 - rag_app - INFO - [main.py:432] - ✓ Basic RAG Service initialized
+2026-02-19 22:30:31 - rag_app - INFO - [main.py:436] - Initializing Advanced RAG Pipeline Service with Hybrid Search...
+2026-02-19 22:30:34 - rag_app - INFO - [main.py:445] - ✓ Advanced RAG Pipeline initialized (BM25 + Dense + RRF)
+2026-02-19 22:30:34 - rag_app - INFO - [main.py:450] - ============================================================
+2026-02-19 22:30:34 - rag_app - INFO - [main.py:451] - Service Status:
+2026-02-19 22:30:34 - rag_app - INFO - [main.py:452] -   - Embedding: ✓
+2026-02-19 22:30:34 - rag_app - INFO - [main.py:453] -   - Vector DB: ✓
+2026-02-19 22:30:34 - rag_app - INFO - [main.py:454] -   - Basic RAG: ✓
+2026-02-19 22:30:34 - rag_app - INFO - [main.py:455] -   - Advanced RAG (Hybrid): ✓
+2026-02-19 22:30:34 - rag_app - INFO - [main.py:456] - ============================================================
+2026-02-19 22:32:55 - rag_app - INFO - [main.py:468] - Shutting down...
+2026-02-19 22:35:22 - rag_app - INFO - [main.py:405] - Upload directory initialized: /tmp/uploads
+2026-02-19 22:35:22 - rag_app - INFO - [main.py:407] - ============================================================
+2026-02-19 22:35:22 - rag_app - INFO - [main.py:408] - Starting Multi-Source RAG + Text-to-SQL API...
+2026-02-19 22:35:22 - rag_app - INFO - [main.py:409] - ============================================================
+2026-02-19 22:35:22 - rag_app - INFO - [main.py:414] - Initializing Embedding Service...
+2026-02-19 22:35:22 - rag_app - INFO - [main.py:416] - ✓ Embedding Service initialized
+2026-02-19 22:35:22 - rag_app - INFO - [main.py:422] - Initializing Vector Service...
+2026-02-19 22:35:22 - rag_app - INFO - [main.py:424] - ✓ Vector Service initialized
+2026-02-19 22:35:22 - rag_app - INFO - [main.py:430] - Initializing Basic RAG Service...
+2026-02-19 22:35:22 - rag_app - INFO - [main.py:432] - ✓ Basic RAG Service initialized
+2026-02-19 22:35:22 - rag_app - INFO - [main.py:436] - Initializing Advanced RAG Pipeline Service with Hybrid Search...
+2026-02-19 22:35:25 - rag_app - INFO - [main.py:445] - ✓ Advanced RAG Pipeline initialized (BM25 + Dense + RRF)
+2026-02-19 22:35:25 - rag_app - INFO - [main.py:450] - ============================================================
+2026-02-19 22:35:25 - rag_app - INFO - [main.py:451] - Service Status:
+2026-02-19 22:35:25 - rag_app - INFO - [main.py:452] -   - Embedding: ✓
+2026-02-19 22:35:25 - rag_app - INFO - [main.py:453] -   - Vector DB: ✓
+2026-02-19 22:35:25 - rag_app - INFO - [main.py:454] -   - Basic RAG: ✓
+2026-02-19 22:35:25 - rag_app - INFO - [main.py:455] -   - Advanced RAG (Hybrid): ✓
+2026-02-19 22:35:25 - rag_app - INFO - [main.py:456] - ============================================================
+2026-02-19 22:35:59 - rag_app - INFO - [main.py:405] - Upload directory initialized: /tmp/uploads
+2026-02-19 22:35:59 - rag_app - INFO - [main.py:407] - ============================================================
+2026-02-19 22:35:59 - rag_app - INFO - [main.py:408] - Starting Multi-Source RAG + Text-to-SQL API...
+2026-02-19 22:35:59 - rag_app - INFO - [main.py:409] - ============================================================
+2026-02-19 22:35:59 - rag_app - INFO - [main.py:414] - Initializing Embedding Service...
+2026-02-19 22:35:59 - rag_app - INFO - [main.py:416] - ✓ Embedding Service initialized
+2026-02-19 22:35:59 - rag_app - INFO - [main.py:422] - Initializing Vector Service...
+2026-02-19 22:35:59 - rag_app - INFO - [main.py:424] - ✓ Vector Service initialized
+2026-02-19 22:35:59 - rag_app - INFO - [main.py:430] - Initializing Basic RAG Service...
+2026-02-19 22:35:59 - rag_app - INFO - [main.py:432] - ✓ Basic RAG Service initialized
+2026-02-19 22:35:59 - rag_app - INFO - [main.py:436] - Initializing Advanced RAG Pipeline Service with Hybrid Search...
+2026-02-19 22:36:01 - rag_app - INFO - [main.py:445] - ✓ Advanced RAG Pipeline initialized (BM25 + Dense + RRF)
+2026-02-19 22:36:01 - rag_app - INFO - [main.py:450] - ============================================================
+2026-02-19 22:36:01 - rag_app - INFO - [main.py:451] - Service Status:
+2026-02-19 22:36:01 - rag_app - INFO - [main.py:452] -   - Embedding: ✓
+2026-02-19 22:36:01 - rag_app - INFO - [main.py:453] -   - Vector DB: ✓
+2026-02-19 22:36:01 - rag_app - INFO - [main.py:454] -   - Basic RAG: ✓
+2026-02-19 22:36:01 - rag_app - INFO - [main.py:455] -   - Advanced RAG (Hybrid): ✓
+2026-02-19 22:36:01 - rag_app - INFO - [main.py:456] - ============================================================
+2026-02-19 22:36:33 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:263] - Found relevant sections: []
+2026-02-19 22:38:44 - rag_app - INFO - [main.py:405] - Upload directory initialized: /tmp/uploads
+2026-02-19 22:38:44 - rag_app - INFO - [main.py:407] - ============================================================
+2026-02-19 22:38:44 - rag_app - INFO - [main.py:408] - Starting Multi-Source RAG + Text-to-SQL API...
+2026-02-19 22:38:44 - rag_app - INFO - [main.py:409] - ============================================================
+2026-02-19 22:38:44 - rag_app - INFO - [main.py:414] - Initializing Embedding Service...
+2026-02-19 22:38:45 - rag_app - INFO - [main.py:416] - ✓ Embedding Service initialized
+2026-02-19 22:38:45 - rag_app - INFO - [main.py:422] - Initializing Vector Service...
+2026-02-19 22:38:45 - rag_app - INFO - [main.py:424] - ✓ Vector Service initialized
+2026-02-19 22:38:45 - rag_app - INFO - [main.py:430] - Initializing Basic RAG Service...
+2026-02-19 22:38:45 - rag_app - INFO - [main.py:432] - ✓ Basic RAG Service initialized
+2026-02-19 22:38:45 - rag_app - INFO - [main.py:436] - Initializing Advanced RAG Pipeline Service with Hybrid Search...
+2026-02-19 22:38:47 - rag_app - INFO - [main.py:445] - ✓ Advanced RAG Pipeline initialized (BM25 + Dense + RRF)
+2026-02-19 22:38:47 - rag_app - INFO - [main.py:450] - ============================================================
+2026-02-19 22:38:47 - rag_app - INFO - [main.py:451] - Service Status:
+2026-02-19 22:38:47 - rag_app - INFO - [main.py:452] -   - Embedding: ✓
+2026-02-19 22:38:47 - rag_app - INFO - [main.py:453] -   - Vector DB: ✓
+2026-02-19 22:38:47 - rag_app - INFO - [main.py:454] -   - Basic RAG: ✓
+2026-02-19 22:38:47 - rag_app - INFO - [main.py:455] -   - Advanced RAG (Hybrid): ✓
+2026-02-19 22:38:47 - rag_app - INFO - [main.py:456] - ============================================================
+2026-02-19 22:39:07 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:263] - Found relevant sections: []
+2026-02-19 22:40:04 - rag_app - INFO - [main.py:405] - Upload directory initialized: /tmp/uploads
+2026-02-19 22:40:04 - rag_app - INFO - [main.py:407] - ============================================================
+2026-02-19 22:40:04 - rag_app - INFO - [main.py:408] - Starting Multi-Source RAG + Text-to-SQL API...
+2026-02-19 22:40:04 - rag_app - INFO - [main.py:409] - ============================================================
+2026-02-19 22:40:04 - rag_app - INFO - [main.py:414] - Initializing Embedding Service...
+2026-02-19 22:40:04 - rag_app - INFO - [main.py:416] - ✓ Embedding Service initialized
+2026-02-19 22:40:04 - rag_app - INFO - [main.py:422] - Initializing Vector Service...
+2026-02-19 22:40:04 - rag_app - INFO - [main.py:424] - ✓ Vector Service initialized
+2026-02-19 22:40:04 - rag_app - INFO - [main.py:430] - Initializing Basic RAG Service...
+2026-02-19 22:40:05 - rag_app - INFO - [main.py:432] - ✓ Basic RAG Service initialized
+2026-02-19 22:40:05 - rag_app - INFO - [main.py:436] - Initializing Advanced RAG Pipeline Service with Hybrid Search...
+2026-02-19 22:40:07 - rag_app - INFO - [main.py:445] - ✓ Advanced RAG Pipeline initialized (BM25 + Dense + RRF)
+2026-02-19 22:40:07 - rag_app - INFO - [main.py:450] - ============================================================
+2026-02-19 22:40:07 - rag_app - INFO - [main.py:451] - Service Status:
+2026-02-19 22:40:07 - rag_app - INFO - [main.py:452] -   - Embedding: ✓
+2026-02-19 22:40:07 - rag_app - INFO - [main.py:453] -   - Vector DB: ✓
+2026-02-19 22:40:07 - rag_app - INFO - [main.py:454] -   - Basic RAG: ✓
+2026-02-19 22:40:07 - rag_app - INFO - [main.py:455] -   - Advanced RAG (Hybrid): ✓
+2026-02-19 22:40:07 - rag_app - INFO - [main.py:456] - ============================================================
+2026-02-19 22:40:27 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:263] - Found relevant sections: []
+2026-02-19 22:43:17 - rag_app - INFO - [main.py:468] - Shutting down...
+2026-02-19 22:43:57 - rag_app - INFO - [main.py:405] - Upload directory initialized: /tmp/uploads
+2026-02-19 22:43:57 - rag_app - INFO - [main.py:407] - ============================================================
+2026-02-19 22:43:57 - rag_app - INFO - [main.py:408] - Starting Multi-Source RAG + Text-to-SQL API...
+2026-02-19 22:43:57 - rag_app - INFO - [main.py:409] - ============================================================
+2026-02-19 22:43:57 - rag_app - INFO - [main.py:414] - Initializing Embedding Service...
+2026-02-19 22:43:57 - rag_app - INFO - [main.py:416] - ✓ Embedding Service initialized
+2026-02-19 22:43:57 - rag_app - INFO - [main.py:422] - Initializing Vector Service...
+2026-02-19 22:43:57 - rag_app - INFO - [main.py:424] - ✓ Vector Service initialized
+2026-02-19 22:43:57 - rag_app - INFO - [main.py:430] - Initializing Basic RAG Service...
+2026-02-19 22:43:57 - rag_app - INFO - [main.py:432] - ✓ Basic RAG Service initialized
+2026-02-19 22:43:57 - rag_app - INFO - [main.py:436] - Initializing Advanced RAG Pipeline Service with Hybrid Search...
+2026-02-19 22:43:59 - rag_app - INFO - [main.py:445] - ✓ Advanced RAG Pipeline initialized (BM25 + Dense + RRF)
+2026-02-19 22:43:59 - rag_app - INFO - [main.py:450] - ============================================================
+2026-02-19 22:43:59 - rag_app - INFO - [main.py:451] - Service Status:
+2026-02-19 22:43:59 - rag_app - INFO - [main.py:452] -   - Embedding: ✓
+2026-02-19 22:43:59 - rag_app - INFO - [main.py:453] -   - Vector DB: ✓
+2026-02-19 22:43:59 - rag_app - INFO - [main.py:454] -   - Basic RAG: ✓
+2026-02-19 22:43:59 - rag_app - INFO - [main.py:455] -   - Advanced RAG (Hybrid): ✓
+2026-02-19 22:43:59 - rag_app - INFO - [main.py:456] - ============================================================
+2026-02-19 22:46:41 - rag_app - INFO - [main.py:405] - Upload directory initialized: /tmp/uploads
+2026-02-19 22:46:41 - rag_app - INFO - [main.py:407] - ============================================================
+2026-02-19 22:46:41 - rag_app - INFO - [main.py:408] - Starting Multi-Source RAG + Text-to-SQL API...
+2026-02-19 22:46:41 - rag_app - INFO - [main.py:409] - ============================================================
+2026-02-19 22:46:41 - rag_app - INFO - [main.py:414] - Initializing Embedding Service...
+2026-02-19 22:46:41 - rag_app - INFO - [main.py:416] - ✓ Embedding Service initialized
+2026-02-19 22:46:41 - rag_app - INFO - [main.py:422] - Initializing Vector Service...
+2026-02-19 22:46:41 - rag_app - INFO - [main.py:424] - ✓ Vector Service initialized
+2026-02-19 22:46:41 - rag_app - INFO - [main.py:430] - Initializing Basic RAG Service...
+2026-02-19 22:46:41 - rag_app - INFO - [main.py:432] - ✓ Basic RAG Service initialized
+2026-02-19 22:46:41 - rag_app - INFO - [main.py:436] - Initializing Advanced RAG Pipeline Service with Hybrid Search...
+2026-02-19 22:46:43 - rag_app - INFO - [main.py:445] - ✓ Advanced RAG Pipeline initialized (BM25 + Dense + RRF)
+2026-02-19 22:46:43 - rag_app - INFO - [main.py:450] - ============================================================
+2026-02-19 22:46:44 - rag_app - INFO - [main.py:451] - Service Status:
+2026-02-19 22:46:44 - rag_app - INFO - [main.py:452] -   - Embedding: ✓
+2026-02-19 22:46:44 - rag_app - INFO - [main.py:453] -   - Vector DB: ✓
+2026-02-19 22:46:44 - rag_app - INFO - [main.py:454] -   - Basic RAG: ✓
+2026-02-19 22:46:44 - rag_app - INFO - [main.py:455] -   - Advanced RAG (Hybrid): ✓
+2026-02-19 22:46:44 - rag_app - INFO - [main.py:456] - ============================================================
+2026-02-19 22:47:23 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:263] - Found relevant sections: []
+2026-02-19 22:49:29 - rag_app - INFO - [main.py:405] - Upload directory initialized: /tmp/uploads
+2026-02-19 22:49:29 - rag_app - INFO - [main.py:407] - ============================================================
+2026-02-19 22:49:29 - rag_app - INFO - [main.py:408] - Starting Multi-Source RAG + Text-to-SQL API...
+2026-02-19 22:49:29 - rag_app - INFO - [main.py:409] - ============================================================
+2026-02-19 22:49:29 - rag_app - INFO - [main.py:414] - Initializing Embedding Service...
+2026-02-19 22:49:29 - rag_app - INFO - [main.py:416] - ✓ Embedding Service initialized
+2026-02-19 22:49:29 - rag_app - INFO - [main.py:422] - Initializing Vector Service...
+2026-02-19 22:49:29 - rag_app - INFO - [main.py:424] - ✓ Vector Service initialized
+2026-02-19 22:49:29 - rag_app - INFO - [main.py:430] - Initializing Basic RAG Service...
+2026-02-19 22:49:29 - rag_app - INFO - [main.py:432] - ✓ Basic RAG Service initialized
+2026-02-19 22:49:29 - rag_app - INFO - [main.py:436] - Initializing Advanced RAG Pipeline Service with Hybrid Search...
+2026-02-19 22:49:31 - rag_app - INFO - [main.py:445] - ✓ Advanced RAG Pipeline initialized (BM25 + Dense + RRF)
+2026-02-19 22:49:31 - rag_app - INFO - [main.py:450] - ============================================================
+2026-02-19 22:49:31 - rag_app - INFO - [main.py:451] - Service Status:
+2026-02-19 22:49:31 - rag_app - INFO - [main.py:452] -   - Embedding: ✓
+2026-02-19 22:49:31 - rag_app - INFO - [main.py:453] -   - Vector DB: ✓
+2026-02-19 22:49:31 - rag_app - INFO - [main.py:454] -   - Basic RAG: ✓
+2026-02-19 22:49:31 - rag_app - INFO - [main.py:455] -   - Advanced RAG (Hybrid): ✓
+2026-02-19 22:49:31 - rag_app - INFO - [main.py:456] - ============================================================
+2026-02-19 22:49:41 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:263] - Found relevant sections: []
+2026-02-19 22:52:03 - rag_app - INFO - [main.py:405] - Upload directory initialized: /tmp/uploads
+2026-02-19 22:52:03 - rag_app - INFO - [main.py:407] - ============================================================
+2026-02-19 22:52:03 - rag_app - INFO - [main.py:408] - Starting Multi-Source RAG + Text-to-SQL API...
+2026-02-19 22:52:03 - rag_app - INFO - [main.py:409] - ============================================================
+2026-02-19 22:52:03 - rag_app - INFO - [main.py:414] - Initializing Embedding Service...
+2026-02-19 22:52:03 - rag_app - INFO - [main.py:416] - ✓ Embedding Service initialized
+2026-02-19 22:52:03 - rag_app - INFO - [main.py:422] - Initializing Vector Service...
+2026-02-19 22:52:03 - rag_app - INFO - [main.py:424] - ✓ Vector Service initialized
+2026-02-19 22:52:03 - rag_app - INFO - [main.py:430] - Initializing Basic RAG Service...
+2026-02-19 22:52:03 - rag_app - INFO - [main.py:432] - ✓ Basic RAG Service initialized
+2026-02-19 22:52:03 - rag_app - INFO - [main.py:436] - Initializing Advanced RAG Pipeline Service with Hybrid Search...
+2026-02-19 22:52:05 - rag_app - INFO - [main.py:445] - ✓ Advanced RAG Pipeline initialized (BM25 + Dense + RRF)
+2026-02-19 22:52:05 - rag_app - INFO - [main.py:450] - ============================================================
+2026-02-19 22:52:05 - rag_app - INFO - [main.py:451] - Service Status:
+2026-02-19 22:52:05 - rag_app - INFO - [main.py:452] -   - Embedding: ✓
+2026-02-19 22:52:05 - rag_app - INFO - [main.py:453] -   - Vector DB: ✓
+2026-02-19 22:52:05 - rag_app - INFO - [main.py:454] -   - Basic RAG: ✓
+2026-02-19 22:52:05 - rag_app - INFO - [main.py:455] -   - Advanced RAG (Hybrid): ✓
+2026-02-19 22:52:05 - rag_app - INFO - [main.py:456] - ============================================================
+2026-02-19 22:53:16 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:263] - Found relevant sections: []
+2026-02-19 22:54:27 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:263] - Found relevant sections: []
+2026-02-19 22:55:16 - rag_app - INFO - [main.py:468] - Shutting down...
+2026-02-19 22:55:54 - rag_app - INFO - [main.py:405] - Upload directory initialized: /tmp/uploads
+2026-02-19 22:55:54 - rag_app - INFO - [main.py:407] - ============================================================
+2026-02-19 22:55:54 - rag_app - INFO - [main.py:408] - Starting Multi-Source RAG + Text-to-SQL API...
+2026-02-19 22:55:54 - rag_app - INFO - [main.py:409] - ============================================================
+2026-02-19 22:55:54 - rag_app - INFO - [main.py:414] - Initializing Embedding Service...
+2026-02-19 22:55:54 - rag_app - INFO - [main.py:416] - ✓ Embedding Service initialized
+2026-02-19 22:55:54 - rag_app - INFO - [main.py:422] - Initializing Vector Service...
+2026-02-19 22:55:54 - rag_app - INFO - [main.py:424] - ✓ Vector Service initialized
+2026-02-19 22:55:54 - rag_app - INFO - [main.py:430] - Initializing Basic RAG Service...
+2026-02-19 22:55:54 - rag_app - INFO - [main.py:432] - ✓ Basic RAG Service initialized
+2026-02-19 22:55:54 - rag_app - INFO - [main.py:436] - Initializing Advanced RAG Pipeline Service with Hybrid Search...
+2026-02-19 22:55:56 - rag_app - INFO - [main.py:445] - ✓ Advanced RAG Pipeline initialized (BM25 + Dense + RRF)
+2026-02-19 22:55:56 - rag_app - INFO - [main.py:450] - ============================================================
+2026-02-19 22:55:56 - rag_app - INFO - [main.py:451] - Service Status:
+2026-02-19 22:55:56 - rag_app - INFO - [main.py:452] -   - Embedding: ✓
+2026-02-19 22:55:56 - rag_app - INFO - [main.py:453] -   - Vector DB: ✓
+2026-02-19 22:55:56 - rag_app - INFO - [main.py:454] -   - Basic RAG: ✓
+2026-02-19 22:55:56 - rag_app - INFO - [main.py:455] -   - Advanced RAG (Hybrid): ✓
+2026-02-19 22:55:56 - rag_app - INFO - [main.py:456] - ============================================================
+2026-02-19 22:56:15 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:263] - Found relevant sections: []
+2026-02-19 23:00:33 - rag_app - INFO - [main.py:468] - Shutting down...
+2026-02-19 23:01:12 - rag_app - INFO - [main.py:405] - Upload directory initialized: /tmp/uploads
+2026-02-19 23:01:12 - rag_app - INFO - [main.py:407] - ============================================================
+2026-02-19 23:01:12 - rag_app - INFO - [main.py:408] - Starting Multi-Source RAG + Text-to-SQL API...
+2026-02-19 23:01:12 - rag_app - INFO - [main.py:409] - ============================================================
+2026-02-19 23:01:12 - rag_app - INFO - [main.py:414] - Initializing Embedding Service...
+2026-02-19 23:01:12 - rag_app - INFO - [main.py:416] - ✓ Embedding Service initialized
+2026-02-19 23:01:12 - rag_app - INFO - [main.py:422] - Initializing Vector Service...
+2026-02-19 23:01:12 - rag_app - INFO - [main.py:424] - ✓ Vector Service initialized
+2026-02-19 23:01:12 - rag_app - INFO - [main.py:430] - Initializing Basic RAG Service...
+2026-02-19 23:01:12 - rag_app - INFO - [main.py:432] - ✓ Basic RAG Service initialized
+2026-02-19 23:01:12 - rag_app - INFO - [main.py:436] - Initializing Advanced RAG Pipeline Service with Hybrid Search...
+2026-02-19 23:01:14 - rag_app - INFO - [main.py:445] - ✓ Advanced RAG Pipeline initialized (BM25 + Dense + RRF)
+2026-02-19 23:01:14 - rag_app - INFO - [main.py:450] - ============================================================
+2026-02-19 23:01:14 - rag_app - INFO - [main.py:451] - Service Status:
+2026-02-19 23:01:14 - rag_app - INFO - [main.py:452] -   - Embedding: ✓
+2026-02-19 23:01:14 - rag_app - INFO - [main.py:453] -   - Vector DB: ✓
+2026-02-19 23:01:14 - rag_app - INFO - [main.py:454] -   - Basic RAG: ✓
+2026-02-19 23:01:14 - rag_app - INFO - [main.py:455] -   - Advanced RAG (Hybrid): ✓
+2026-02-19 23:01:14 - rag_app - INFO - [main.py:456] - ============================================================
+2026-02-19 23:02:00 - rag_app - INFO - [main.py:468] - Shutting down...
+2026-02-19 23:02:41 - rag_app - INFO - [main.py:405] - Upload directory initialized: /tmp/uploads
+2026-02-19 23:02:41 - rag_app - INFO - [main.py:407] - ============================================================
+2026-02-19 23:02:41 - rag_app - INFO - [main.py:408] - Starting Multi-Source RAG + Text-to-SQL API...
+2026-02-19 23:02:41 - rag_app - INFO - [main.py:409] - ============================================================
+2026-02-19 23:02:41 - rag_app - INFO - [main.py:414] - Initializing Embedding Service...
+2026-02-19 23:02:41 - rag_app - INFO - [main.py:416] - ✓ Embedding Service initialized
+2026-02-19 23:02:41 - rag_app - INFO - [main.py:422] - Initializing Vector Service...
+2026-02-19 23:02:41 - rag_app - INFO - [main.py:424] - ✓ Vector Service initialized
+2026-02-19 23:02:41 - rag_app - INFO - [main.py:430] - Initializing Basic RAG Service...
+2026-02-19 23:02:42 - rag_app - INFO - [main.py:432] - ✓ Basic RAG Service initialized
+2026-02-19 23:02:42 - rag_app - INFO - [main.py:436] - Initializing Advanced RAG Pipeline Service with Hybrid Search...
+2026-02-19 23:02:43 - rag_app - INFO - [main.py:445] - ✓ Advanced RAG Pipeline initialized (BM25 + Dense + RRF)
+2026-02-19 23:02:43 - rag_app - INFO - [main.py:450] - ============================================================
+2026-02-19 23:02:43 - rag_app - INFO - [main.py:451] - Service Status:
+2026-02-19 23:02:43 - rag_app - INFO - [main.py:452] -   - Embedding: ✓
+2026-02-19 23:02:43 - rag_app - INFO - [main.py:453] -   - Vector DB: ✓
+2026-02-19 23:02:43 - rag_app - INFO - [main.py:454] -   - Basic RAG: ✓
+2026-02-19 23:02:43 - rag_app - INFO - [main.py:455] -   - Advanced RAG (Hybrid): ✓
+2026-02-19 23:02:43 - rag_app - INFO - [main.py:456] - ============================================================
+2026-02-19 23:03:18 - rag_app - INFO - [main.py:468] - Shutting down...
+2026-02-19 23:03:47 - rag_app - INFO - [main.py:405] - Upload directory initialized: /tmp/uploads
+2026-02-19 23:03:47 - rag_app - INFO - [main.py:407] - ============================================================
+2026-02-19 23:03:47 - rag_app - INFO - [main.py:408] - Starting Multi-Source RAG + Text-to-SQL API...
+2026-02-19 23:03:47 - rag_app - INFO - [main.py:409] - ============================================================
+2026-02-19 23:03:47 - rag_app - INFO - [main.py:414] - Initializing Embedding Service...
+2026-02-19 23:03:47 - rag_app - INFO - [main.py:416] - ✓ Embedding Service initialized
+2026-02-19 23:03:47 - rag_app - INFO - [main.py:422] - Initializing Vector Service...
+2026-02-19 23:03:47 - rag_app - INFO - [main.py:424] - ✓ Vector Service initialized
+2026-02-19 23:03:47 - rag_app - INFO - [main.py:430] - Initializing Basic RAG Service...
+2026-02-19 23:03:47 - rag_app - INFO - [main.py:432] - ✓ Basic RAG Service initialized
+2026-02-19 23:03:47 - rag_app - INFO - [main.py:436] - Initializing Advanced RAG Pipeline Service with Hybrid Search...
+2026-02-19 23:03:50 - rag_app - INFO - [main.py:445] - ✓ Advanced RAG Pipeline initialized (BM25 + Dense + RRF)
+2026-02-19 23:03:50 - rag_app - INFO - [main.py:450] - ============================================================
+2026-02-19 23:03:50 - rag_app - INFO - [main.py:451] - Service Status:
+2026-02-19 23:03:50 - rag_app - INFO - [main.py:452] -   - Embedding: ✓
+2026-02-19 23:03:50 - rag_app - INFO - [main.py:453] -   - Vector DB: ✓
+2026-02-19 23:03:50 - rag_app - INFO - [main.py:454] -   - Basic RAG: ✓
+2026-02-19 23:03:50 - rag_app - INFO - [main.py:455] -   - Advanced RAG (Hybrid): ✓
+2026-02-19 23:03:50 - rag_app - INFO - [main.py:456] - ============================================================
+2026-02-19 23:04:34 - rag_app - INFO - [main.py:468] - Shutting down...
+2026-02-19 23:05:09 - rag_app - INFO - [main.py:405] - Upload directory initialized: /tmp/uploads
+2026-02-19 23:05:09 - rag_app - INFO - [main.py:407] - ============================================================
+2026-02-19 23:05:09 - rag_app - INFO - [main.py:408] - Starting Multi-Source RAG + Text-to-SQL API...
+2026-02-19 23:05:09 - rag_app - INFO - [main.py:409] - ============================================================
+2026-02-19 23:05:09 - rag_app - INFO - [main.py:414] - Initializing Embedding Service...
+2026-02-19 23:05:09 - rag_app - INFO - [main.py:416] - ✓ Embedding Service initialized
+2026-02-19 23:05:09 - rag_app - INFO - [main.py:422] - Initializing Vector Service...
+2026-02-19 23:05:09 - rag_app - INFO - [main.py:424] - ✓ Vector Service initialized
+2026-02-19 23:05:09 - rag_app - INFO - [main.py:430] - Initializing Basic RAG Service...
+2026-02-19 23:05:09 - rag_app - INFO - [main.py:432] - ✓ Basic RAG Service initialized
+2026-02-19 23:05:09 - rag_app - INFO - [main.py:436] - Initializing Advanced RAG Pipeline Service with Hybrid Search...
+2026-02-19 23:05:11 - rag_app - INFO - [main.py:445] - ✓ Advanced RAG Pipeline initialized (BM25 + Dense + RRF)
+2026-02-19 23:05:11 - rag_app - INFO - [main.py:450] - ============================================================
+2026-02-19 23:05:11 - rag_app - INFO - [main.py:451] - Service Status:
+2026-02-19 23:05:11 - rag_app - INFO - [main.py:452] -   - Embedding: ✓
+2026-02-19 23:05:11 - rag_app - INFO - [main.py:453] -   - Vector DB: ✓
+2026-02-19 23:05:11 - rag_app - INFO - [main.py:454] -   - Basic RAG: ✓
+2026-02-19 23:05:11 - rag_app - INFO - [main.py:455] -   - Advanced RAG (Hybrid): ✓
+2026-02-19 23:05:11 - rag_app - INFO - [main.py:456] - ============================================================
+2026-02-19 23:05:48 - rag_app - INFO - [main.py:405] - Upload directory initialized: /tmp/uploads
+2026-02-19 23:05:48 - rag_app - INFO - [main.py:407] - ============================================================
+2026-02-19 23:05:48 - rag_app - INFO - [main.py:408] - Starting Multi-Source RAG + Text-to-SQL API...
+2026-02-19 23:05:48 - rag_app - INFO - [main.py:409] - ============================================================
+2026-02-19 23:05:48 - rag_app - INFO - [main.py:414] - Initializing Embedding Service...
+2026-02-19 23:05:48 - rag_app - INFO - [main.py:416] - ✓ Embedding Service initialized
+2026-02-19 23:05:48 - rag_app - INFO - [main.py:422] - Initializing Vector Service...
+2026-02-19 23:05:48 - rag_app - INFO - [main.py:424] - ✓ Vector Service initialized
+2026-02-19 23:05:48 - rag_app - INFO - [main.py:430] - Initializing Basic RAG Service...
+2026-02-19 23:05:48 - rag_app - INFO - [main.py:432] - ✓ Basic RAG Service initialized
+2026-02-19 23:05:48 - rag_app - INFO - [main.py:436] - Initializing Advanced RAG Pipeline Service with Hybrid Search...
+2026-02-19 23:05:50 - rag_app - INFO - [main.py:445] - ✓ Advanced RAG Pipeline initialized (BM25 + Dense + RRF)
+2026-02-19 23:05:50 - rag_app - INFO - [main.py:450] - ============================================================
+2026-02-19 23:05:50 - rag_app - INFO - [main.py:451] - Service Status:
+2026-02-19 23:05:50 - rag_app - INFO - [main.py:452] -   - Embedding: ✓
+2026-02-19 23:05:50 - rag_app - INFO - [main.py:453] -   - Vector DB: ✓
+2026-02-19 23:05:50 - rag_app - INFO - [main.py:454] -   - Basic RAG: ✓
+2026-02-19 23:05:50 - rag_app - INFO - [main.py:455] -   - Advanced RAG (Hybrid): ✓
+2026-02-19 23:05:50 - rag_app - INFO - [main.py:456] - ============================================================
+2026-02-19 23:06:56 - rag_app - INFO - [main.py:468] - Shutting down...
+2026-02-19 23:07:34 - rag_app - INFO - [main.py:405] - Upload directory initialized: /tmp/uploads
+2026-02-19 23:07:34 - rag_app - INFO - [main.py:407] - ============================================================
+2026-02-19 23:07:34 - rag_app - INFO - [main.py:408] - Starting Multi-Source RAG + Text-to-SQL API...
+2026-02-19 23:07:34 - rag_app - INFO - [main.py:409] - ============================================================
+2026-02-19 23:07:34 - rag_app - INFO - [main.py:414] - Initializing Embedding Service...
+2026-02-19 23:07:34 - rag_app - INFO - [main.py:416] - ✓ Embedding Service initialized
+2026-02-19 23:07:34 - rag_app - INFO - [main.py:422] - Initializing Vector Service...
+2026-02-19 23:07:34 - rag_app - INFO - [main.py:424] - ✓ Vector Service initialized
+2026-02-19 23:07:34 - rag_app - INFO - [main.py:430] - Initializing Basic RAG Service...
+2026-02-19 23:07:34 - rag_app - INFO - [main.py:432] - ✓ Basic RAG Service initialized
+2026-02-19 23:07:34 - rag_app - INFO - [main.py:436] - Initializing Advanced RAG Pipeline Service with Hybrid Search...
+2026-02-19 23:07:35 - rag_app - INFO - [main.py:445] - ✓ Advanced RAG Pipeline initialized (BM25 + Dense + RRF)
+2026-02-19 23:07:35 - rag_app - INFO - [main.py:450] - ============================================================
+2026-02-19 23:07:35 - rag_app - INFO - [main.py:451] - Service Status:
+2026-02-19 23:07:35 - rag_app - INFO - [main.py:452] -   - Embedding: ✓
+2026-02-19 23:07:35 - rag_app - INFO - [main.py:453] -   - Vector DB: ✓
+2026-02-19 23:07:35 - rag_app - INFO - [main.py:454] -   - Basic RAG: ✓
+2026-02-19 23:07:35 - rag_app - INFO - [main.py:455] -   - Advanced RAG (Hybrid): ✓
+2026-02-19 23:07:35 - rag_app - INFO - [main.py:456] - ============================================================
+2026-02-19 23:08:44 - rag_app - INFO - [main.py:468] - Shutting down...
+2026-02-19 23:09:19 - rag_app - INFO - [main.py:405] - Upload directory initialized: /tmp/uploads
+2026-02-19 23:09:19 - rag_app - INFO - [main.py:407] - ============================================================
+2026-02-19 23:09:19 - rag_app - INFO - [main.py:408] - Starting Multi-Source RAG + Text-to-SQL API...
+2026-02-19 23:09:19 - rag_app - INFO - [main.py:409] - ============================================================
+2026-02-19 23:09:19 - rag_app - INFO - [main.py:414] - Initializing Embedding Service...
+2026-02-19 23:09:19 - rag_app - INFO - [main.py:416] - ✓ Embedding Service initialized
+2026-02-19 23:09:19 - rag_app - INFO - [main.py:422] - Initializing Vector Service...
+2026-02-19 23:09:19 - rag_app - INFO - [main.py:424] - ✓ Vector Service initialized
+2026-02-19 23:09:19 - rag_app - INFO - [main.py:430] - Initializing Basic RAG Service...
+2026-02-19 23:09:19 - rag_app - INFO - [main.py:432] - ✓ Basic RAG Service initialized
+2026-02-19 23:09:19 - rag_app - INFO - [main.py:436] - Initializing Advanced RAG Pipeline Service with Hybrid Search...
+2026-02-19 23:09:22 - rag_app - INFO - [main.py:445] - ✓ Advanced RAG Pipeline initialized (BM25 + Dense + RRF)
+2026-02-19 23:09:22 - rag_app - INFO - [main.py:450] - ============================================================
+2026-02-19 23:09:22 - rag_app - INFO - [main.py:451] - Service Status:
+2026-02-19 23:09:22 - rag_app - INFO - [main.py:452] -   - Embedding: ✓
+2026-02-19 23:09:22 - rag_app - INFO - [main.py:453] -   - Vector DB: ✓
+2026-02-19 23:09:22 - rag_app - INFO - [main.py:454] -   - Basic RAG: ✓
+2026-02-19 23:09:22 - rag_app - INFO - [main.py:455] -   - Advanced RAG (Hybrid): ✓
+2026-02-19 23:09:22 - rag_app - INFO - [main.py:456] - ============================================================
+2026-02-19 23:10:19 - rag_app - INFO - [main.py:468] - Shutting down...
+2026-02-19 23:10:54 - rag_app - INFO - [main.py:405] - Upload directory initialized: /tmp/uploads
+2026-02-19 23:10:54 - rag_app - INFO - [main.py:407] - ============================================================
+2026-02-19 23:10:54 - rag_app - INFO - [main.py:408] - Starting Multi-Source RAG + Text-to-SQL API...
+2026-02-19 23:10:54 - rag_app - INFO - [main.py:409] - ============================================================
+2026-02-19 23:10:54 - rag_app - INFO - [main.py:414] - Initializing Embedding Service...
+2026-02-19 23:10:54 - rag_app - INFO - [main.py:416] - ✓ Embedding Service initialized
+2026-02-19 23:10:54 - rag_app - INFO - [main.py:422] - Initializing Vector Service...
+2026-02-19 23:10:54 - rag_app - INFO - [main.py:424] - ✓ Vector Service initialized
+2026-02-19 23:10:54 - rag_app - INFO - [main.py:430] - Initializing Basic RAG Service...
+2026-02-19 23:10:54 - rag_app - INFO - [main.py:432] - ✓ Basic RAG Service initialized
+2026-02-19 23:10:54 - rag_app - INFO - [main.py:436] - Initializing Advanced RAG Pipeline Service with Hybrid Search...
+2026-02-19 23:10:56 - rag_app - INFO - [main.py:445] - ✓ Advanced RAG Pipeline initialized (BM25 + Dense + RRF)
+2026-02-19 23:10:56 - rag_app - INFO - [main.py:450] - ============================================================
+2026-02-19 23:10:56 - rag_app - INFO - [main.py:451] - Service Status:
+2026-02-19 23:10:56 - rag_app - INFO - [main.py:452] -   - Embedding: ✓
+2026-02-19 23:10:56 - rag_app - INFO - [main.py:453] -   - Vector DB: ✓
+2026-02-19 23:10:56 - rag_app - INFO - [main.py:454] -   - Basic RAG: ✓
+2026-02-19 23:10:56 - rag_app - INFO - [main.py:455] -   - Advanced RAG (Hybrid): ✓
+2026-02-19 23:10:56 - rag_app - INFO - [main.py:456] - ============================================================
+2026-02-19 23:11:05 - rag_app - INFO - [main.py:468] - Shutting down...
+2026-02-19 23:11:36 - rag_app - INFO - [main.py:405] - Upload directory initialized: /tmp/uploads
+2026-02-19 23:11:36 - rag_app - INFO - [main.py:407] - ============================================================
+2026-02-19 23:11:36 - rag_app - INFO - [main.py:408] - Starting Multi-Source RAG + Text-to-SQL API...
+2026-02-19 23:11:36 - rag_app - INFO - [main.py:409] - ============================================================
+2026-02-19 23:11:36 - rag_app - INFO - [main.py:414] - Initializing Embedding Service...
+2026-02-19 23:11:36 - rag_app - INFO - [main.py:416] - ✓ Embedding Service initialized
+2026-02-19 23:11:36 - rag_app - INFO - [main.py:422] - Initializing Vector Service...
+2026-02-19 23:11:36 - rag_app - INFO - [main.py:424] - ✓ Vector Service initialized
+2026-02-19 23:11:36 - rag_app - INFO - [main.py:430] - Initializing Basic RAG Service...
+2026-02-19 23:11:36 - rag_app - INFO - [main.py:432] - ✓ Basic RAG Service initialized
+2026-02-19 23:11:36 - rag_app - INFO - [main.py:436] - Initializing Advanced RAG Pipeline Service with Hybrid Search...
+2026-02-19 23:11:39 - rag_app - INFO - [main.py:445] - ✓ Advanced RAG Pipeline initialized (BM25 + Dense + RRF)
+2026-02-19 23:11:39 - rag_app - INFO - [main.py:450] - ============================================================
+2026-02-19 23:11:39 - rag_app - INFO - [main.py:451] - Service Status:
+2026-02-19 23:11:39 - rag_app - INFO - [main.py:452] -   - Embedding: ✓
+2026-02-19 23:11:39 - rag_app - INFO - [main.py:453] -   - Vector DB: ✓
+2026-02-19 23:11:39 - rag_app - INFO - [main.py:454] -   - Basic RAG: ✓
+2026-02-19 23:11:39 - rag_app - INFO - [main.py:455] -   - Advanced RAG (Hybrid): ✓
+2026-02-19 23:11:39 - rag_app - INFO - [main.py:456] - ============================================================
+2026-02-19 23:11:46 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:346] - Section-aware retrieval for: diagnosis
+2026-02-19 23:14:12 - rag_app - INFO - [main.py:405] - Upload directory initialized: /tmp/uploads
+2026-02-19 23:14:12 - rag_app - INFO - [main.py:407] - ============================================================
+2026-02-19 23:14:12 - rag_app - INFO - [main.py:408] - Starting Multi-Source RAG + Text-to-SQL API...
+2026-02-19 23:14:12 - rag_app - INFO - [main.py:409] - ============================================================
+2026-02-19 23:14:12 - rag_app - INFO - [main.py:414] - Initializing Embedding Service...
+2026-02-19 23:14:12 - rag_app - INFO - [main.py:416] - ✓ Embedding Service initialized
+2026-02-19 23:14:12 - rag_app - INFO - [main.py:422] - Initializing Vector Service...
+2026-02-19 23:14:12 - rag_app - INFO - [main.py:424] - ✓ Vector Service initialized
+2026-02-19 23:14:12 - rag_app - INFO - [main.py:430] - Initializing Basic RAG Service...
+2026-02-19 23:14:12 - rag_app - INFO - [main.py:432] - ✓ Basic RAG Service initialized
+2026-02-19 23:14:12 - rag_app - INFO - [main.py:436] - Initializing Advanced RAG Pipeline Service with Hybrid Search...
+2026-02-19 23:14:15 - rag_app - INFO - [main.py:445] - ✓ Advanced RAG Pipeline initialized (BM25 + Dense + RRF)
+2026-02-19 23:14:15 - rag_app - INFO - [main.py:450] - ============================================================
+2026-02-19 23:14:15 - rag_app - INFO - [main.py:451] - Service Status:
+2026-02-19 23:14:15 - rag_app - INFO - [main.py:452] -   - Embedding: ✓
+2026-02-19 23:14:15 - rag_app - INFO - [main.py:453] -   - Vector DB: ✓
+2026-02-19 23:14:15 - rag_app - INFO - [main.py:454] -   - Basic RAG: ✓
+2026-02-19 23:14:15 - rag_app - INFO - [main.py:455] -   - Advanced RAG (Hybrid): ✓
+2026-02-19 23:14:15 - rag_app - INFO - [main.py:456] - ============================================================
+2026-02-19 23:14:24 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:346] - Section-aware retrieval for: diagnosis
+2026-02-19 23:14:25 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:460] - Processing chunk 1: id=Diabetes Mellitus Type 2.pdf_3, len=932, section=None
+2026-02-19 23:14:25 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:469] -   Should expand: False (len=932)
+2026-02-19 23:14:25 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:460] - Processing chunk 2: id=Diabetes Mellitus Type 2.pdf_0, len=1225, section=None
+2026-02-19 23:14:25 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:469] -   Should expand: False (len=1225)
+2026-02-19 23:14:25 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:460] - Processing chunk 3: id=Diabetes Mellitus Type 2.pdf_1, len=1704, section=None
+2026-02-19 23:14:25 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:469] -   Should expand: False (len=1704)
+2026-02-19 23:14:25 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:460] - Processing chunk 4: id=Diabetes Mellitus Type 2.pdf_4, len=1934, section=None
+2026-02-19 23:14:25 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:469] -   Should expand: False (len=1934)
+2026-02-19 23:14:25 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:460] - Processing chunk 5: id=Diabetes Mellitus Type 2.pdf_6, len=1611, section=None
+2026-02-19 23:14:25 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:469] -   Should expand: False (len=1611)
+2026-02-19 23:23:33 - rag_app - INFO - [main.py:468] - Shutting down...
+2026-02-19 23:25:46 - rag_app - INFO - [main.py:405] - Upload directory initialized: /tmp/uploads
+2026-02-19 23:25:46 - rag_app - INFO - [main.py:407] - ============================================================
+2026-02-19 23:25:46 - rag_app - INFO - [main.py:408] - Starting Multi-Source RAG + Text-to-SQL API...
+2026-02-19 23:25:46 - rag_app - INFO - [main.py:409] - ============================================================
+2026-02-19 23:25:46 - rag_app - INFO - [main.py:414] - Initializing Embedding Service...
+2026-02-19 23:25:46 - rag_app - INFO - [main.py:416] - ✓ Embedding Service initialized
+2026-02-19 23:25:46 - rag_app - INFO - [main.py:422] - Initializing Vector Service...
+2026-02-19 23:25:46 - rag_app - INFO - [main.py:424] - ✓ Vector Service initialized
+2026-02-19 23:25:46 - rag_app - INFO - [main.py:430] - Initializing Basic RAG Service...
+2026-02-19 23:25:47 - rag_app - INFO - [main.py:432] - ✓ Basic RAG Service initialized
+2026-02-19 23:25:47 - rag_app - INFO - [main.py:436] - Initializing Advanced RAG Pipeline Service with Hybrid Search...
+2026-02-19 23:25:49 - rag_app - INFO - [main.py:445] - ✓ Advanced RAG Pipeline initialized (BM25 + Dense + RRF)
+2026-02-19 23:25:49 - rag_app - INFO - [main.py:450] - ============================================================
+2026-02-19 23:25:49 - rag_app - INFO - [main.py:451] - Service Status:
+2026-02-19 23:25:49 - rag_app - INFO - [main.py:452] -   - Embedding: ✓
+2026-02-19 23:25:49 - rag_app - INFO - [main.py:453] -   - Vector DB: ✓
+2026-02-19 23:25:49 - rag_app - INFO - [main.py:454] -   - Basic RAG: ✓
+2026-02-19 23:25:49 - rag_app - INFO - [main.py:455] -   - Advanced RAG (Hybrid): ✓
+2026-02-19 23:25:49 - rag_app - INFO - [main.py:456] - ============================================================
+2026-02-19 23:26:10 - rag_app - INFO - [main.py:183] - Parsing and chunking document: Diabetes Mellitus Type 2.pdf
+2026-02-19 23:26:15 - rag_app.document_service - INFO - [document_service.py:314] - Using Docling for context-aware chunking: Diabetes Mellitus Type 2.pdf
+2026-02-19 23:26:15 - rag_app.docling_service - INFO - [docling_service.py:45] - Converting document with Docling: Diabetes Mellitus Type 2.pdf
+2026-02-19 23:26:42 - rag_app.docling_service - INFO - [docling_service.py:50] - Document converted successfully: 112 text elements
+2026-02-19 23:26:46 - rag_app.docling_service - INFO - [docling_service.py:102] - Chunking with HybridChunker (max_tokens=512, merge_peers=True)
+2026-02-19 23:26:46 - rag_app.docling_service - INFO - [docling_service.py:107] - Generated 13 raw semantic chunks, merging to target 256-512 tokens
+2026-02-19 23:26:46 - rag_app.docling_service - INFO - [docling_service.py:156] - After merging: 7 chunks (avg 363.7 tokens)
+2026-02-19 23:26:46 - rag_app.docling_service - INFO - [docling_service.py:212] - Sample chunk metadata - Headings: [], Pages: []
+2026-02-19 23:26:46 - rag_app.docling_service - INFO - [docling_service.py:249] - Successfully processed Diabetes Mellitus Type 2.pdf: 7 chunks with context
+2026-02-19 23:26:46 - rag_app.document_service - INFO - [document_service.py:317] - Docling chunking complete: 7 chunks with heading context
+2026-02-19 23:26:46 - rag_app - INFO - [main.py:191] - Created 7 context-aware chunks
+2026-02-19 23:26:46 - rag_app - INFO - [main.py:194] - Generating embeddings for 7 chunks...
+2026-02-19 23:26:49 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:113] - Re-chunked: 7 → 46 chunks
+2026-02-19 23:29:36 - rag_app - INFO - [main.py:405] - Upload directory initialized: /tmp/uploads
+2026-02-19 23:29:36 - rag_app - INFO - [main.py:407] - ============================================================
+2026-02-19 23:29:36 - rag_app - INFO - [main.py:408] - Starting Multi-Source RAG + Text-to-SQL API...
+2026-02-19 23:29:36 - rag_app - INFO - [main.py:409] - ============================================================
+2026-02-19 23:29:36 - rag_app - INFO - [main.py:414] - Initializing Embedding Service...
+2026-02-19 23:29:36 - rag_app - INFO - [main.py:416] - ✓ Embedding Service initialized
+2026-02-19 23:29:36 - rag_app - INFO - [main.py:422] - Initializing Vector Service...
+2026-02-19 23:29:36 - rag_app - INFO - [main.py:424] - ✓ Vector Service initialized
+2026-02-19 23:29:36 - rag_app - INFO - [main.py:430] - Initializing Basic RAG Service...
+2026-02-19 23:29:36 - rag_app - INFO - [main.py:432] - ✓ Basic RAG Service initialized
+2026-02-19 23:29:36 - rag_app - INFO - [main.py:436] - Initializing Advanced RAG Pipeline Service with Hybrid Search...
+2026-02-19 23:29:39 - rag_app - INFO - [main.py:445] - ✓ Advanced RAG Pipeline initialized (BM25 + Dense + RRF)
+2026-02-19 23:29:39 - rag_app - INFO - [main.py:450] - ============================================================
+2026-02-19 23:29:39 - rag_app - INFO - [main.py:451] - Service Status:
+2026-02-19 23:29:39 - rag_app - INFO - [main.py:452] -   - Embedding: ✓
+2026-02-19 23:29:39 - rag_app - INFO - [main.py:453] -   - Vector DB: ✓
+2026-02-19 23:29:39 - rag_app - INFO - [main.py:454] -   - Basic RAG: ✓
+2026-02-19 23:29:39 - rag_app - INFO - [main.py:455] -   - Advanced RAG (Hybrid): ✓
+2026-02-19 23:29:39 - rag_app - INFO - [main.py:456] - ============================================================
+2026-02-19 23:30:22 - rag_app - INFO - [main.py:183] - Parsing and chunking document: Diabetes Mellitus Type 2.pdf
+2026-02-19 23:30:26 - rag_app.document_service - INFO - [document_service.py:314] - Using Docling for context-aware chunking: Diabetes Mellitus Type 2.pdf
+2026-02-19 23:30:26 - rag_app.docling_service - INFO - [docling_service.py:45] - Converting document with Docling: Diabetes Mellitus Type 2.pdf
+2026-02-19 23:30:44 - rag_app.docling_service - INFO - [docling_service.py:50] - Document converted successfully: 112 text elements
+2026-02-19 23:30:45 - rag_app.docling_service - INFO - [docling_service.py:102] - Chunking with HybridChunker (max_tokens=512, merge_peers=True)
+2026-02-19 23:30:45 - rag_app.docling_service - INFO - [docling_service.py:107] - Generated 13 raw semantic chunks, merging to target 256-512 tokens
+2026-02-19 23:30:45 - rag_app.docling_service - INFO - [docling_service.py:156] - After merging: 7 chunks (avg 363.7 tokens)
+2026-02-19 23:30:45 - rag_app.docling_service - INFO - [docling_service.py:212] - Sample chunk metadata - Headings: [], Pages: []
+2026-02-19 23:30:45 - rag_app.docling_service - INFO - [docling_service.py:249] - Successfully processed Diabetes Mellitus Type 2.pdf: 7 chunks with context
+2026-02-19 23:30:45 - rag_app.document_service - INFO - [document_service.py:317] - Docling chunking complete: 7 chunks with heading context
+2026-02-19 23:30:45 - rag_app - INFO - [main.py:191] - Created 7 context-aware chunks
+2026-02-19 23:30:45 - rag_app - INFO - [main.py:194] - Generating embeddings for 7 chunks...
+2026-02-19 23:30:48 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:113] - Re-chunked: 7 → 46 chunks
+2026-02-19 23:34:51 - rag_app - INFO - [main.py:468] - Shutting down...
+2026-02-19 23:35:30 - rag_app - INFO - [main.py:405] - Upload directory initialized: /tmp/uploads
+2026-02-19 23:35:30 - rag_app - INFO - [main.py:407] - ============================================================
+2026-02-19 23:35:30 - rag_app - INFO - [main.py:408] - Starting Multi-Source RAG + Text-to-SQL API...
+2026-02-19 23:35:30 - rag_app - INFO - [main.py:409] - ============================================================
+2026-02-19 23:35:30 - rag_app - INFO - [main.py:414] - Initializing Embedding Service...
+2026-02-19 23:35:30 - rag_app - INFO - [main.py:416] - ✓ Embedding Service initialized
+2026-02-19 23:35:30 - rag_app - INFO - [main.py:422] - Initializing Vector Service...
+2026-02-19 23:35:30 - rag_app - INFO - [main.py:424] - ✓ Vector Service initialized
+2026-02-19 23:35:30 - rag_app - INFO - [main.py:430] - Initializing Basic RAG Service...
+2026-02-19 23:35:30 - rag_app - INFO - [main.py:432] - ✓ Basic RAG Service initialized
+2026-02-19 23:35:30 - rag_app - INFO - [main.py:436] - Initializing Advanced RAG Pipeline Service with Hybrid Search...
+2026-02-19 23:35:32 - rag_app - INFO - [main.py:445] - ✓ Advanced RAG Pipeline initialized (BM25 + Dense + RRF)
+2026-02-19 23:35:32 - rag_app - INFO - [main.py:450] - ============================================================
+2026-02-19 23:35:32 - rag_app - INFO - [main.py:451] - Service Status:
+2026-02-19 23:35:32 - rag_app - INFO - [main.py:452] -   - Embedding: ✓
+2026-02-19 23:35:32 - rag_app - INFO - [main.py:453] -   - Vector DB: ✓
+2026-02-19 23:35:32 - rag_app - INFO - [main.py:454] -   - Basic RAG: ✓
+2026-02-19 23:35:32 - rag_app - INFO - [main.py:455] -   - Advanced RAG (Hybrid): ✓
+2026-02-19 23:35:32 - rag_app - INFO - [main.py:456] - ============================================================
+2026-02-19 23:36:05 - rag_app - INFO - [main.py:405] - Upload directory initialized: /tmp/uploads
+2026-02-19 23:36:05 - rag_app - INFO - [main.py:407] - ============================================================
+2026-02-19 23:36:05 - rag_app - INFO - [main.py:408] - Starting Multi-Source RAG + Text-to-SQL API...
+2026-02-19 23:36:05 - rag_app - INFO - [main.py:409] - ============================================================
+2026-02-19 23:36:05 - rag_app - INFO - [main.py:414] - Initializing Embedding Service...
+2026-02-19 23:36:05 - rag_app - INFO - [main.py:416] - ✓ Embedding Service initialized
+2026-02-19 23:36:05 - rag_app - INFO - [main.py:422] - Initializing Vector Service...
+2026-02-19 23:36:05 - rag_app - INFO - [main.py:424] - ✓ Vector Service initialized
+2026-02-19 23:36:05 - rag_app - INFO - [main.py:430] - Initializing Basic RAG Service...
+2026-02-19 23:36:05 - rag_app - INFO - [main.py:432] - ✓ Basic RAG Service initialized
+2026-02-19 23:36:05 - rag_app - INFO - [main.py:436] - Initializing Advanced RAG Pipeline Service with Hybrid Search...
+2026-02-19 23:36:07 - rag_app - INFO - [main.py:445] - ✓ Advanced RAG Pipeline initialized (BM25 + Dense + RRF)
+2026-02-19 23:36:07 - rag_app - INFO - [main.py:450] - ============================================================
+2026-02-19 23:36:07 - rag_app - INFO - [main.py:451] - Service Status:
+2026-02-19 23:36:07 - rag_app - INFO - [main.py:452] -   - Embedding: ✓
+2026-02-19 23:36:07 - rag_app - INFO - [main.py:453] -   - Vector DB: ✓
+2026-02-19 23:36:07 - rag_app - INFO - [main.py:454] -   - Basic RAG: ✓
+2026-02-19 23:36:07 - rag_app - INFO - [main.py:455] -   - Advanced RAG (Hybrid): ✓
+2026-02-19 23:36:07 - rag_app - INFO - [main.py:456] - ============================================================
+2026-02-19 23:38:09 - rag_app - INFO - [main.py:405] - Upload directory initialized: /tmp/uploads
+2026-02-19 23:38:09 - rag_app - INFO - [main.py:407] - ============================================================
+2026-02-19 23:38:09 - rag_app - INFO - [main.py:408] - Starting Multi-Source RAG + Text-to-SQL API...
+2026-02-19 23:38:09 - rag_app - INFO - [main.py:409] - ============================================================
+2026-02-19 23:38:09 - rag_app - INFO - [main.py:414] - Initializing Embedding Service...
+2026-02-19 23:38:09 - rag_app - INFO - [main.py:416] - ✓ Embedding Service initialized
+2026-02-19 23:38:09 - rag_app - INFO - [main.py:422] - Initializing Vector Service...
+2026-02-19 23:38:09 - rag_app - INFO - [main.py:424] - ✓ Vector Service initialized
+2026-02-19 23:38:09 - rag_app - INFO - [main.py:430] - Initializing Basic RAG Service...
+2026-02-19 23:38:09 - rag_app - INFO - [main.py:432] - ✓ Basic RAG Service initialized
+2026-02-19 23:38:09 - rag_app - INFO - [main.py:436] - Initializing Advanced RAG Pipeline Service with Hybrid Search...
+2026-02-19 23:38:10 - rag_app - INFO - [main.py:445] - ✓ Advanced RAG Pipeline initialized (BM25 + Dense + RRF)
+2026-02-19 23:38:10 - rag_app - INFO - [main.py:450] - ============================================================
+2026-02-19 23:38:10 - rag_app - INFO - [main.py:451] - Service Status:
+2026-02-19 23:38:10 - rag_app - INFO - [main.py:452] -   - Embedding: ✓
+2026-02-19 23:38:10 - rag_app - INFO - [main.py:453] -   - Vector DB: ✓
+2026-02-19 23:38:10 - rag_app - INFO - [main.py:454] -   - Basic RAG: ✓
+2026-02-19 23:38:10 - rag_app - INFO - [main.py:455] -   - Advanced RAG (Hybrid): ✓
+2026-02-19 23:38:10 - rag_app - INFO - [main.py:456] - ============================================================
+2026-02-19 23:38:14 - rag_app - INFO - [main.py:183] - Parsing and chunking document: Diabetes Mellitus Type 2.pdf
+2026-02-19 23:38:18 - rag_app.document_service - INFO - [document_service.py:314] - Using Docling for context-aware chunking: Diabetes Mellitus Type 2.pdf
+2026-02-19 23:38:18 - rag_app.docling_service - INFO - [docling_service.py:45] - Converting document with Docling: Diabetes Mellitus Type 2.pdf
+2026-02-19 23:38:36 - rag_app.docling_service - INFO - [docling_service.py:50] - Document converted successfully: 112 text elements
+2026-02-19 23:38:36 - rag_app.docling_service - INFO - [docling_service.py:102] - Chunking with HybridChunker (max_tokens=512, merge_peers=True)
+2026-02-19 23:38:36 - rag_app.docling_service - INFO - [docling_service.py:107] - Generated 13 raw semantic chunks, merging to target 256-512 tokens
+2026-02-19 23:38:36 - rag_app.docling_service - INFO - [docling_service.py:156] - After merging: 7 chunks (avg 363.7 tokens)
+2026-02-19 23:38:36 - rag_app.docling_service - INFO - [docling_service.py:212] - Sample chunk metadata - Headings: [], Pages: []
+2026-02-19 23:38:36 - rag_app.docling_service - INFO - [docling_service.py:249] - Successfully processed Diabetes Mellitus Type 2.pdf: 7 chunks with context
+2026-02-19 23:38:36 - rag_app.document_service - INFO - [document_service.py:317] - Docling chunking complete: 7 chunks with heading context
+2026-02-19 23:38:36 - rag_app - INFO - [main.py:191] - Created 7 context-aware chunks
+2026-02-19 23:38:36 - rag_app - INFO - [main.py:194] - Generating embeddings for 7 chunks...
+2026-02-19 23:38:39 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:113] - Re-chunked: 7 → 46 chunks
+2026-02-19 23:38:45 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:176] - Indexed 46 chunks with neighbor support
+2026-02-19 23:39:56 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:420] - Section-aware retrieval for: diagnosis
+2026-02-19 23:39:59 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:534] - Processing chunk 1: id=Diabetes Mellitus Type 2.pdf_4_s0, len=337, section=. And, it leads to different problems:
+2026-02-19 23:39:59 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:543] -   Should expand: True (len=337)
+2026-02-19 23:39:59 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:547] -   Found 2 neighbors: ['Diabetes Mellitus Type 2.pdf_3_s4', 'Diabetes Mellitus Type 2.pdf_4_s1']
+2026-02-19 23:39:59 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:551] -     Adding neighbor 1: Diabetes Mellitus Type 2.pdf_3_s4
+2026-02-19 23:39:59 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:551] -     Adding neighbor 2: Diabetes Mellitus Type 2.pdf_4_s1
+2026-02-19 23:39:59 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:534] - Processing chunk 2: id=Diabetes Mellitus Type 2.pdf_6_s3, len=174, section=. And, it leads to different problems:
+2026-02-19 23:39:59 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:543] -   Should expand: True (len=174)
+2026-02-19 23:39:59 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:547] -   Found 2 neighbors: ['Diabetes Mellitus Type 2.pdf_6_s2', 'Diabetes Mellitus Type 2.pdf_6_s4']
+2026-02-19 23:39:59 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:551] -     Adding neighbor 1: Diabetes Mellitus Type 2.pdf_6_s2
+2026-02-19 23:39:59 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:551] -     Adding neighbor 2: Diabetes Mellitus Type 2.pdf_6_s4
+2026-02-19 23:39:59 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:534] - Processing chunk 3: id=Diabetes Mellitus Type 2.pdf_0_s4, len=308, section=. And, it leads to different problems:
+2026-02-19 23:39:59 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:543] -   Should expand: True (len=308)
+2026-02-19 23:39:59 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:547] -   Found 2 neighbors: ['Diabetes Mellitus Type 2.pdf_0_s3', 'Diabetes Mellitus Type 2.pdf_0_s5']
+2026-02-19 23:39:59 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:551] -     Adding neighbor 1: Diabetes Mellitus Type 2.pdf_0_s3
+2026-02-19 23:39:59 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:551] -     Adding neighbor 2: Diabetes Mellitus Type 2.pdf_0_s5
+2026-02-19 23:39:59 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:534] - Processing chunk 4: id=Diabetes Mellitus Type 2.pdf_0_s5, len=300, section=. And, it leads to different problems:
+2026-02-19 23:39:59 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:543] -   Should expand: True (len=300)
+2026-02-19 23:39:59 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:547] -   Found 2 neighbors: ['Diabetes Mellitus Type 2.pdf_0_s4', 'Diabetes Mellitus Type 2.pdf_0_s6']
+2026-02-19 23:39:59 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:554] -     Skipping neighbor Diabetes Mellitus Type 2.pdf_0_s4 (already included)
+2026-02-19 23:39:59 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:551] -     Adding neighbor 2: Diabetes Mellitus Type 2.pdf_0_s6
+2026-02-19 23:39:59 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:534] - Processing chunk 5: id=Diabetes Mellitus Type 2.pdf_1_s1, len=341, section=. And, it leads to different problems:
+2026-02-19 23:39:59 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:543] -   Should expand: True (len=341)
+2026-02-19 23:39:59 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:547] -   Found 2 neighbors: ['Diabetes Mellitus Type 2.pdf_1_s0', 'Diabetes Mellitus Type 2.pdf_1_s2']
+2026-02-19 23:39:59 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:551] -     Adding neighbor 1: Diabetes Mellitus Type 2.pdf_1_s0
+2026-02-19 23:39:59 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:551] -     Adding neighbor 2: Diabetes Mellitus Type 2.pdf_1_s2
+2026-02-19 23:47:02 - rag_app - INFO - [main.py:468] - Shutting down...
+2026-02-19 23:52:18 - rag_app - INFO - [main.py:405] - Upload directory initialized: /tmp/uploads
+2026-02-19 23:52:18 - rag_app - INFO - [main.py:407] - ============================================================
+2026-02-19 23:52:18 - rag_app - INFO - [main.py:408] - Starting Multi-Source RAG + Text-to-SQL API...
+2026-02-19 23:52:18 - rag_app - INFO - [main.py:409] - ============================================================
+2026-02-19 23:52:18 - rag_app - INFO - [main.py:414] - Initializing Embedding Service...
+2026-02-19 23:52:18 - rag_app - INFO - [main.py:416] - ✓ Embedding Service initialized
+2026-02-19 23:52:18 - rag_app - INFO - [main.py:422] - Initializing Vector Service...
+2026-02-19 23:52:18 - rag_app - INFO - [main.py:424] - ✓ Vector Service initialized
+2026-02-19 23:52:18 - rag_app - INFO - [main.py:430] - Initializing Basic RAG Service...
+2026-02-19 23:52:18 - rag_app - INFO - [main.py:432] - ✓ Basic RAG Service initialized
+2026-02-19 23:52:18 - rag_app - INFO - [main.py:436] - Initializing Advanced RAG Pipeline Service with Hybrid Search...
+2026-02-19 23:52:21 - rag_app - INFO - [main.py:445] - ✓ Advanced RAG Pipeline initialized (BM25 + Dense + RRF)
+2026-02-19 23:52:21 - rag_app - INFO - [main.py:450] - ============================================================
+2026-02-19 23:52:21 - rag_app - INFO - [main.py:451] - Service Status:
+2026-02-19 23:52:21 - rag_app - INFO - [main.py:452] -   - Embedding: ✓
+2026-02-19 23:52:21 - rag_app - INFO - [main.py:453] -   - Vector DB: ✓
+2026-02-19 23:52:21 - rag_app - INFO - [main.py:454] -   - Basic RAG: ✓
+2026-02-19 23:52:21 - rag_app - INFO - [main.py:455] -   - Advanced RAG (Hybrid): ✓
+2026-02-19 23:52:21 - rag_app - INFO - [main.py:456] - ============================================================
+2026-02-19 23:52:32 - rag_app - INFO - [main.py:183] - Parsing and chunking document: Diabetes Mellitus Type 2.pdf
+2026-02-19 23:52:36 - rag_app.document_service - INFO - [document_service.py:314] - Using Docling for context-aware chunking: Diabetes Mellitus Type 2.pdf
+2026-02-19 23:52:36 - rag_app.docling_service - INFO - [docling_service.py:45] - Converting document with Docling: Diabetes Mellitus Type 2.pdf
+2026-02-19 23:52:53 - rag_app.docling_service - INFO - [docling_service.py:50] - Document converted successfully: 112 text elements
+2026-02-19 23:52:54 - rag_app.docling_service - INFO - [docling_service.py:102] - Chunking with HybridChunker (max_tokens=512, merge_peers=True)
+2026-02-19 23:52:54 - rag_app.docling_service - INFO - [docling_service.py:107] - Generated 13 raw semantic chunks, merging to target 256-512 tokens
+2026-02-19 23:52:54 - rag_app.docling_service - INFO - [docling_service.py:156] - After merging: 7 chunks (avg 363.7 tokens)
+2026-02-19 23:52:54 - rag_app.docling_service - INFO - [docling_service.py:212] - Sample chunk metadata - Headings: [], Pages: []
+2026-02-19 23:52:54 - rag_app.docling_service - INFO - [docling_service.py:249] - Successfully processed Diabetes Mellitus Type 2.pdf: 7 chunks with context
+2026-02-19 23:52:54 - rag_app.document_service - INFO - [document_service.py:317] - Docling chunking complete: 7 chunks with heading context
+2026-02-19 23:52:54 - rag_app - INFO - [main.py:191] - Created 7 context-aware chunks
+2026-02-19 23:52:54 - rag_app - INFO - [main.py:194] - Generating embeddings for 7 chunks...
+2026-02-19 23:52:56 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:364] - Semantic chunking: Diabetes Mellitus Type 2.pdf
+2026-02-19 23:52:56 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:152] - Detected 3 sections in Diabetes Mellitus Type 2.pdf
+2026-02-19 23:52:56 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:367] -   Created 27 chunks
+2026-02-19 23:53:02 - rag_app.advanced_rag_pipeline_service - INFO - [advanced_rag_pipeline_service.py:396] - Indexed 27 semantic chunks
+2026-02-19 23:59:02 - rag_app - INFO - [main.py:403] - Upload directory initialized: /tmp/uploads
+2026-02-19 23:59:02 - rag_app - INFO - [main.py:405] - ============================================================
+2026-02-19 23:59:02 - rag_app - INFO - [main.py:406] - Starting Multi-Source RAG + Text-to-SQL API...
+2026-02-19 23:59:02 - rag_app - INFO - [main.py:407] - ============================================================
+2026-02-19 23:59:02 - rag_app - INFO - [main.py:412] - Initializing Embedding Service...
+2026-02-19 23:59:02 - rag_app - INFO - [main.py:414] - ✓ Embedding Service initialized
+2026-02-19 23:59:02 - rag_app - INFO - [main.py:420] - Initializing Vector Service...
+2026-02-19 23:59:02 - rag_app - INFO - [main.py:422] - ✓ Vector Service initialized
+2026-02-19 23:59:02 - rag_app - INFO - [main.py:428] - Initializing Basic RAG Service...
+2026-02-19 23:59:02 - rag_app - INFO - [main.py:430] - ✓ Basic RAG Service initialized
+2026-02-19 23:59:02 - rag_app - INFO - [main.py:434] - Initializing Advanced RAG Pipeline Service with Hybrid Search...
+2026-02-19 23:59:04 - rag_app - INFO - [main.py:443] - ✓ Advanced RAG Pipeline initialized (BM25 + Dense + RRF)
+2026-02-19 23:59:04 - rag_app - INFO - [main.py:448] - ============================================================
+2026-02-19 23:59:04 - rag_app - INFO - [main.py:449] - Service Status:
+2026-02-19 23:59:04 - rag_app - INFO - [main.py:450] -   - Embedding: ✓
+2026-02-19 23:59:04 - rag_app - INFO - [main.py:451] -   - Vector DB: ✓
+2026-02-19 23:59:04 - rag_app - INFO - [main.py:452] -   - Basic RAG: ✓
+2026-02-19 23:59:04 - rag_app - INFO - [main.py:453] -   - Advanced RAG (Hybrid): ✓
+2026-02-19 23:59:04 - rag_app - INFO - [main.py:454] - ============================================================
